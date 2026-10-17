@@ -132,3 +132,10 @@ button, input, select, textarea { font: inherit; }
   .petal { display: none; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+a, button, input, select { outline-offset: 3px; }
+[data-work]:focus-within, .glass:focus-within { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+@media (max-width: 760px) {
+  h1 { overflow-wrap: anywhere; }
+  .section-head { flex-wrap: wrap; }
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectTags, sortByDate, tagToSlug, validateSlugs } from '../../src/lib/content';
+import { collectAllTags, collectTags, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
 
 describe('tagToSlug', () => {
   it('normalizes spaces, case and punctuation', () => {
@@ -8,6 +8,22 @@ describe('tagToSlug', () => {
 
   it('keeps Chinese characters', () => {
     expect(tagToSlug('画师 参考')).toBe('画师-参考');
+  });
+});
+
+describe('collectAllTags', () => {
+  it('includes related tags from artists', () => {
+    const tags = collectAllTags([
+      { data: { tags: ['a'], relatedTags: ['b'] } },
+      { data: { tags: ['c'] } },
+    ]);
+    expect([...tags]).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('tagRoutes', () => {
+  it('throws when two tags normalize to the same slug', () => {
+    expect(() => tagRoutes(['AI', 'ai'])).toThrow(/Tag slug collision/);
   });
 });
 

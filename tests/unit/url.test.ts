@@ -27,4 +27,8 @@ describe('assetUrl', () => {
   it('keeps absolute URLs unchanged', () => {
     expect(assetUrl('https://example.com/image.webp', '/qwind-collectsite')).toBe('https://example.com/image.webp');
   });
+
+  it('does not double-prefix an already-based path', () => {
+    expect(assetUrl('/qwind-collectsite/_astro/image.webp', '/qwind-collectsite')).toBe('/qwind-collectsite/_astro/image.webp');
+  });
 });

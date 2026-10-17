@@ -26,6 +26,22 @@ test('mobile pages do not scroll horizontally', async ({ page }) => {
   }
 });
 
+test('work detail and tag pages stay inside a 360px viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  for (const path of ['/gallery/example-work', '/tags/画师参考']) {
+    await page.goto(path);
+    const overflow = await page.evaluate(() => [...document.querySelectorAll('body *')]
+      .filter((element) => {
+        const style = getComputedStyle(element);
+        if (style.position === 'fixed' || style.display === 'none') return false;
+        return element.getBoundingClientRect().right > window.innerWidth + 1;
+      })
+      .map((element) => element.tagName + '.' + element.className)
+      .slice(0, 5));
+    expect(overflow).toEqual([]);
+  }
+});
+
 test('sitemap excludes protected content', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBeTruthy();

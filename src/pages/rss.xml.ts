@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: site.name,
     description: site.description,
-    site: context.site!,
+    site: new URL(withBase('/'), context.site!),
     items: notes.map((note) => ({
       title: note.data.title,
       pubDate: note.data.createdAt,

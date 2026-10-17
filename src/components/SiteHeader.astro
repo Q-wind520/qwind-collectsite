@@ -16,7 +16,7 @@ const items = [
       <img src={withBase(site.avatar)} alt="" width="27" height="27" />
       <span>{site.name}</span>
     </a>
-    <nav class="topnav" data-nav aria-label="主导航">
+    <nav class="topnav" id="site-nav" data-nav aria-label="主导航">
       {items.map((item) => (
         <a href={withBase(item.href)}>{item.label}</a>
       ))}
@@ -24,7 +24,7 @@ const items = [
     <div class="top-actions">
       <button type="button" data-search-open>搜索 <kbd>⌘K</kbd></button>
       <button type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
-      <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单">☰</button>
+      <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单" aria-expanded="false" aria-controls="site-nav">☰</button>
     </div>
   </div>
 </header>
@@ -80,7 +80,9 @@ const items = [
   const nav = document.querySelector<HTMLElement>('[data-nav]');
   menuButton?.addEventListener('click', () => {
     if (!nav) return;
-    nav.dataset.open = nav.dataset.open === 'true' ? 'false' : 'true';
+    const open = nav.dataset.open !== 'true';
+    nav.dataset.open = open ? 'true' : 'false';
+    menuButton.setAttribute('aria-expanded', String(open));
   });
 
   document.querySelector('[data-search-open]')?.addEventListener('click', () => {

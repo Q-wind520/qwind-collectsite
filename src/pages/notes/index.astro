@@ -3,8 +3,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/url';
 
+const includeDrafts = import.meta.env.DEV;
 const notes = (await getCollection('notes'))
-  .filter((note) => !note.data.draft && !note.data.protected)
+  .filter((note) => (includeDrafts || !note.data.draft) && !note.data.protected)
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g, '').length / 300));
 ---

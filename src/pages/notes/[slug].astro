@@ -3,9 +3,10 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
+  const includeDrafts = import.meta.env.DEV;
   const notes = await getCollection('notes');
   return notes
-    .filter((note) => !note.data.draft && !note.data.protected)
+    .filter((note) => (includeDrafts || !note.data.draft) && !note.data.protected)
     .map((note) => ({ params: { slug: note.data.slug }, props: { note } }));
 }
 

@@ -12,6 +12,34 @@ export function tagToSlug(tag: string): string {
     .replace(/^-|-$/g, '');
 }
 
+export function collectAllTags(entries: { data: { tags: string[]; relatedTags?: string[] } }[]): Set<string> {
+  const tags = new Set<string>();
+  for (const entry of entries) {
+    for (const tag of entry.data.tags) tags.add(tag);
+    for (const tag of entry.data.relatedTags ?? []) tags.add(tag);
+  }
+  return tags;
+}
+
+export function tagRoutes(tags: Iterable<string>): { tag: string; slug: string }[] {
+  const bySlug = new Map<string, string[]>();
+  for (const tag of tags) {
+    const slug = tagToSlug(tag);
+    if (!slug) continue;
+    const names = bySlug.get(slug) ?? [];
+    names.push(tag);
+    bySlug.set(slug, names);
+  }
+  const routes: { tag: string; slug: string }[] = [];
+  for (const [slug, names] of bySlug) {
+    if (names.length > 1) {
+      throw new Error(`Tag slug collision: ${names.map((name) => `"${name}"`).join(' and ')} both map to "${slug}"`);
+    }
+    routes.push({ tag: names[0], slug });
+  }
+  return routes;
+}
+
 export function collectTags(entries: { data: { tags: string[]; draft: boolean; protected?: boolean } }[]): Map<string, number> {
   const counts = new Map<string, number>();
   for (const entry of entries) {

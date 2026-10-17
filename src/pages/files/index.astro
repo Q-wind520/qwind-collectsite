@@ -4,8 +4,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatBytes } from '../../lib/format';
 import { withBase } from '../../lib/url';
 
+const includeDrafts = import.meta.env.DEV;
 const files = (await getCollection('files'))
-  .filter((file) => !file.data.draft && !file.data.protected)
+  .filter((file) => (includeDrafts || !file.data.draft) && !file.data.protected)
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const hrefFor = (file: (typeof files)[number]) =>
   file.data.external || file.data.filePath.startsWith('http') ? file.data.filePath : withBase(file.data.filePath);
@@ -20,8 +21,8 @@ const hrefFor = (file: (typeof files)[number]) =>
           <a class="name" href={hrefFor(file)} target={file.data.external ? '_blank' : undefined} rel={file.data.external ? 'noopener noreferrer' : undefined}>
             {file.data.title}
           </a>
-          <span class="meta">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
-          <span class="meta">{file.data.createdAt.toISOString().slice(0, 10)}</span>
+          <span class="meta size">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
+          <span class="meta date">{file.data.createdAt.toISOString().slice(0, 10)}</span>
           {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf') && (
             <button type="button" data-preview>预览</button>
           )}
@@ -50,5 +51,5 @@ const hrefFor = (file: (typeof files)[number]) =>
   .close { margin-left: auto; display: block; }
   .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }
   .preview-dialog :global(iframe) { width: 100%; height: 70vh; border: 0; }
-  @media (max-width: 600px) { .file-row { grid-template-columns: 44px minmax(0, 1fr) auto; } .file-row .meta:nth-of-type(2) { display: none; } }
+  @media (max-width: 600px) { .file-row { grid-template-columns: 44px minmax(0, 1fr) auto; } .file-row .date { display: none; } }
 </style>

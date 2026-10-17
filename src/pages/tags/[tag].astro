@@ -2,17 +2,15 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
-import { collectTags, tagToSlug, validateSlugs } from '../../lib/content';
+import { collectAllTags, tagRoutes, validateSlugs } from '../../lib/content';
 import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const [works, artists, links, notes, files] = await Promise.all([
     getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
   ]);
-  const tags = collectTags([...works, ...artists, ...links, ...notes, ...files]);
-  return [...tags.keys()]
-    .map((tag) => ({ tag, slug: tagToSlug(tag) }))
-    .filter((item) => item.slug.length > 0)
+  const tags = collectAllTags([...works, ...artists, ...links, ...notes, ...files]);
+  return tagRoutes(tags)
     .map((item) => ({ params: { tag: item.slug }, props: { tag: item.tag } }));
 }
 

@@ -5,6 +5,7 @@ document.addEventListener('click', async (event) => {
   try {
     await navigator.clipboard.writeText(text);
     const previous = button.textContent;
+    button.setAttribute('aria-live', 'polite');
     button.textContent = '已复制';
     window.setTimeout(() => { button.textContent = previous; }, 1200);
   } catch {

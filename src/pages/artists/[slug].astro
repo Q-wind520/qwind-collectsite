@@ -7,9 +7,10 @@ import { assetUrl, withBase } from '../../lib/url';
 import { tagToSlug } from '../../lib/content';
 
 export async function getStaticPaths() {
+  const includeDrafts = import.meta.env.DEV;
   const artists = await getCollection('artists');
   return artists
-    .filter((artist) => !artist.data.draft && !artist.data.protected)
+    .filter((artist) => (includeDrafts || !artist.data.draft) && !artist.data.protected)
     .map((artist) => ({ params: { slug: artist.data.slug }, props: { artist } }));
 }
 
@@ -28,7 +29,10 @@ const works = (await getCollection('works'))
         <p>{artist.data.summary}</p>
         <div class="tags">
           {artist.data.aliases.map((alias) => <span>{alias}</span>)}
-          {artist.data.relatedTags.map((tag) => <a href={withBase(`/tags/${tagToSlug(tag)}`)}>#{tag}</a>)}
+          {artist.data.relatedTags.map((tag) => {
+            const slug = tagToSlug(tag);
+            return slug ? <a href={withBase(`/tags/${slug}`)}>#{tag}</a> : <span>#{tag}</span>;
+          })}
         </div>
       </div>
       <button type="button" data-copy-text={artist.data.artistTag}>复制画师 tag</button>

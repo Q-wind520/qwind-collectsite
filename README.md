@@ -33,7 +33,7 @@ git push
 
 ## 受保护内容
 
-`protected: true` 只是前端遮罩，内容仍在构建产物和 Git 历史中。v1 只对作品启用密码层；其他类型写 `protected: true` 会被公开列表和索引过滤。不要把真正私密的内容放进这个公开仓库。
+`protected: true` 只是前端遮罩，内容仍在构建产物和 Git 历史中。v1 只对作品启用密码层；其他类型写 `protected: true` 会被公开列表和索引过滤。`rating: nsfw` / `r18g` 的作品必须同时设置 `protected: true`，否则 `pnpm check` 会失败。不要把真正私密的内容放进这个公开仓库。
 
 ## 部署
 

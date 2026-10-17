@@ -4,7 +4,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import { site } from '../config/site';
-import { withBase } from '../lib/url';
+import { assetUrl, withBase } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -22,7 +22,7 @@ const {
 
 const pageTitle = title === site.name ? title : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site!).href;
-const ogImage = image.startsWith('http') ? image : new URL(withBase(image), Astro.site!).href;
+const ogImage = new URL(assetUrl(image), Astro.site!).href;
 ---
 <!doctype html>
 <html lang="zh-CN">

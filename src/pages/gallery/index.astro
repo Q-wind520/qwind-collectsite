@@ -6,7 +6,8 @@ import FilterBar from '../../components/FilterBar.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { collectTags, validateSlugs } from '../../lib/content';
 
-const works = (await getCollection('works')).filter((work) => !work.data.draft);
+const includeDrafts = import.meta.env.DEV;
+const works = (await getCollection('works')).filter((work) => includeDrafts || !work.data.draft);
 validateSlugs(works);
 const artists = (await getCollection('artists'))
   .filter((artist) => !artist.data.draft && !artist.data.protected)

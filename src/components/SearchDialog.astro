@@ -5,7 +5,7 @@
   <div data-search-root data-autofocus="true">
     <label class="sr-only" for="global-search">搜索全站</label>
     <input id="global-search" data-search-input type="search" placeholder="搜索标题、标签或正文…" autocomplete="off" autofocus />
-    <div data-search-results class="search-results"><p class="search-empty">输入标题、标签或正文关键词。</p></div>
+    <div data-search-results class="search-results" aria-live="polite"><p class="search-empty">输入标题、标签或正文关键词。</p></div>
   </div>
 </dialog>
 <script>import '../scripts/search-ui';</script>
@@ -18,7 +18,8 @@
   input { width: 100%; border: 1px solid var(--color-line); border-radius: 12px; padding: 10px 12px; background: rgba(255,255,255,.55); color: var(--color-text); }
   .search-results { margin-top: 10px; display: grid; gap: 6px; overflow-y: auto; max-height: 56vh; }
   .search-results :global(.search-hit) { display: grid; grid-template-columns: 44px 1fr; gap: 2px 10px; padding: 9px 10px; border-radius: 10px; text-decoration: none; }
-  .search-results :global(.search-hit:hover) { background: var(--color-accent-soft); }
+  .search-results :global(.search-hit:hover),
+  .search-results :global(.search-hit.active) { background: var(--color-accent-soft); }
   .search-results :global(.search-hit span) { grid-row: span 2; font-size: 9px; color: var(--color-accent); }
   .search-results :global(.search-hit b) { font-size: 12px; }
   .search-results :global(.search-hit small) { font-size: 10px; color: var(--color-muted); }

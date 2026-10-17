@@ -10,9 +10,10 @@ import { tagToSlug } from '../../lib/content';
 import { site } from '../../config/site';
 
 export async function getStaticPaths() {
+  const includeDrafts = import.meta.env.DEV;
   const works = await getCollection('works');
   return works
-    .filter((work) => !work.data.draft)
+    .filter((work) => includeDrafts || !work.data.draft)
     .map((work) => ({ params: { slug: work.data.slug }, props: { work } }));
 }
 
@@ -21,12 +22,17 @@ const { Content } = await render(work);
 const cover = work.data.images[0];
 const large = await getImage({ src: cover, width: 1600, format: 'webp' });
 const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)));
+if (artists.some((entry) => !entry)) throw new Error(`Missing artist reference in work "${work.id}"`);
+const metaTitle = work.data.protected ? '受保护内容' : work.data.title;
+const metaDescription = work.data.protected ? '输入密码后查看。' : work.data.summary;
+const metaImage = work.data.protected ? '/og-default.png' : large.src;
+const shouldNoindex = work.data.protected || work.data.rating === 'nsfw' || work.data.rating === 'r18g';
 ---
 <BaseLayout
-  title={work.data.title}
-  description={work.data.summary}
-  image={large.src}
-  noindex={work.data.protected}
+  title={metaTitle}
+  description={metaDescription}
+  image={metaImage}
+  noindex={shouldNoindex}
 >
   <div class="container page" id="work-lightbox">
     <ProtectedGate hash={site.protectedPasswordHash} enabled={work.data.protected}>
@@ -55,7 +61,12 @@ const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)))
           <div><dt>模型</dt><dd>{work.data.prompt.model || '—'}</dd></div>
           <div><dt>分级</dt><dd>{work.data.rating}</dd></div>
         </dl>
-        <div class="tags">{work.data.tags.map((tag) => <a href={withBase(`/tags/${tagToSlug(tag)}`)}>#{tag}</a>)}</div>
+        <div class="tags">
+          {work.data.tags.map((tag) => {
+            const slug = tagToSlug(tag);
+            return slug ? <a href={withBase(`/tags/${slug}`)}>#{tag}</a> : <span>#{tag}</span>;
+          })}
+        </div>
         <PromptBlock positive={work.data.prompt.positive} negative={work.data.prompt.negative} />
       </div>
       </article>
@@ -66,20 +77,22 @@ const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)))
 </BaseLayout>
 
 <style>
-  .work-detail { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); gap: 20px; padding: 20px; }
+  .work-detail { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); gap: 20px; padding: 20px; min-width: 0; }
+  .work-info { min-width: 0; }
+  .work-media { min-width: 0; }
   .work-media a { display: block; border-radius: 14px; overflow: hidden; }
   .work-media :global(img) { width: 100%; height: auto; }
   .work-thumbs { display: flex; gap: 6px; margin-top: 6px; }
   .work-thumbs a { width: 64px; height: 48px; border-radius: 8px; }
   .work-thumbs :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .work-info h1 { margin: 6px 0 10px; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; }
-  .summary { color: var(--color-muted); font-size: 13px; }
+  .summary { color: var(--color-muted); font-size: 13px; overflow-wrap: anywhere; }
   .facts { display: grid; gap: 8px; margin: 16px 0; }
-  .facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--color-line); }
-  .facts dt { font-size: 10px; letter-spacing: .1em; color: var(--color-muted); }
-  .facts dd { margin: 0; font-size: 12px; }
+  .facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--color-line); min-width: 0; }
+  .facts dt { font-size: 10px; letter-spacing: .1em; color: var(--color-muted); flex: none; }
+  .facts dd { margin: 0; font-size: 12px; overflow-wrap: anywhere; text-align: right; }
   .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
-  .tags a { font-size: 11px; color: var(--color-accent); text-decoration: none; }
+  .tags a, .tags span { font-size: 11px; color: var(--color-accent); text-decoration: none; overflow-wrap: anywhere; }
   .work-body { margin-top: 14px; padding: 20px; }
   @media (max-width: 760px) { .work-detail { grid-template-columns: 1fr; padding: 14px; } }
 </style>

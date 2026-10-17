@@ -1,22 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProfileCard from '../components/ProfileCard.astro';
+import WorkCard from '../components/WorkCard.astro';
+import RecentList from '../components/RecentList.astro';
+import { Image } from 'astro:assets';
 import { site } from '../config/site';
+import { withBase } from '../lib/url';
+import { sortByDate, collectTags } from '../lib/content';
+import { getCollection } from 'astro:content';
+
+const [works, artists, links, notes, files] = await Promise.all([
+  getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+]);
+
+const publicWorks = sortByDate(works.filter((entry) => !entry.data.draft && !entry.data.protected));
+const featured = publicWorks.filter((entry) => entry.data.featured).slice(0, 3);
+const preview = publicWorks.slice(0, 8);
+const tags = collectTags([...works, ...artists, ...links, ...notes, ...files]);
+
+const recent = [
+  ...works.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt })),
+  ...notes.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '笔记', title: entry.data.title, href: withBase(`/notes/${entry.data.slug}`), date: entry.data.createdAt })),
+  ...links.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '书签', title: entry.data.title, href: withBase('/links'), date: entry.data.createdAt })),
+  ...files.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '文件', title: entry.data.title, href: withBase('/files'), date: entry.data.createdAt })),
+].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
 ---
 <BaseLayout>
   <section class="hero">
     <p class="hero-kicker">✦ Personal Archive · 2026</p>
     <h1 class="warm">{site.name}</h1>
     <p class="hero-sub">{site.englishName} · Images, Artists & Notes</p>
+    <span class="hero-badge">首批收录 {publicWorks.length} 件作品 · 持续整理中</span>
   </section>
 
   <div class="container home-content">
     <ProfileCard stats={[
-      { label: '条目', value: 0 },
-      { label: '画师', value: 0 },
-      { label: '标签', value: 0 },
+      { label: '条目', value: publicWorks.length + artists.filter((entry) => !entry.data.draft && !entry.data.protected).length + links.filter((entry) => !entry.data.draft && !entry.data.protected).length + notes.filter((entry) => !entry.data.draft && !entry.data.protected).length + files.filter((entry) => !entry.data.draft && !entry.data.protected).length },
+      { label: '画师', value: artists.filter((entry) => !entry.data.draft && !entry.data.protected).length },
+      { label: '标签', value: tags.size },
     ]} />
+
+    <div class="glass notice" data-announcement>
+      <span>📢 <b>公告</b> · {site.announcement}</span>
+      <button type="button" aria-label="关闭公告" data-announcement-close>✕</button>
+    </div>
+
+    <section class="home-section">
+      <div class="section-head"><h2 class="warm">精选作品</h2><a href={withBase('/gallery')}>全部作品 →</a></div>
+      <div class="grid">{featured.map((work) => <WorkCard work={work} />)}</div>
+    </section>
+
+    <section class="home-section">
+      <div class="section-head"><h2 class="warm">画廊</h2><a href={withBase('/gallery')}>进入画廊 →</a></div>
+      <div class="preview-grid">
+        {preview.map((work) => (
+          <a class="preview" href={withBase(`/gallery/${work.data.slug}`)} aria-label={work.data.title}>
+            <Image src={work.data.images[0]} alt={work.data.title} widths={[300, 600]} format="webp" loading="lazy" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="home-section">
+      <div class="section-head"><h2 class="warm">最近更新</h2><a href={withBase('/search')}>搜索全部 →</a></div>
+      <RecentList items={recent} />
+    </section>
   </div>
+  <script>import '../scripts/announcement';</script>
 </BaseLayout>
 
 <style>
@@ -24,5 +74,19 @@ import { site } from '../config/site';
   .hero-kicker { display: inline-flex; padding: 5px 13px; border-radius: 999px; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.34); }
   .hero h1 { margin: 18px 0 0; font-size: clamp(44px, 7vw, 74px); font-weight: 600; letter-spacing: .14em; text-shadow: 0 6px 36px rgba(0,0,0,.42); }
   .hero-sub { margin: 12px 0 0; font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+  .hero-badge { display: inline-flex; margin-top: 22px; padding: 7px 15px; border-radius: 999px; font-size: 11px; background: rgba(240,128,140,.5); border: 1px solid rgba(255,255,255,.38); }
   .home-content { margin-top: -34px; }
+  .notice { display: flex; align-items: center; gap: 9px; margin-top: 14px; padding: 10px 15px; border-radius: 14px; font-size: 11.5px; color: #9a5d63; background: rgba(255,244,243,.82); }
+  .notice b { color: var(--color-accent); }
+  .notice button { margin-left: auto; border: 0; background: transparent; color: inherit; cursor: pointer; }
+  .home-section { margin-top: 18px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+  .section-head h2 { margin: 0; font-size: 20px; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
+  .section-head a { font-size: 11px; color: rgba(255,255,255,.82); text-decoration: none; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .preview-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .preview { aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
+  .preview :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .preview:hover :global(img) { transform: scale(1.06); }
+  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .preview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>

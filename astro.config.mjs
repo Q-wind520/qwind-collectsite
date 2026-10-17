@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({
-  site: 'https://qwind520.github.io',
+  site: 'https://q-wind520.github.io',
   base,
   output: 'static',
   integrations: [mdx()],

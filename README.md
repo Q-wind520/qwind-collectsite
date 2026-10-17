@@ -2,7 +2,7 @@
 
 个人收藏站：NovelAI 作品、画师词条、网页书签、笔记与文件。
 
-- 线上：https://qwind520.github.io/qwind-collectsite/
+- 线上：https://q-wind520.github.io/qwind-collectsite/
 - 设计文档：`docs/superpowers/specs/2026-10-17-qwind-collectsite-design.md`
 
 ## 本地开发

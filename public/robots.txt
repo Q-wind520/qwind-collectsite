@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /protected
 
-Sitemap: https://qwind520.github.io/qwind-collectsite/sitemap.xml
+Sitemap: https://q-wind520.github.io/qwind-collectsite/sitemap.xml

@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes
+    .filter((note) => !note.data.draft && !note.data.protected)
+    .map((note) => ({ params: { slug: note.data.slug }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content, headings } = await render(note);
+---
+<BaseLayout title={note.data.title} description={note.data.summary} noindex={note.data.protected}>
+  <div class="container page">
+    <article class="glass note-article">
+      <header>
+        <p class="kicker">NOTE / {note.data.createdAt.toISOString().slice(0, 10)}</p>
+        <h1 class="warm">{note.data.title}</h1>
+        {note.data.summary && <p class="summary">{note.data.summary}</p>}
+        <div class="tags">{note.data.tags.map((tag) => <span>#{tag}</span>)}</div>
+      </header>
+      {note.data.toc && headings.length > 0 && (
+        <aside class="toc">
+          <b>目录</b>
+          {headings.filter((heading) => heading.depth <= 3).map((heading) => (
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </aside>
+      )}
+      <div class="prose"><Content /></div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .note-article { padding: 24px; }
+  .note-article h1 { margin: 6px 0 8px; font-size: clamp(28px, 4vw, 42px); }
+  .summary { color: var(--color-muted); font-size: 13px; }
+  .tags { display: flex; gap: 8px; margin: 10px 0 20px; font-size: 10px; color: var(--color-accent); }
+  .toc { display: grid; gap: 4px; padding: 10px 12px; margin: 0 0 20px; border-left: 2px solid var(--color-accent); font-size: 11px; }
+  .toc a { color: var(--color-muted); text-decoration: none; }
+  .toc a:hover { color: var(--color-accent); }
+  .prose :global(h2) { margin-top: 28px; font-size: 22px; }
+  .prose :global(h3) { margin-top: 22px; font-size: 17px; }
+  .prose :global(p) { margin: 10px 0; }
+  .prose :global(pre) { padding: 14px; border-radius: 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 11px; }
+  .prose :global(code) { font-family: var(--font-mono); }
+  @media (min-width: 900px) {
+    .note-article { max-width: 820px; margin: 0 auto; }
+  }
+</style>

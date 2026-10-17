@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+
+const notes = (await getCollection('notes'))
+  .filter((note) => !note.data.draft && !note.data.protected)
+  .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
+const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g, '').length / 300));
+---
+<BaseLayout title="笔记" description="温水の收藏站的笔记与文章。">
+  <div class="container page">
+    <header class="page-head"><p class="kicker">NOTES</p><h1>笔记</h1><p>零散记录、配置和心得。</p></header>
+    <div class="note-list">
+      {notes.map((note) => (
+        <a class="glass note-card" href={withBase(`/notes/${note.data.slug}`)}>
+          <span class="date">{note.data.createdAt.toISOString().slice(0, 10)}</span>
+          <b class="warm">{note.data.title}</b>
+          <p>{note.data.summary}</p>
+          <span class="meta">{readingTime(note.body ?? '')} 分钟 · {note.data.tags.map((tag) => `#${tag}`).join(' ')}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .note-list { display: grid; gap: 10px; }
+  .note-card { display: grid; gap: 5px; padding: 16px 18px; text-decoration: none; }
+  .note-card b { font-size: 18px; }
+  .note-card p { margin: 0; font-size: 12px; color: var(--color-muted); }
+  .date, .meta { font-size: 10px; color: var(--color-muted); }
+</style>

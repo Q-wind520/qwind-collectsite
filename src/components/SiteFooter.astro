@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="container footer-inner">
-    <span>© {year} {site.name} · 个人收藏，非商业使用</span>
+    <span>© {year} {site.name} · 除特别声明外，内容按 <a class="license-link" href={site.license.href} target="_blank" rel="noopener noreferrer">{site.license.name}</a> 共享</span>
     <span>
       <a href={withBase('/about')}>关于</a>
       <a href={withBase('/protected')}>受保护</a>
@@ -20,4 +20,5 @@ const year = new Date().getFullYear();
   .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   a { text-decoration: none; margin-left: 12px; }
   a:hover { color: #fff; }
+  .license-link { margin-left: 0; text-decoration: underline; text-underline-offset: 2px; }
 </style>

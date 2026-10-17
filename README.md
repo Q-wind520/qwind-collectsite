@@ -51,4 +51,6 @@ git push
 
 ## 许可
 
-代码使用 MIT；作品、词条、图片和笔记的版权归各自作者所有，不在 MIT 范围内。
+- 代码使用 MIT，见 `LICENSE`。
+- 除特别声明外，本站内容（文字、画作、画风、构图、笔记等）按 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans) 共享，见 `LICENSE-CONTENT`。
+- 作品图片、第三方词条等如另有版权声明，以该声明为准。

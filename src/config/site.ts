@@ -13,4 +13,8 @@ export const site = {
   ],
   // 示例密码是 qwind；正式使用前替换哈希。
   protectedPasswordHash: '6fc0fccf335a068190743e17ece458a983aac2edff6d26fd607801fbaf9ec075',
+  license: {
+    name: 'CC BY-NC 4.0',
+    href: 'https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans',
+  },
 } as const;

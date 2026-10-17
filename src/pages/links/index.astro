@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LinkCard from '../../components/LinkCard.astro';
+
+const links = (await getCollection('links'))
+  .filter((link) => !link.data.draft && !link.data.protected)
+  .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
+const domains = [...new Set(links.map((link) => new URL(link.data.url).hostname))].sort();
+const tags = [...new Set(links.flatMap((link) => link.data.tags))].sort();
+---
+<BaseLayout title="书签" description="温水の收藏站的网页收藏。">
+  <div class="container page">
+    <header class="page-head"><p class="kicker">LINKS</p><h1>书签</h1><p>网页、工具和教程。</p></header>
+    <div class="glass link-tools">
+      <select name="domain" data-link-domain>
+        <option value="">全部域名</option>
+        {domains.map((domain) => <option value={domain}>{domain}</option>)}
+      </select>
+      <select name="tag" data-link-tag>
+        <option value="">全部标签</option>
+        {tags.map((tag) => <option value={tag}>{tag}</option>)}
+      </select>
+    </div>
+    <div class="link-list" data-link-list>
+      {links.map((link) => <LinkCard link={link} />)}
+    </div>
+  </div>
+  <script>import '../../scripts/link-filter';</script>
+</BaseLayout>
+
+<style>
+  .link-tools { display: flex; gap: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  select { border: 1px solid var(--color-line); border-radius: 999px; background: rgba(255,255,255,.65); padding: 6px 10px; font-size: 11px; }
+  .link-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 760px) { .link-list { grid-template-columns: 1fr; } }
+</style>

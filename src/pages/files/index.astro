@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatBytes } from '../../lib/format';
+import { withBase } from '../../lib/url';
+
+const files = (await getCollection('files'))
+  .filter((file) => !file.data.draft && !file.data.protected)
+  .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
+const hrefFor = (file: (typeof files)[number]) =>
+  file.data.external || file.data.filePath.startsWith('http') ? file.data.filePath : withBase(file.data.filePath);
+---
+<BaseLayout title="文件" description="温水の收藏站的文件与资源。">
+  <div class="container page">
+    <header class="page-head"><p class="kicker">FILES</p><h1>文件</h1><p>可下载的资源与预览。</p></header>
+    <div class="glass file-table">
+      {files.map((file) => (
+        <div class="file-row" data-file-row data-mime={file.data.mime || ''} data-href={hrefFor(file)}>
+          <span class="type">{file.data.mime?.split('/')[0] || 'FILE'}</span>
+          <a class="name" href={hrefFor(file)} target={file.data.external ? '_blank' : undefined} rel={file.data.external ? 'noopener noreferrer' : undefined}>
+            {file.data.title}
+          </a>
+          <span class="meta">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
+          <span class="meta">{file.data.createdAt.toISOString().slice(0, 10)}</span>
+          {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf') && (
+            <button type="button" data-preview>预览</button>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+  <dialog class="preview-dialog" data-preview-dialog>
+    <button type="button" class="close" data-preview-close>关闭</button>
+    <div data-preview-body></div>
+  </dialog>
+  <script>import '../../scripts/file-preview';</script>
+</BaseLayout>
+
+<style>
+  .file-table { padding: 4px 14px; }
+  .file-row { display: grid; grid-template-columns: 54px minmax(0, 1fr) 74px 92px auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--color-line); font-size: 12px; }
+  .file-row:last-child { border-bottom: 0; }
+  .type { font-size: 9px; letter-spacing: .08em; color: var(--color-accent); }
+  .name { text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .name:hover { color: var(--color-accent); }
+  .meta { font-size: 10px; color: var(--color-muted); text-align: right; }
+  button { border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 4px 9px; font-size: 10px; color: var(--color-muted); cursor: pointer; }
+  .preview-dialog { width: min(860px, calc(100vw - 32px)); max-height: 86vh; border: 1px solid var(--glass-border); border-radius: var(--radius-panel); padding: 16px; background: var(--glass-bg); backdrop-filter: blur(18px); color: var(--color-text); }
+  .preview-dialog::backdrop { background: rgba(0,0,0,.55); }
+  .close { margin-left: auto; display: block; }
+  .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }
+  .preview-dialog :global(iframe) { width: 100%; height: 70vh; border: 0; }
+  @media (max-width: 600px) { .file-row { grid-template-columns: 44px minmax(0, 1fr) auto; } .file-row .meta:nth-of-type(2) { display: none; } }
+</style>

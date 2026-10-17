@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import { collectTags, tagToSlug, validateSlugs } from '../../lib/content';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const [works, artists, links, notes, files] = await Promise.all([
+    getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+  ]);
+  const tags = collectTags([...works, ...artists, ...links, ...notes, ...files]);
+  return [...tags.keys()]
+    .map((tag) => ({ tag, slug: tagToSlug(tag) }))
+    .filter((item) => item.slug.length > 0)
+    .map((item) => ({ params: { tag: item.slug }, props: { tag: item.tag } }));
+}
+
+const { tag } = Astro.props;
+const [works, artists, links, notes, files] = await Promise.all([
+  getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+]);
+for (const collection of [works, artists, links, notes, files]) validateSlugs(collection);
+const match = (entry: { data: { tags: string[] } }) => entry.data.tags.includes(tag);
+const taggedWorks = works.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+const taggedArtists = artists.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+const taggedLinks = links.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+const taggedNotes = notes.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+const taggedFiles = files.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+---
+<BaseLayout title={`#${tag}`} description={`标签 #${tag} 下的收藏。`}>
+  <div class="container page">
+    <header class="page-head"><p class="kicker">TAG</p><h1>#{tag}</h1></header>
+    {taggedWorks.length > 0 && <section class="tag-section"><h2>作品</h2><div class="grid">{taggedWorks.map((work) => <WorkCard work={work} />)}</div></section>}
+    <section class="glass tag-list">
+      {taggedArtists.map((entry) => <a href={withBase(`/artists/${entry.data.slug}`)}>画师 · {entry.data.title}</a>)}
+      {taggedLinks.map((entry) => <a href={withBase('/links')}>书签 · {entry.data.title}</a>)}
+      {taggedNotes.map((entry) => <a href={withBase(`/notes/${entry.data.slug}`)}>笔记 · {entry.data.title}</a>)}
+      {taggedFiles.map((entry) => <a href={withBase('/files')}>文件 · {entry.data.title}</a>)}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-section { margin-bottom: 16px; }
+  .tag-section h2 { color: #fff; font-size: 18px; margin: 0 0 10px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .tag-list { display: grid; gap: 2px; padding: 8px 14px; }
+  .tag-list a { padding: 9px 0; border-bottom: 1px solid var(--color-line); text-decoration: none; font-size: 12px; }
+  .tag-list a:hover { color: var(--color-accent); }
+  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

@@ -1,0 +1,85 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import ProtectedGate from '../../components/ProtectedGate.astro';
+import { assetUrl, withBase } from '../../lib/url';
+import { tagToSlug } from '../../lib/content';
+import { site } from '../../config/site';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works');
+  return works
+    .filter((work) => !work.data.draft)
+    .map((work) => ({ params: { slug: work.data.slug }, props: { work } }));
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+const cover = work.data.images[0];
+const large = await getImage({ src: cover, width: 1600, format: 'webp' });
+const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)));
+---
+<BaseLayout
+  title={work.data.title}
+  description={work.data.summary}
+  image={large.src}
+  noindex={work.data.protected}
+>
+  <div class="container page" id="work-lightbox">
+    <ProtectedGate hash={site.protectedPasswordHash} enabled={work.data.protected}>
+      <article class="glass work-detail">
+      <div class="work-media">
+        <a href={assetUrl(large.src)} data-pswp data-pswp-width={cover.width} data-pswp-height={cover.height} aria-label={`查看《${work.data.title}》大图`}>
+          <Image src={cover} alt={work.data.title} widths={[600, 1200, 1600]} sizes="(max-width: 760px) 100vw, 60vw" format="webp" loading="eager" />
+        </a>
+        {work.data.images.length > 1 && (
+          <div class="work-thumbs">
+            {work.data.images.slice(1).map((image) => (
+              <a href={assetUrl(image.src)} data-pswp data-pswp-width={image.width} data-pswp-height={image.height} aria-label="查看大图">
+                <Image src={image} alt="" widths={[160, 320]} format="webp" loading="lazy" />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="work-info">
+        <p class="kicker">WORK / {work.data.rating.toUpperCase()}</p>
+        <h1 class="warm">{work.data.title}</h1>
+        {work.data.summary && <p class="summary">{work.data.summary}</p>}
+        <dl class="facts">
+          <div><dt>日期</dt><dd>{work.data.createdAt.toISOString().slice(0, 10)}</dd></div>
+          <div><dt>画师</dt><dd>{artists.filter(Boolean).map((artist) => artist!.data.title).join(' / ') || '—'}</dd></div>
+          <div><dt>模型</dt><dd>{work.data.prompt.model || '—'}</dd></div>
+          <div><dt>分级</dt><dd>{work.data.rating}</dd></div>
+        </dl>
+        <div class="tags">{work.data.tags.map((tag) => <a href={withBase(`/tags/${tagToSlug(tag)}`)}>#{tag}</a>)}</div>
+        <PromptBlock positive={work.data.prompt.positive} negative={work.data.prompt.negative} />
+      </div>
+      </article>
+      <div class="glass work-body"><Content /></div>
+    </ProtectedGate>
+  </div>
+  <Lightbox gallerySelector="#work-lightbox" />
+</BaseLayout>
+
+<style>
+  .work-detail { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); gap: 20px; padding: 20px; }
+  .work-media a { display: block; border-radius: 14px; overflow: hidden; }
+  .work-media :global(img) { width: 100%; height: auto; }
+  .work-thumbs { display: flex; gap: 6px; margin-top: 6px; }
+  .work-thumbs a { width: 64px; height: 48px; border-radius: 8px; }
+  .work-thumbs :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .work-info h1 { margin: 6px 0 10px; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; }
+  .summary { color: var(--color-muted); font-size: 13px; }
+  .facts { display: grid; gap: 8px; margin: 16px 0; }
+  .facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--color-line); }
+  .facts dt { font-size: 10px; letter-spacing: .1em; color: var(--color-muted); }
+  .facts dd { margin: 0; font-size: 12px; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tags a { font-size: 11px; color: var(--color-accent); text-decoration: none; }
+  .work-body { margin-top: 14px; padding: 20px; }
+  @media (max-width: 760px) { .work-detail { grid-template-columns: 1fr; padding: 14px; } }
+</style>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+---
+<BaseLayout title="关于" description="关于温水の收藏站。">
+  <div class="container page">
+    <article class="glass about-card">
+      <p class="kicker">ABOUT</p>
+      <h1 class="warm">关于本站</h1>
+      <p>{site.bio}</p>
+      <p>本站用于个人收藏与整理，非商业使用。作品、词条和图片版权归各自作者所有；参考站的词条与配图未在本站复用。</p>
+      <p>受保护内容只是前端遮罩，不是安全边界；请勿在本站存放真正私密的信息。</p>
+      <p><a href="https://blog.qwind.top/" target="_blank" rel="noopener noreferrer">博客</a> · <a href="https://github.com/Q-wind520" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-card { max-width: 760px; margin: 0 auto; padding: 26px; }
+  .about-card h1 { margin: 6px 0 16px; font-size: 34px; }
+  .about-card p { font-size: 13px; color: var(--color-muted); }
+  .about-card a { color: var(--color-accent); }
+</style>

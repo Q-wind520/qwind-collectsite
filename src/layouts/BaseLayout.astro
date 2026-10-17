@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import { site } from '../config/site';
+import { withBase } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = site.name,
+  description = site.description,
+  image = '/og-default.png',
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title === site.name ? title : `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site!).href;
+const ogImage = image.startsWith('http') ? image : new URL(withBase(image), Astro.site!).href;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <script is:inline>
+      (() => {
+        const key = 'qwind-theme';
+        const saved = localStorage.getItem(key);
+        const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主内容</a>
+    <div class="backdrop" aria-hidden="true" style={`--banner-image: url(${withBase(site.banner)})`}></div>
+    <div class="petals" aria-hidden="true">
+      <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+      <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span><span class="petal p7"></span>
+    </div>
+    <SiteHeader />
+    <main id="main"><slot /></main>
+    <SiteFooter />
+    <SearchDialog />
+  </body>
+</html>

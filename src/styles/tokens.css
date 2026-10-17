@@ -1,0 +1,40 @@
+:root {
+  --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --font-warm: "LXGW WenKai", "Kaiti SC", "STKaiti", "Noto Serif SC", serif;
+  --font-mono: "Share Tech Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --color-text: #4c4948;
+  --color-muted: #8b8380;
+  --color-accent: #f0808c;
+  --color-accent-soft: #fff0f0;
+  --color-bg: #f6e7ec;
+  --color-line: rgba(76, 73, 72, 0.12);
+
+  --glass-bg: rgba(255, 255, 255, 0.68);
+  --glass-border: rgba(255, 255, 255, 0.64);
+  --glass-shadow: 0 18px 52px -30px rgba(60, 24, 38, 0.55);
+  --glass-blur: 18px;
+
+  --header-bg: rgba(255, 255, 255, 0.56);
+  --radius-panel: 20px;
+  --radius-card: 15px;
+  --radius-thumb: 12px;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --color-text: #f2ece9;
+  --color-muted: #b8aeaa;
+  --color-accent: #f4a7ad;
+  --color-accent-soft: rgba(244, 167, 173, 0.14);
+  --color-bg: #171214;
+  --color-line: rgba(255, 255, 255, 0.14);
+
+  --glass-bg: rgba(28, 22, 26, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-shadow: 0 18px 52px -30px rgba(0, 0, 0, 0.7);
+  --header-bg: rgba(28, 22, 26, 0.58);
+
+  color-scheme: dark;
+}

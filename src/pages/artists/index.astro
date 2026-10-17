@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArtistCard from '../../components/ArtistCard.astro';
+
+const artists = (await getCollection('artists'))
+  .filter((artist) => !artist.data.draft && !artist.data.protected)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
+const works = (await getCollection('works')).filter((work) => !work.data.draft && !work.data.protected);
+const countFor = (id: string) => works.filter((work) => work.data.artists.some((ref) => ref.id === id)).length;
+---
+<BaseLayout title="画师" description="温水の收藏站的画师与词条。">
+  <div class="container page">
+    <header class="page-head">
+      <p class="kicker">ARTISTS</p>
+      <h1>画师</h1>
+      <p>画师 tag、别名和代表作品。</p>
+    </header>
+    <div class="glass artist-tools">
+      <input type="search" placeholder="搜索画师、别名或 tag" data-artist-search />
+    </div>
+    <div class="artist-list" data-artist-list>
+      {artists.map((artist) => <ArtistCard artist={artist} workCount={countFor(artist.id)} />)}
+    </div>
+  </div>
+  <script>import '../../scripts/artist-filter';</script>
+</BaseLayout>
+
+<style>
+  .artist-tools { padding: 10px 14px; margin-bottom: 12px; }
+  input { width: 100%; border: 0; background: transparent; outline: none; font-size: 13px; color: var(--color-text); }
+  .artist-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 760px) { .artist-list { grid-template-columns: 1fr; } }
+</style>

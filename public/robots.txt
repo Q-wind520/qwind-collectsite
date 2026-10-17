@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /qwind-collectsite/protected
-
-Sitemap: https://q-wind520.github.io/qwind-collectsite/sitemap.xml

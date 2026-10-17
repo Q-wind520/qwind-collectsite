@@ -1,0 +1,39 @@
+import { searchEntries, type SearchEntry } from '../lib/search';
+
+const roots = [...document.querySelectorAll<HTMLElement>('[data-search-root]')];
+
+if (roots.length > 0) {
+  let indexPromise: Promise<SearchEntry[]> | null = null;
+  const load = () => (indexPromise ??= fetch(`${import.meta.env.BASE_URL}search-index.json`).then((response) => response.json()));
+
+  for (const root of roots) {
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]');
+    const results = root.querySelector<HTMLElement>('[data-search-results]');
+    if (!input || !results) continue;
+
+    let entries: SearchEntry[] = [];
+    load().then((data) => { entries = data; if (input.value) render(); });
+
+    const render = () => {
+      const query = input.value.trim();
+      if (!query) {
+        results.innerHTML = '<p class="search-empty">输入标题、标签或正文关键词。</p>';
+        return;
+      }
+      const found = searchEntries(entries, query);
+      results.innerHTML = found.length
+        ? found.map((entry) => `<a class="search-hit" href="${entry.url}"><span>${entry.type}</span><b>${escapeHtml(entry.title)}</b><small>${escapeHtml(entry.summary)}</small></a>`).join('')
+        : '<p class="search-empty">没有找到匹配内容。</p>';
+    };
+
+    input.addEventListener('input', render);
+  }
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character] ?? character);
+}
+
+export {};

@@ -4,8 +4,10 @@ import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
+import ProtectedGate from '../../components/ProtectedGate.astro';
 import { assetUrl, withBase } from '../../lib/url';
 import { tagToSlug } from '../../lib/content';
+import { site } from '../../config/site';
 
 export async function getStaticPaths() {
   const works = await getCollection('works');
@@ -27,7 +29,8 @@ const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)))
   noindex={work.data.protected}
 >
   <div class="container page" id="work-lightbox">
-    <article class="glass work-detail">
+    <ProtectedGate hash={site.protectedPasswordHash} enabled={work.data.protected}>
+      <article class="glass work-detail">
       <div class="work-media">
         <a href={assetUrl(large.src)} data-pswp data-pswp-width={cover.width} data-pswp-height={cover.height} aria-label={`查看《${work.data.title}》大图`}>
           <Image src={cover} alt={work.data.title} widths={[600, 1200, 1600]} sizes="(max-width: 760px) 100vw, 60vw" format="webp" loading="eager" />
@@ -55,8 +58,9 @@ const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)))
         <div class="tags">{work.data.tags.map((tag) => <a href={withBase(`/tags/${tagToSlug(tag)}`)}>#{tag}</a>)}</div>
         <PromptBlock positive={work.data.prompt.positive} negative={work.data.prompt.negative} />
       </div>
-    </article>
-    <div class="glass work-body"><Content /></div>
+      </article>
+      <div class="glass work-body"><Content /></div>
+    </ProtectedGate>
   </div>
   <Lightbox gallerySelector="#work-lightbox" />
 </BaseLayout>

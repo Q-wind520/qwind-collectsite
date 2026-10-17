@@ -13,16 +13,17 @@ const [works, artists, links, notes, files] = await Promise.all([
   getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
 ]);
 
-const publicWorks = sortByDate(works.filter((entry) => !entry.data.draft && !entry.data.protected));
+const includeDrafts = import.meta.env.DEV;
+const publicWorks = sortByDate(works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected));
 const featured = publicWorks.filter((entry) => entry.data.featured).slice(0, 3);
 const preview = publicWorks.slice(0, 8);
 const tags = collectTags([...works, ...artists, ...links, ...notes, ...files]);
 
 const recent = [
-  ...works.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt })),
-  ...notes.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '笔记', title: entry.data.title, href: withBase(`/notes/${entry.data.slug}`), date: entry.data.createdAt })),
-  ...links.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '书签', title: entry.data.title, href: withBase('/links'), date: entry.data.createdAt })),
-  ...files.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => ({ type: '文件', title: entry.data.title, href: withBase('/files'), date: entry.data.createdAt })),
+  ...works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt })),
+  ...notes.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '笔记', title: entry.data.title, href: withBase(`/notes/${entry.data.slug}`), date: entry.data.createdAt })),
+  ...links.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '书签', title: entry.data.title, href: withBase('/links'), date: entry.data.createdAt })),
+  ...files.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '文件', title: entry.data.title, href: withBase('/files'), date: entry.data.createdAt })),
 ].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
 ---
 <BaseLayout>

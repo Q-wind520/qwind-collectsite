@@ -11,7 +11,8 @@ export const GET: APIRoute = async () => {
 
   const index: SearchEntry[] = [
     ...works.map((entry) => ({
-      id: `work-${entry.id}`, type: '作品', title: entry.data.title,
+      id: `work-${entry.id}`, type: ({ painting: '画作', style: '画风', composition: '构图' } as const)[entry.data.kind],
+      title: entry.data.title,
       summary: entry.data.summary ?? '', tags: entry.data.tags,
       url: withBase(`/gallery/${entry.data.slug}`), text: [entry.data.prompt.positive, entry.data.prompt.artist, entry.data.prompt.scene].filter(Boolean).join(' '),
       date: entry.data.createdAt.toISOString(),

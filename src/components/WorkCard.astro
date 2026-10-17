@@ -11,6 +11,8 @@ const artistEntries = await Promise.all(work.data.artists.map((ref) => getEntry(
 if (artistEntries.some((entry) => !entry)) throw new Error(`Missing artist reference in work "${work.id}"`);
 const artistNames = artistEntries.filter(Boolean).map((entry) => entry!.data.title);
 const artistSlugs = work.data.artists.map((ref) => ref.id);
+const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
+const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
 ---
 <article
   class="work-card"
@@ -44,7 +46,7 @@ const artistSlugs = work.data.artists.map((ref) => ref.id);
   <div class="caption">
     <a class="title" href={withBase(`/gallery/${work.data.slug}`)}>{work.data.title}</a>
     <div class="meta">
-      <span>{artistNames.join(' / ') || '未分类'}</span>
+      <span>{metaLabel}</span>
       <span>{work.data.createdAt.toISOString().slice(0, 10)}</span>
     </div>
   </div>

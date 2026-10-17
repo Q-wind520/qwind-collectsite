@@ -1,10 +1,11 @@
 import { searchEntries, type SearchEntry } from '../lib/search';
+import { withBase } from '../lib/url';
 
 const roots = [...document.querySelectorAll<HTMLElement>('[data-search-root]')];
 
 if (roots.length > 0) {
   let indexPromise: Promise<SearchEntry[]> | null = null;
-  const load = () => (indexPromise ??= fetch(`${import.meta.env.BASE_URL}search-index.json`).then((response) => response.json()));
+  const load = () => (indexPromise ??= fetch(withBase('/search-index.json')).then((response) => response.json()));
 
   for (const root of roots) {
     const input = root.querySelector<HTMLInputElement>('[data-search-input]');

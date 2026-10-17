@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryGrid from '../../components/GalleryGrid.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import { collectTags, validateSlugs } from '../../lib/content';
+
+const works = (await getCollection('works')).filter((work) => !work.data.draft);
+validateSlugs(works);
+const artists = (await getCollection('artists'))
+  .filter((artist) => !artist.data.draft && !artist.data.protected)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
+const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
+---
+<BaseLayout title="作品" description="温水の收藏站的作品画廊。">
+  <div class="container page">
+    <header class="page-head">
+      <p class="kicker">GALLERY</p>
+      <h1>作品</h1>
+      <p>NovelAI 作品与提示词。点击图片看大图，点标题进入详情。</p>
+    </header>
+    <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
+    <GalleryGrid works={works} />
+  </div>
+  <script>import '../../scripts/gallery-filter';</script>
+</BaseLayout>

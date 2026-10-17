@@ -1,0 +1,48 @@
+---
+interface Props {
+  artists: { id: string; name: string }[];
+  tags: [string, number][];
+}
+const { artists, tags } = Astro.props;
+---
+<form class="glass filter-bar" data-filter-form>
+  <label>画师
+    <select name="artist">
+      <option value="">全部</option>
+      {artists.map((artist) => <option value={artist.id}>{artist.name}</option>)}
+    </select>
+  </label>
+  <label>分级
+    <select name="rating">
+      <option value="">全部</option>
+      <option value="general">一般</option>
+      <option value="sensitive">敏感</option>
+      <option value="nsfw">NSFW</option>
+      <option value="r18g">R18G</option>
+    </select>
+  </label>
+  <label>标签
+    <select name="tag">
+      <option value="">全部</option>
+      {tags.map(([tag, count]) => <option value={tag}>{tag} ({count})</option>)}
+    </select>
+  </label>
+  <label>排序
+    <select name="sort">
+      <option value="newest">最新</option>
+      <option value="oldest">最早</option>
+      <option value="random">随机</option>
+    </select>
+  </label>
+  <button type="reset">清除</button>
+  <span class="result-count" data-result-count></span>
+</form>
+
+<style>
+  .filter-bar { display: flex; align-items: end; gap: 10px; flex-wrap: wrap; padding: 12px 14px; margin-bottom: 14px; }
+  label { display: grid; gap: 3px; font-size: 9px; letter-spacing: .08em; color: var(--color-muted); }
+  select { border: 1px solid var(--color-line); border-radius: 999px; background: rgba(255,255,255,.65); padding: 6px 10px; font-size: 11px; color: var(--color-text); }
+  button { border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 6px 12px; font-size: 11px; color: var(--color-muted); cursor: pointer; }
+  button:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .result-count { margin-left: auto; font-size: 10px; color: var(--color-muted); }
+</style>

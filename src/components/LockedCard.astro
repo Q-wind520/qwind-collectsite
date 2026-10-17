@@ -1,0 +1,17 @@
+---
+import { withBase } from '../lib/url';
+interface Props { slug: string; }
+const { slug } = Astro.props;
+---
+<a class="locked-card glass" href={withBase(`/gallery/${slug}`)} data-work data-protected="true">
+  <span class="lock" aria-hidden="true">🔒</span>
+  <b>受保护条目</b>
+  <small>输入密码后查看</small>
+</a>
+
+<style>
+  .locked-card { display: grid; place-items: center; gap: 6px; aspect-ratio: 4 / 3; text-decoration: none; color: var(--color-muted); background: rgba(255,255,255,.42); }
+  .locked-card .lock { font-size: 28px; }
+  .locked-card b { font-size: 13px; color: var(--color-text); }
+  .locked-card small { font-size: 10px; }
+</style>

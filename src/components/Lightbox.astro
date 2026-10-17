@@ -1,0 +1,22 @@
+---
+interface Props { gallerySelector?: string; }
+const { gallerySelector = '#gallery-grid' } = Astro.props;
+---
+<div data-lightbox-root data-selector={gallerySelector} hidden></div>
+<script>import '../scripts/lightbox';</script>
+
+<style is:global>
+  .pswp__prompt {
+    position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+    z-index: 10; width: min(680px, calc(100vw - 32px));
+    padding: 12px 14px; border-radius: 14px;
+    background: rgba(20, 16, 18, 0.72); color: #fff;
+    backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .pswp__prompt-text { font-size: 11px; line-height: 1.6; opacity: 0.9; }
+  .pswp__prompt-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .pswp__prompt-actions button {
+    border: 1px solid rgba(255,255,255,.28); border-radius: 999px;
+    background: transparent; color: #fff; padding: 4px 10px; font-size: 10px; cursor: pointer;
+  }
+</style>

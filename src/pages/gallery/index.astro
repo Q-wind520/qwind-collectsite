@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
 import FilterBar from '../../components/FilterBar.astro';
+import Lightbox from '../../components/Lightbox.astro';
 import { collectTags, validateSlugs } from '../../lib/content';
 
 const works = (await getCollection('works')).filter((work) => !work.data.draft);
@@ -22,5 +23,6 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
     <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
     <GalleryGrid works={works} />
   </div>
+  <Lightbox gallerySelector="#gallery-grid" />
   <script>import '../../scripts/gallery-filter';</script>
 </BaseLayout>

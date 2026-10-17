@@ -61,3 +61,5 @@ if (form && grid) {
   form.addEventListener('reset', () => window.setTimeout(apply, 0));
   apply();
 }
+
+export {};

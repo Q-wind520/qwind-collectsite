@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { link: CollectionEntry<'links'>; }
+const { link } = Astro.props;
+const domain = new URL(link.data.url).hostname;
+const initial = domain.slice(0, 1).toUpperCase();
+---
+<a
+  class="link-card glass"
+  href={link.data.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-link-card
+  data-domain={domain}
+  data-tags={link.data.tags.join('|')}
+>
+  <span class="favicon">
+    {link.data.favicon ? <img src={link.data.favicon} alt="" loading="lazy" /> : initial}
+  </span>
+  <span class="body">
+    <b>{link.data.title}</b>
+    <small>{domain}</small>
+    <p>{link.data.summary || link.data.description}</p>
+  </span>
+</a>
+
+<style>
+  .link-card { display: flex; gap: 12px; padding: 13px 15px; text-decoration: none; }
+  .favicon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent); font-size: 13px; font-weight: 700; overflow: hidden; }
+  .favicon img { width: 100%; height: 100%; object-fit: cover; }
+  .body { min-width: 0; }
+  .body b { display: block; font-size: 13px; }
+  .body small { display: block; font-size: 10px; color: var(--color-muted); }
+  .body p { margin: 4px 0 0; font-size: 11px; color: var(--color-muted); line-height: 1.6; }
+</style>

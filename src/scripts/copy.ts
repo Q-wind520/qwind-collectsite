@@ -11,3 +11,5 @@ document.addEventListener('click', async (event) => {
     button.textContent = '复制失败';
   }
 });
+
+export {};

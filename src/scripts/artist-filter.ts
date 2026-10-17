@@ -7,3 +7,5 @@ input?.addEventListener('input', () => {
     card.hidden = Boolean(query) && !(card.dataset.search || '').includes(query);
   }
 });
+
+export {};

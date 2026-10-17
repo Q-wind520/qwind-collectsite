@@ -25,6 +25,7 @@ jobs:
           build-cmd: "pnpm run check && pnpm run build"
         env:
           BASE_PATH: /qwind-collectsite
+          SITE_URL: https://q-wind520.github.io
 
   deploy:
     needs: build

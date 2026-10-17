@@ -10,3 +10,5 @@ playwright-report/
 *.log
 
 .openchamber/
+.wrangler/
+.dev.vars

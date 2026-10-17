@@ -2,7 +2,8 @@
 
 个人收藏站：NovelAI 画作、画风、构图、网页书签、笔记与文件。
 
-- 线上：https://q-wind520.github.io/qwind-collectsite/
+- 主站：https://collect.qwind.top/
+- GitHub Pages 镜像：https://q-wind520.github.io/qwind-collectsite/
 - 设计文档：`docs/superpowers/specs/2026-10-17-qwind-collectsite-design.md`
 
 ## 本地开发
@@ -47,7 +48,25 @@ git push
 
 ## 部署
 
-推送到 `main` 后，GitHub Actions 自动构建并发布到 GitHub Pages。首次部署需要在仓库 Settings → Pages 中把 Source 设为 GitHub Actions。
+### Cloudflare Pages（主站）
+
+- 项目：`qwind-collectsite`
+- 生产分支：`main`
+- 构建命令：`pnpm run build`
+- 输出目录：`dist`
+- 环境变量：`SITE_URL=https://collect.qwind.top`
+- 自定义域：`collect.qwind.top`
+- DNS：在腾讯云给 `collect` 添加 CNAME，指向 `qwind-collectsite.pages.dev`
+
+Cloudflare 会在每次推送到 `main` 后自动构建。也可以本地手动部署：
+
+```bash
+pnpm deploy:cf
+```
+
+### GitHub Pages（镜像）
+
+推送到 `main` 后，GitHub Actions 自动构建并发布到 GitHub Pages。构建时使用 `BASE_PATH=/qwind-collectsite`、`SITE_URL=https://q-wind520.github.io`。
 
 ## 许可
 

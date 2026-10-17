@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "deploy:cf": "pnpm build && wrangler pages deploy dist --project-name qwind-collectsite",
     "new": "tsx scripts/new-entry.ts",
     "optimize-image": "tsx scripts/optimize-image.ts",
     "prebuild": "tsx scripts/check-content.ts"
@@ -33,6 +34,7 @@
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "5.9.3",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "wrangler": "^4.151.0"
   }
 }

@@ -1,0 +1,52 @@
+---
+import { withBase } from '../lib/url';
+import type { WorkKind } from '../lib/content';
+
+interface Props {
+  counts: Record<WorkKind, number>;
+}
+const { counts } = Astro.props;
+
+const items: { kind: WorkKind; label: string; note: string }[] = [
+  { kind: 'painting', label: '画作', note: '原图 + 提示词' },
+  { kind: 'style', label: '画风', note: '画师串 + 参考图' },
+  { kind: 'composition', label: '构图', note: '场景串 + 参考图' },
+];
+---
+<aside class="gallery-sidebar glass" aria-label="作品分类">
+  <p class="side-kicker">Browse</p>
+  <nav class="side-list">
+    {items.map((item) => (
+      <a
+        class="side-link"
+        href={withBase(`/gallery?kind=${item.kind}`)}
+        data-kind-link={item.kind}
+      >
+        <span class="side-main"><b>{item.label}</b><small>{item.note}</small></span>
+        <span class="count">{counts[item.kind]}</span>
+      </a>
+    ))}
+  </nav>
+</aside>
+
+<style>
+  .gallery-sidebar { padding: 16px 14px; position: sticky; top: 76px; align-self: start; }
+  .side-kicker { margin: 0 0 10px; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--color-muted); }
+  .side-list { display: grid; gap: 4px; }
+  .side-link { display: flex; align-items: center; gap: 8px; padding: 10px 10px; border-radius: 12px; text-decoration: none; color: var(--color-text); }
+  .side-link:hover { background: var(--color-accent-soft); }
+  .side-link[aria-current="page"] { background: var(--color-accent-soft); }
+  .side-link[aria-current="page"] .side-main b { color: var(--color-accent); }
+  .side-main { display: grid; gap: 2px; min-width: 0; }
+  .side-main b { font-size: 13px; font-weight: 600; }
+  .side-main small { font-size: 9.5px; color: var(--color-muted); }
+  .count { margin-left: auto; font-size: 10px; color: var(--color-muted); }
+  @media (max-width: 760px) {
+    .gallery-sidebar { position: static; padding: 10px; }
+    .side-kicker { display: none; }
+    .side-list { display: flex; gap: 6px; overflow-x: auto; }
+    .side-link { flex: 1 0 auto; justify-content: center; padding: 8px 10px; }
+    .side-main small { display: none; }
+    .count { margin-left: 6px; }
+  }
+</style>

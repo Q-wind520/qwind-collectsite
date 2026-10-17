@@ -6,18 +6,18 @@ import RecentList from '../components/RecentList.astro';
 import { Image } from 'astro:assets';
 import { site } from '../config/site';
 import { withBase } from '../lib/url';
-import { sortByDate, collectTags } from '../lib/content';
+import { sortByDate, kindCounts } from '../lib/content';
 import { getCollection } from 'astro:content';
 
-const [works, artists, links, notes, files] = await Promise.all([
-  getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+const [works, links, notes, files] = await Promise.all([
+  getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
 ]);
 
 const includeDrafts = import.meta.env.DEV;
 const publicWorks = sortByDate(works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected));
 const featured = publicWorks.filter((entry) => entry.data.featured).slice(0, 3);
 const preview = publicWorks.slice(0, 8);
-const tags = collectTags([...works, ...artists, ...links, ...notes, ...files]);
+const counts = kindCounts(works);
 
 const recent = [
   ...works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt })),
@@ -36,9 +36,10 @@ const recent = [
 
   <div class="container home-content">
     <ProfileCard stats={[
-      { label: '条目', value: publicWorks.length + artists.filter((entry) => !entry.data.draft && !entry.data.protected).length + links.filter((entry) => !entry.data.draft && !entry.data.protected).length + notes.filter((entry) => !entry.data.draft && !entry.data.protected).length + files.filter((entry) => !entry.data.draft && !entry.data.protected).length },
-      { label: '画师', value: artists.filter((entry) => !entry.data.draft && !entry.data.protected).length },
-      { label: '标签', value: tags.size },
+      { label: '条目', value: publicWorks.length + links.filter((entry) => !entry.data.draft && !entry.data.protected).length + notes.filter((entry) => !entry.data.draft && !entry.data.protected).length + files.filter((entry) => !entry.data.draft && !entry.data.protected).length },
+      { label: '画作', value: counts.painting },
+      { label: '画风', value: counts.style },
+      { label: '构图', value: counts.composition },
     ]} />
 
     <div class="glass notice" data-announcement>

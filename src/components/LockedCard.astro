@@ -1,9 +1,9 @@
 ---
 import { withBase } from '../lib/url';
-interface Props { slug: string; }
-const { slug } = Astro.props;
+interface Props { slug: string; kind?: string; }
+const { slug, kind = 'painting' } = Astro.props;
 ---
-<a class="locked-card glass" href={withBase(`/gallery/${slug}`)} data-work data-protected="true">
+<a class="locked-card glass" href={withBase(`/gallery/${slug}`)} data-work data-kind={kind} data-protected="true">
   <span class="lock" aria-hidden="true">🔒</span>
   <b>受保护条目</b>
   <small>输入密码后查看</small>

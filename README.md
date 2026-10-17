@@ -1,6 +1,6 @@
 # 温水の收藏站
 
-个人收藏站：NovelAI 作品、画师词条、网页书签、笔记与文件。
+个人收藏站：NovelAI 画作、画风、构图、网页书签、笔记与文件。
 
 - 线上：https://q-wind520.github.io/qwind-collectsite/
 - 设计文档：`docs/superpowers/specs/2026-10-17-qwind-collectsite-design.md`
@@ -15,7 +15,9 @@ pnpm dev
 ## 新增内容
 
 ```bash
-pnpm new work
+pnpm new work --kind painting
+pnpm new work --kind style --artist "artist:xxx"
+pnpm new work --kind composition --scene "wide shot, rule of thirds"
 pnpm optimize-image ~/Pictures/originals/foo.png src/assets/works/foo/01.webp
 pnpm check
 git add .
@@ -23,10 +25,12 @@ git commit -m "content: add foo"
 git push
 ```
 
+作品分类通过 `kind` 区分：`painting`（画作，原图 + 提示词）、`style`（画风，画师串 + 参考图）、`composition`（构图，构图/场景串 + 参考图）。
+
 ## 内容目录
 
 - `src/content/works/` 作品
-- `src/content/artists/` 画师
+- `src/content/artists/` 画师元数据（作品页筛选用，不再有独立页面）
 - `src/content/links/` 书签
 - `src/content/notes/` 笔记
 - `src/content/files/` 文件

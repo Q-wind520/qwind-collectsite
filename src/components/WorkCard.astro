@@ -15,6 +15,7 @@ const artistSlugs = work.data.artists.map((ref) => ref.id);
 <article
   class="work-card"
   data-work
+  data-kind={work.data.kind}
   data-artists={artistSlugs.join(' ')}
   data-tags={work.data.tags.join('|')}
   data-rating={work.data.rating}

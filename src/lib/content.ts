@@ -12,6 +12,20 @@ export function tagToSlug(tag: string): string {
     .replace(/^-|-$/g, '');
 }
 
+export type WorkKind = 'painting' | 'style' | 'composition';
+
+export const WORK_KINDS: WorkKind[] = ['painting', 'style', 'composition'];
+
+export function kindCounts(entries: { data: { kind?: string; draft: boolean; protected: boolean } }[]): Record<WorkKind, number> {
+  const counts: Record<WorkKind, number> = { painting: 0, style: 0, composition: 0 };
+  for (const entry of entries) {
+    if (entry.data.draft || entry.data.protected) continue;
+    const kind = (entry.data.kind ?? 'painting') as WorkKind;
+    if (kind in counts) counts[kind] += 1;
+  }
+  return counts;
+}
+
 export function collectAllTags(entries: { data: { tags: string[]; relatedTags?: string[] } }[]): Set<string> {
   const tags = new Set<string>();
   for (const entry of entries) {
@@ -64,12 +78,11 @@ export function validateSlugs(entries: { id: string; data: { slug: string } }[])
   }
 }
 
-export type EntryType = 'works' | 'artists' | 'links' | 'notes' | 'files';
+export type EntryType = 'works' | 'links' | 'notes' | 'files';
 
 export function entryUrl(type: EntryType, slug: string): string {
   switch (type) {
     case 'works': return `/gallery/${slug}`;
-    case 'artists': return `/artists/${slug}`;
     case 'notes': return `/notes/${slug}`;
     case 'links': return '/links';
     case 'files': return '/files';

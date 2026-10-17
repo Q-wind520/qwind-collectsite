@@ -9,7 +9,7 @@ const { works } = Astro.props;
 <div class="gallery-grid" id="gallery-grid" data-gallery-grid>
   {works.map((work) => (
     work.data.protected
-      ? <LockedCard slug={work.data.slug} />
+      ? <LockedCard slug={work.data.slug} kind={work.data.kind} />
       : <WorkCard work={work} />
   ))}
 </div>

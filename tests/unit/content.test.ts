@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectAllTags, collectTags, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
+import { collectAllTags, collectTags, kindCounts, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
 
 describe('tagToSlug', () => {
   it('normalizes spaces, case and punctuation', () => {
@@ -8,6 +8,19 @@ describe('tagToSlug', () => {
 
   it('keeps Chinese characters', () => {
     expect(tagToSlug('画师 参考')).toBe('画师-参考');
+  });
+});
+
+describe('kindCounts', () => {
+  it('counts public works by kind and ignores drafts and protected works', () => {
+    const counts = kindCounts([
+      { data: { kind: 'painting', draft: false, protected: false } },
+      { data: { kind: 'style', draft: false, protected: false } },
+      { data: { kind: 'composition', draft: false, protected: false } },
+      { data: { kind: 'painting', draft: true, protected: false } },
+      { data: { kind: 'style', draft: false, protected: true } },
+    ]);
+    expect(counts).toEqual({ painting: 1, style: 1, composition: 1 });
   });
 });
 

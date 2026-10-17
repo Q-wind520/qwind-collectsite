@@ -21,7 +21,7 @@ function readFlag(args: string[], name: string): string | undefined {
 async function main() {
   const [rawType, ...args] = process.argv.slice(2);
   if (!rawType || !(rawType in TYPES)) {
-    console.error('Usage: pnpm new <work|artist|link|note|file> [--title ...] [--slug ...] [--tags ...]');
+    console.error('Usage: pnpm new <work|artist|link|note|file> [--title ...] [--slug ...] [--tags ...] [--kind painting|style|composition]');
     process.exit(1);
   }
   const type = rawType as EntryType;
@@ -38,7 +38,14 @@ async function main() {
     .split(',').map((tag) => tag.trim()).filter(Boolean);
   const summary = readFlag(args, 'summary') ?? '';
   const date = readFlag(args, 'date') ?? new Date().toISOString().slice(0, 10);
+  const kind = readFlag(args, 'kind') ?? 'painting';
+  if (!['painting', 'style', 'composition'].includes(kind)) {
+    console.error('kind 必须是 painting、style 或 composition。');
+    process.exit(1);
+  }
   const url = readFlag(args, 'url') ?? (type === 'link' ? await rl.question('URL: ') : '');
+  const artist = readFlag(args, 'artist');
+  const scene = readFlag(args, 'scene');
   rl.close();
 
   const file = `src/content/${TYPES[type].dir}/${slug}.${TYPES[type].ext}`;
@@ -53,8 +60,12 @@ async function main() {
 
   if (type === 'work') {
     await mkdir(`src/assets/works/${slug}`, { recursive: true });
+    lines.push(`kind: ${kind}`);
     lines.push('images:', `  - ../../assets/works/${slug}/01.webp`);
-    lines.push('prompt:', '  positive: ""', '  negative: ""', '  model: "NAI v5"', 'rating: general');
+    lines.push('prompt:', '  positive: ""', '  negative: ""');
+    if (artist) lines.push(`  artist: ${JSON.stringify(artist)}`);
+    if (scene) lines.push(`  scene: ${JSON.stringify(scene)}`);
+    lines.push('  model: "NAI v5"', 'rating: general');
     console.log(`把展示图放到 src/assets/works/${slug}/01.webp 后再构建。`);
   }
   if (type === 'artist') {

@@ -5,7 +5,6 @@ import type { SearchEntry } from '../lib/search';
 
 export const GET: APIRoute = async () => {
   const works = (await getCollection('works')).filter((entry) => !entry.data.draft && !entry.data.protected);
-  const artists = (await getCollection('artists')).filter((entry) => !entry.data.draft && !entry.data.protected);
   const links = (await getCollection('links')).filter((entry) => !entry.data.draft && !entry.data.protected);
   const notes = (await getCollection('notes')).filter((entry) => !entry.data.draft && !entry.data.protected);
   const files = (await getCollection('files')).filter((entry) => !entry.data.draft && !entry.data.protected);
@@ -14,13 +13,7 @@ export const GET: APIRoute = async () => {
     ...works.map((entry) => ({
       id: `work-${entry.id}`, type: '作品', title: entry.data.title,
       summary: entry.data.summary ?? '', tags: entry.data.tags,
-      url: withBase(`/gallery/${entry.data.slug}`), text: entry.data.prompt.positive,
-      date: entry.data.createdAt.toISOString(),
-    })),
-    ...artists.map((entry) => ({
-      id: `artist-${entry.id}`, type: '画师', title: entry.data.title,
-      summary: entry.data.summary ?? '', tags: [...entry.data.tags, entry.data.artistTag],
-      url: withBase(`/artists/${entry.data.slug}`), text: entry.data.notes ?? '',
+      url: withBase(`/gallery/${entry.data.slug}`), text: [entry.data.prompt.positive, entry.data.prompt.artist, entry.data.prompt.scene].filter(Boolean).join(' '),
       date: entry.data.createdAt.toISOString(),
     })),
     ...links.map((entry) => ({

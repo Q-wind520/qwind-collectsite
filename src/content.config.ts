@@ -21,12 +21,14 @@ const works = defineCollection({
   loader: glob({ base: './src/content/works', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => z.object({
     ...base,
+    kind: z.enum(['painting', 'style', 'composition']).default('painting'),
     images: z.array(image()).min(1),
     prompt: z.object({
       positive: z.string().default(''),
       negative: z.string().default(''),
       artist: z.string().optional(),
       character: z.string().optional(),
+      scene: z.string().optional(),
       model: z.string().optional(),
     }),
     artists: z.array(reference('artists')).default([]),

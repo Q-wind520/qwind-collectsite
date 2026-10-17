@@ -27,6 +27,23 @@ const metaTitle = work.data.protected ? '受保护内容' : work.data.title;
 const metaDescription = work.data.protected ? '输入密码后查看。' : work.data.summary;
 const metaImage = work.data.protected ? '/og-default.png' : large.src;
 const shouldNoindex = work.data.protected || work.data.rating === 'nsfw' || work.data.rating === 'r18g';
+const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
+const kindLabel = kindLabels[work.data.kind];
+const positiveLabel = work.data.kind === 'style'
+  ? '画师串'
+  : work.data.kind === 'composition'
+    ? '构图 / 场景串'
+    : '正向提示词';
+const positiveText = work.data.kind === 'style'
+  ? (work.data.prompt.artist || work.data.prompt.positive)
+  : work.data.kind === 'composition'
+    ? (work.data.prompt.scene || work.data.prompt.positive)
+    : work.data.prompt.positive;
+const positiveAction = work.data.kind === 'style'
+  ? '复制画师串'
+  : work.data.kind === 'composition'
+    ? '复制构图串'
+    : '复制正向';
 ---
 <BaseLayout
   title={metaTitle}
@@ -52,7 +69,7 @@ const shouldNoindex = work.data.protected || work.data.rating === 'nsfw' || work
         )}
       </div>
       <div class="work-info">
-        <p class="kicker">WORK / {work.data.rating.toUpperCase()}</p>
+        <p class="kicker">WORK / {kindLabel} / {work.data.rating.toUpperCase()}</p>
         <h1 class="warm">{work.data.title}</h1>
         {work.data.summary && <p class="summary">{work.data.summary}</p>}
         <dl class="facts">
@@ -67,7 +84,7 @@ const shouldNoindex = work.data.protected || work.data.rating === 'nsfw' || work
             return slug ? <a href={withBase(`/tags/${slug}`)}>#{tag}</a> : <span>#{tag}</span>;
           })}
         </div>
-        <PromptBlock positive={work.data.prompt.positive} negative={work.data.prompt.negative} />
+        <PromptBlock positive={positiveText} negative={work.data.prompt.negative} positiveLabel={positiveLabel} positiveAction={positiveAction} />
       </div>
       </article>
       <div class="glass work-body"><Content /></div>

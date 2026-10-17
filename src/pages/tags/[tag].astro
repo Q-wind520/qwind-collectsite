@@ -6,22 +6,21 @@ import { collectAllTags, tagRoutes, validateSlugs } from '../../lib/content';
 import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const [works, artists, links, notes, files] = await Promise.all([
-    getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+  const [works, links, notes, files] = await Promise.all([
+    getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
   ]);
-  const tags = collectAllTags([...works, ...artists, ...links, ...notes, ...files]);
+  const tags = collectAllTags([...works, ...links, ...notes, ...files]);
   return tagRoutes(tags)
     .map((item) => ({ params: { tag: item.slug }, props: { tag: item.tag } }));
 }
 
 const { tag } = Astro.props;
-const [works, artists, links, notes, files] = await Promise.all([
-  getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+const [works, links, notes, files] = await Promise.all([
+  getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
 ]);
-for (const collection of [works, artists, links, notes, files]) validateSlugs(collection);
+for (const collection of [works, links, notes, files]) validateSlugs(collection);
 const match = (entry: { data: { tags: string[] } }) => entry.data.tags.includes(tag);
 const taggedWorks = works.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
-const taggedArtists = artists.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
 const taggedLinks = links.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
 const taggedNotes = notes.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
 const taggedFiles = files.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
@@ -31,7 +30,6 @@ const taggedFiles = files.filter((entry) => !entry.data.draft && !entry.data.pro
     <header class="page-head"><p class="kicker">TAG</p><h1>#{tag}</h1></header>
     {taggedWorks.length > 0 && <section class="tag-section"><h2>作品</h2><div class="grid">{taggedWorks.map((work) => <WorkCard work={work} />)}</div></section>}
     <section class="glass tag-list">
-      {taggedArtists.map((entry) => <a href={withBase(`/artists/${entry.data.slug}`)}>画师 · {entry.data.title}</a>)}
       {taggedLinks.map((entry) => <a href={withBase('/links')}>书签 · {entry.data.title}</a>)}
       {taggedNotes.map((entry) => <a href={withBase(`/notes/${entry.data.slug}`)}>笔记 · {entry.data.title}</a>)}
       {taggedFiles.map((entry) => <a href={withBase('/files')}>文件 · {entry.data.title}</a>)}

@@ -9,6 +9,20 @@ test('filters by tag and syncs the URL', async ({ page }) => {
   await expect(page.locator('[data-result-count]')).toContainText('1 件作品');
 });
 
+test('sidebar switches between painting, style and composition', async ({ page }) => {
+  await page.goto('/gallery?kind=style');
+  await expect(page.locator('[data-gallery-title]')).toHaveText('画风');
+  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
+
+  await page.goto('/gallery?kind=composition');
+  await expect(page.locator('[data-gallery-title]')).toHaveText('构图');
+  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
+
+  await page.goto('/gallery?kind=painting');
+  await expect(page.locator('[data-gallery-title]')).toHaveText('画作');
+  await expect(page.locator('[data-kind-link="painting"]')).toHaveAttribute('aria-current', 'page');
+});
+
 test('protected works show a locked placeholder', async ({ page }) => {
   await page.goto('/gallery');
   await expect(page.locator('[data-protected="true"]')).toHaveCount(1);

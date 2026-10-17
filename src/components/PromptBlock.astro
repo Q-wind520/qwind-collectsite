@@ -1,11 +1,11 @@
 ---
-interface Props { positive: string; negative: string; }
-const { positive, negative } = Astro.props;
+interface Props { positive: string; negative: string; positiveLabel?: string; positiveAction?: string; }
+const { positive, negative, positiveLabel = '正向提示词', positiveAction = '复制正向' } = Astro.props;
 ---
 <section class="prompt-block">
   <div class="prompt-head">
-    <h2>正向提示词</h2>
-    <button type="button" data-copy-text={positive}>复制正向</button>
+    <h2>{positiveLabel}</h2>
+    <button type="button" data-copy-text={positive}>{positiveAction}</button>
   </div>
   <pre>{positive || '—'}</pre>
   <div class="prompt-head">

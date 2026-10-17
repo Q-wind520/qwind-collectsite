@@ -19,7 +19,7 @@ test('images have alt text and the page has a skip link', async ({ page }) => {
 
 test('mobile pages do not scroll horizontally', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
-  for (const path of ['/', '/gallery', '/artists', '/links', '/notes', '/files', '/search', '/about']) {
+  for (const path of ['/', '/gallery', '/links', '/notes', '/files', '/search', '/about']) {
     await page.goto(path);
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     expect(scrollWidth).toBeLessThanOrEqual(360);

@@ -4,17 +4,16 @@ import { withBase } from '../lib/url';
 import { collectTags, entryUrl, tagRoutes } from '../lib/content';
 
 export const GET: APIRoute = async ({ site }) => {
-  const [works, artists, links, notes, files] = await Promise.all([
-    getCollection('works'), getCollection('artists'), getCollection('links'), getCollection('notes'), getCollection('files'),
+  const [works, links, notes, files] = await Promise.all([
+    getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
   ]);
 
-  const staticPaths = ['/', '/gallery', '/artists', '/links', '/notes', '/files', '/search', '/about'];
+  const staticPaths = ['/', '/gallery', '/links', '/notes', '/files', '/search', '/about'];
   const entryPaths = [
     ...works.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => entryUrl('works', entry.data.slug)),
-    ...artists.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => entryUrl('artists', entry.data.slug)),
     ...notes.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => entryUrl('notes', entry.data.slug)),
   ];
-  const tagPaths = tagRoutes(collectTags([...works, ...artists, ...links, ...notes, ...files]).keys())
+  const tagPaths = tagRoutes(collectTags([...works, ...links, ...notes, ...files]).keys())
     .map(({ slug }) => `/tags/${slug}`);
 
   const urls = [...new Set([...staticPaths, ...entryPaths, ...tagPaths])]

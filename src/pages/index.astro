@@ -1,14 +1,28 @@
 ---
-const title = '温水の收藏站';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+import { site } from '../config/site';
 ---
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <h1>{title}</h1>
-  </body>
-</html>
+<BaseLayout>
+  <section class="hero">
+    <p class="hero-kicker">✦ Personal Archive · 2026</p>
+    <h1 class="warm">{site.name}</h1>
+    <p class="hero-sub">{site.englishName} · Images, Artists & Notes</p>
+  </section>
+
+  <div class="container home-content">
+    <ProfileCard stats={[
+      { label: '条目', value: 0 },
+      { label: '画师', value: 0 },
+      { label: '标签', value: 0 },
+    ]} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { max-width: 1180px; margin: 0 auto; padding: 76px 20px 84px; text-align: center; color: #fff; }
+  .hero-kicker { display: inline-flex; padding: 5px 13px; border-radius: 999px; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.34); }
+  .hero h1 { margin: 18px 0 0; font-size: clamp(44px, 7vw, 74px); font-weight: 600; letter-spacing: .14em; text-shadow: 0 6px 36px rgba(0,0,0,.42); }
+  .hero-sub { margin: 12px 0 0; font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+  .home-content { margin-top: -34px; }
+</style>

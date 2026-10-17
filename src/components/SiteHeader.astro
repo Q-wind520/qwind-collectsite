@@ -1,0 +1,96 @@
+---
+import { site } from '../config/site';
+import { withBase } from '../lib/url';
+
+const items = [
+  { label: '作品', href: '/gallery' },
+  { label: '画师', href: '/artists' },
+  { label: '书签', href: '/links' },
+  { label: '笔记', href: '/notes' },
+  { label: '文件', href: '/files' },
+];
+---
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href={withBase('/')}>
+      <img src={withBase(site.avatar)} alt="" width="27" height="27" />
+      <span>{site.name}</span>
+    </a>
+    <nav class="topnav" data-nav aria-label="主导航">
+      {items.map((item) => (
+        <a href={withBase(item.href)}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="top-actions">
+      <button type="button" data-search-open>搜索 <kbd>⌘K</kbd></button>
+      <button type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
+      <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单">☰</button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px) saturate(1.25);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  }
+  .topbar-inner {
+    max-width: 1180px; margin: 0 auto; height: 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 0 20px; font-size: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; text-decoration: none; }
+  .brand img { border-radius: 50%; border: 1.5px solid #fff; }
+  .topnav { display: flex; gap: 20px; }
+  .topnav a { color: var(--color-muted); text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid transparent; }
+  .topnav a:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .top-actions { display: flex; align-items: center; gap: 7px; }
+  .top-actions button {
+    color: var(--color-muted); background: rgba(255, 255, 255, 0.35);
+    border: 1px solid var(--glass-border); border-radius: 999px;
+    padding: 6px 11px; font-size: 11px; cursor: pointer;
+  }
+  .top-actions kbd { font: inherit; font-size: 9px; opacity: 0.7; }
+  .menu-toggle { display: none; }
+  @media (max-width: 760px) {
+    .topnav { display: none; }
+    .topnav[data-open="true"] {
+      display: flex; position: absolute; top: 56px; left: 12px; right: 12px;
+      flex-direction: column; gap: 12px; padding: 16px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-panel); backdrop-filter: blur(18px);
+    }
+    .menu-toggle { display: inline-block; }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const themeButton = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  themeButton?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('qwind-theme', next);
+  });
+
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  menuButton?.addEventListener('click', () => {
+    if (!nav) return;
+    nav.dataset.open = nav.dataset.open === 'true' ? 'false' : 'true';
+  });
+
+  document.querySelector('[data-search-open]')?.addEventListener('click', () => {
+    document.querySelector<HTMLDialogElement>('[data-search-dialog]')?.showModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      document.querySelector<HTMLDialogElement>('[data-search-dialog]')?.showModal();
+    }
+  });
+</script>

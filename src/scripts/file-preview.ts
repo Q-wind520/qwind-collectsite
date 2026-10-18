@@ -18,12 +18,21 @@ for (const row of document.querySelectorAll<HTMLElement>('[data-file-row]')) {
       frame.src = href;
       frame.title = 'PDF 预览';
       body.append(frame);
+    } else if (mime.startsWith('audio/')) {
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.preload = 'metadata';
+      audio.src = href;
+      body.append(audio);
     }
     dialog.showModal();
   });
 }
 
+const stopAudio = () => body?.querySelector('audio')?.pause();
+
 close?.addEventListener('click', () => dialog?.close());
+dialog?.addEventListener('close', stopAudio);
 dialog?.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();
 });

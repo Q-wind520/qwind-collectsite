@@ -23,8 +23,8 @@ const hrefFor = (file: (typeof files)[number]) =>
           </a>
           <span class="meta size">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
           <span class="meta date">{file.data.createdAt.toISOString().slice(0, 10)}</span>
-          {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf') && (
-            <button type="button" data-preview>预览</button>
+          {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf' || file.data.mime?.startsWith('audio/')) && (
+            <button type="button" data-preview>{file.data.mime?.startsWith('audio/') ? '播放' : '预览'}</button>
           )}
         </div>
       ))}
@@ -51,5 +51,6 @@ const hrefFor = (file: (typeof files)[number]) =>
   .close { margin-left: auto; display: block; }
   .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }
   .preview-dialog :global(iframe) { width: 100%; height: 70vh; border: 0; }
+  .preview-dialog :global(audio) { width: 100%; display: block; }
   @media (max-width: 600px) { .file-row { grid-template-columns: 44px minmax(0, 1fr) auto; } .file-row .date { display: none; } }
 </style>

@@ -46,12 +46,12 @@ const animaNovelAiRules: ConversionRule[] = [
 ];
 
 const novelAiAnimaRules: ConversionRule[] = [
-  { from: '1.2::tag::', to: '(tag:1.2)', note: '数字权重' },
-  { from: '{tag}', to: '(tag:1.05)', note: '轻度强调' },
-  { from: '{{tag}}', to: '(tag:1.1025)', note: '嵌套强调' },
-  { from: '[tag]', to: '(tag:0.95)', note: '轻度弱化' },
-  { from: 'artist:artist', to: '@artist', note: '画师 tag' },
-  { from: '1.5::rain, night::', to: '(rain, night:1.5)', note: '多 tag 组合权重' },
+  { from: '1.2::tag::', to: '(tag:1.8)', note: '数字权重，Anima ×1.5' },
+  { from: '{tag}', to: '(tag:1.575)', note: '轻度强调，Anima ×1.5' },
+  { from: '{{tag}}', to: '(tag:1.6538)', note: '嵌套强调，Anima ×1.5' },
+  { from: '[tag]', to: '(tag:0.6333)', note: '轻度弱化，Anima ÷1.5' },
+  { from: 'artist:artist', to: '@artist', note: '画师 tag，下划线转空格' },
+  { from: '1.5::rain, night::', to: '(rain, night:2.25)', note: '多 tag 组合权重，Anima ×1.5' },
 ];
 
 export const promptConversions: PromptConversion[] = [
@@ -68,7 +68,7 @@ export const promptConversions: PromptConversion[] = [
     from: 'novelai',
     to: 'anima',
     label: 'NovelAI V4.5 → Anima',
-    description: '把 NovelAI 数字权重、括号权重和画师 tag 转换为 Anima 格式。',
+    description: '把 NovelAI 数字权重、括号权重和画师 tag 转换为 Anima 格式；权重按 1.5 倍增强。',
     rules: novelAiAnimaRules,
   },
 ];
@@ -86,12 +86,17 @@ export function convertPrompt(text: string, from: PromptModelId, to: PromptModel
 
 function convertNovelAiToAnima(text: string): ConversionResult {
   const parsed = parseNovelAi(text);
-  return { output: renderAnima(parsed.nodes), warnings: parsed.warnings };
+  return {
+    output: renderAnima(parsed.nodes).replace(/_/g, ' '),
+    warnings: parsed.warnings,
+  };
 }
 
 function convertAnimaToNovelAi(text: string): ConversionResult {
   const parsed = parseAnima(text);
-  return { output: renderNovelAi(parsed.nodes), warnings: parsed.warnings };
+  const output = renderNovelAi(parsed.nodes)
+    .replace(/([^\s:,\n])[ \t]+(?=[^\s:,\n])/g, '$1_');
+  return { output, warnings: parsed.warnings };
 }
 
 const NAI_NUMERIC_START = /^(-?\d+(?:\.\d+)?)::/;
@@ -282,7 +287,13 @@ function renderAnimaWeight(node: Extract<PromptNode, { type: 'weight' }>): strin
   let content = renderAnima(node.children).trim();
   content = content.replace(/^,+/, '').replace(/,+$/, '').trim();
   if (!content) return '';
-  return `(${content}:${formatWeight(node.weight)})`;
+  return `(${content}:${formatWeight(animaWeight(node.weight))})`;
+}
+
+function animaWeight(weight: number): number {
+  if (weight > 1) return weight * 1.5;
+  if (weight > 0 && weight < 1) return weight / 1.5;
+  return weight;
 }
 
 function renderNovelAi(nodes: PromptNode[]): string {

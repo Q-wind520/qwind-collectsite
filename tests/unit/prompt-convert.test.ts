@@ -13,9 +13,9 @@ headset,assault rifle,armband,holding gun,plaid skirt,pleated skirt,neck ribbonl
 
 headset,midriff,black gloves,baseball cap,ammunition pouch,bulletproof vest,tactical clothes,knee pads,crop top,goggles on headwear,`;
 
-const animaSample = `(@maccha_\\(mochancc\\), @qys3, rella:0.88), jenmin12, (@ashima_\\(roro046\\), betabeet:1.2), kelou, masterpiece, location, (best quality:1.05), (amazing quality:1.1025), very aesthetic, ultra-detailed, year 2024, year 2025
+const animaSample = `(@maccha \\(mochancc\\), @qys3, rella:0.5867), jenmin12, (@ashima \\(roro046\\), betabeet:1.8), kelou, masterpiece, location, (best quality:1.575), (amazing quality:1.6538), very aesthetic, ultra-detailed, year 2024, year 2025
 
-(@m&m \\(mickey and mackey\\):2), year_2023, year_2024,
+(@m&m \\(mickey and mackey\\):3), year 2023, year 2024,
 
 
 short hair with long locks,
@@ -34,17 +34,22 @@ describe('convertPrompt', () => {
 
   it('converts Anima weights, groups and artist tags back to NovelAI', () => {
     const result = convertPrompt(animaSample, 'anima', 'novelai');
-    expect(result.output).toContain('0.88::artist:maccha_(mochancc), artist:qys3, rella::');
-    expect(result.output).toContain('1.2::artist:ashima_(roro046), betabeet::');
-    expect(result.output).toContain('2::artist:m&m (mickey and mackey)::');
-    expect(result.output).toContain('1.05::best quality::');
-    expect(result.output).toContain('1.1025::amazing quality::');
+    expect(result.output).toContain('0.5867::artist:maccha_(mochancc), artist:qys3, rella::');
+    expect(result.output).toContain('1.8::artist:ashima_(roro046), betabeet::');
+    expect(result.output).toContain('3::artist:m&m_(mickey_and_mackey)::');
+    expect(result.output).toContain('1.575::best_quality::');
+    expect(result.output).toContain('1.6538::amazing_quality::');
     expect(result.warnings).toEqual([]);
   });
 
   it('converts simple weights and literals', () => {
     const result = convertPrompt('(masterpiece:1.5), (tag), \\(literal\\), @artist', 'anima', 'novelai');
     expect(result.output).toBe('1.5::masterpiece::, 1.1::tag::, (literal), artist:artist');
+  });
+
+  it('boosts Anima weights and normalizes underscores to spaces', () => {
+    const result = convertPrompt('1.2::artist:foo_bar::,{best quality},[a b]', 'novelai', 'anima');
+    expect(result.output).toBe('(@foo bar:1.8), (best quality:1.575), (a b:0.6333)');
   });
 
   it('warns on unbalanced input instead of throwing', () => {

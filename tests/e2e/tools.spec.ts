@@ -13,5 +13,5 @@ test('prompt converter can swap direction and convert back', async ({ page }) =>
   await page.goto('/tools');
   await page.getByRole('button', { name: '载入示例' }).click();
   await page.getByRole('button', { name: '交换' }).click();
-  await expect(page.locator('[data-output]')).toHaveValue(/\(@konya_karasue:0\.73\)/);
+  await expect(page.locator('[data-output]')).toHaveValue(/\(@konya_karasue:1\.095\)/);
 });

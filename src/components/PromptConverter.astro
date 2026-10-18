@@ -50,6 +50,7 @@ const models = Object.values(promptModels);
 
   <p class="converter-note">
     数字权重 <code>1.2::tag::</code> 适用于 NovelAI V4 / V4.5；旧版请使用 <code>{'{tag}'}</code> / <code>[tag]</code> 规则。
+    NovelAI → Anima 时权重会自动放大 1.5 倍，低于 1 则缩小 1.5 倍；Anima → NovelAI 时保留权重，并把 tag 内空格规范为下划线。
   </p>
 </section>
 
@@ -92,9 +93,10 @@ const models = Object.values(promptModels);
   .converter-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; }
   .pane { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
   .pane-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10px; color: var(--color-muted); }
-  .pane-head select { max-width: 52%; border: 1px solid var(--color-line); border-radius: 999px; background: rgba(255,255,255,.65); padding: 5px 9px; font-size: 11px; color: var(--color-text); }
-  textarea { width: 100%; min-height: 260px; resize: vertical; border: 1px solid var(--color-line); border-radius: 14px; padding: 12px; background: rgba(255,255,255,.55); color: var(--color-text); font: 12px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-  textarea[readonly] { background: rgba(255,255,255,.32); }
+  .pane-head select { max-width: 52%; border: 1px solid var(--color-line); border-radius: 999px; background: var(--field-bg); padding: 5px 9px; font-size: 11px; color: var(--color-text); }
+  textarea { width: 100%; min-height: 260px; resize: vertical; border: 1px solid var(--color-line); border-radius: 14px; padding: 12px; background: var(--field-bg); color: var(--color-text); font: 12px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  textarea::placeholder { color: var(--color-muted); }
+  textarea[readonly] { background: var(--field-bg-readonly); }
   .converter-actions { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
   .converter-actions .primary { color: #fff; background: var(--color-accent); border-color: var(--color-accent); }
   .converter-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
@@ -106,7 +108,7 @@ const models = Object.values(promptModels);
   .translation-list { margin-top: 14px; padding: 18px; }
   .translation-list header { margin-bottom: 12px; }
   .rules-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .rule-card { padding: 14px; border-radius: 14px; background: rgba(255,255,255,.36); border: 1px solid var(--color-line); min-width: 0; }
+  .rule-card { padding: 14px; border-radius: 14px; background: var(--field-bg-readonly); border: 1px solid var(--color-line); min-width: 0; }
   .rule-card h3 { margin: 0; font-size: 13px; }
   .rule-card > p { margin: 5px 0 10px; font-size: 10.5px; line-height: 1.6; color: var(--color-muted); }
   .rule-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }

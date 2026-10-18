@@ -36,6 +36,13 @@ export const GET: APIRoute = async () => {
       url: withBase('/files'), text: '',
       date: entry.data.createdAt.toISOString(), nsfw: false,
     })),
+    {
+      id: 'tool-prompt-converter', type: '工具', title: '提示词转换',
+      summary: 'Anima 与 NovelAI 提示词互转。',
+      tags: ['工具', '提示词', 'Anima', 'NovelAI'],
+      url: withBase('/tools'), text: '提示词转换 权重 括号 画师 tag',
+      date: new Date('2026-10-18').toISOString(), nsfw: false,
+    },
   ];
 
   return new Response(JSON.stringify(index), {

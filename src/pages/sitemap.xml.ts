@@ -8,7 +8,7 @@ export const GET: APIRoute = async ({ site }) => {
     getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
   ]);
 
-  const staticPaths = ['/', '/gallery', '/links', '/notes', '/files', '/search', '/about'];
+  const staticPaths = ['/', '/gallery', '/tools', '/links', '/notes', '/files', '/search', '/about'];
   const entryPaths = [
     ...works.filter((entry) => !entry.data.draft && !isNsfw(entry.data.rating)).map((entry) => entryUrl('works', entry.data.slug)),
     ...notes.filter((entry) => !entry.data.draft).map((entry) => entryUrl('notes', entry.data.slug)),

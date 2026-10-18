@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PromptConverter from '../../components/PromptConverter.astro';
+---
+<BaseLayout title="工具" description="温水の收藏站的小工具：Anima 与 NovelAI 提示词互转。">
+  <div class="container page">
+    <header class="page-head">
+      <p class="kicker">TOOLBOX</p>
+      <h1>工具</h1>
+      <p>把喜欢的提示词搬到另一个模型里。目前先上线提示词转换。</p>
+    </header>
+    <PromptConverter />
+  </div>
+</BaseLayout>

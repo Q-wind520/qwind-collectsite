@@ -28,6 +28,12 @@ git push
 
 作品分类通过 `kind` 区分：`painting`（画作，原图 + 提示词）、`style`（画风，画师串 + 参考图）、`composition`（构图，构图/场景串 + 参考图）。示例作品已设置为 `draft: true`，生产构建不会显示；本地开发模式仍会显示草稿。
 
+## 工具
+
+- `/tools`：提示词转换，支持 Anima ↔ NovelAI V4.5 的权重、嵌套括号和画师 tag 转换。
+- 转换在浏览器本地完成，不请求后端。
+- 转换规则集中在 `src/lib/prompt-convert.ts` 的模型与转译注册表中，新增模型时扩展注册表即可。
+
 ## 内容目录
 
 - `src/content/works/` 作品

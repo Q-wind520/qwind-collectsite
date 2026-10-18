@@ -1,0 +1,58 @@
+import { describe, expect, it } from 'vitest';
+import { convertPrompt, promptConversions } from '../../src/lib/prompt-convert';
+
+const novelAiSample = `0.88::artist:maccha_(mochancc),artist:qys3,rella::jenmin12,1.2::artist:ashima_(roro046),betabeet,::kelou,masterpiece,location,{best quality},{{amazing quality}},very aesthetic,ultra-detailed,year 2024,year 2025
+
+2::artist:m&m (mickey and mackey)::,year_2023,year_2024,
+
+
+short hair with long locks,
+
+headset,assault rifle,armband,holding gun,plaid skirt,pleated skirt,neck ribbonload bearing vest,black jacket,headphones,tactical clothes,white skirt,trigger discipline,suppressor,white shirt,collared shirt,helmet,plate carrier,gun sling,two-tone gloves,backpack,bulletproof vest,
+
+
+headset,midriff,black gloves,baseball cap,ammunition pouch,bulletproof vest,tactical clothes,knee pads,crop top,goggles on headwear,`;
+
+const animaSample = `(@maccha_\\(mochancc\\), @qys3, rella:0.88), jenmin12, (@ashima_\\(roro046\\), betabeet:1.2), kelou, masterpiece, location, (best quality:1.05), (amazing quality:1.1025), very aesthetic, ultra-detailed, year 2024, year 2025
+
+(@m&m \\(mickey and mackey\\):2), year_2023, year_2024,
+
+
+short hair with long locks,
+
+headset, assault rifle, armband, holding gun, plaid skirt, pleated skirt, neck ribbonload bearing vest, black jacket, headphones, tactical clothes, white skirt, trigger discipline, suppressor, white shirt, collared shirt, helmet, plate carrier, gun sling, two-tone gloves, backpack, bulletproof vest,
+
+
+headset, midriff, black gloves, baseball cap, ammunition pouch, bulletproof vest, tactical clothes, knee pads, crop top, goggles on headwear,`;
+
+describe('convertPrompt', () => {
+  it('converts the provided NovelAI sample to Anima', () => {
+    const result = convertPrompt(novelAiSample, 'novelai', 'anima');
+    expect(result.output).toBe(animaSample);
+    expect(result.warnings).toEqual([]);
+  });
+
+  it('converts Anima weights, groups and artist tags back to NovelAI', () => {
+    const result = convertPrompt(animaSample, 'anima', 'novelai');
+    expect(result.output).toContain('0.88::artist:maccha_(mochancc), artist:qys3, rella::');
+    expect(result.output).toContain('1.2::artist:ashima_(roro046), betabeet::');
+    expect(result.output).toContain('2::artist:m&m (mickey and mackey)::');
+    expect(result.output).toContain('1.05::best quality::');
+    expect(result.output).toContain('1.1025::amazing quality::');
+    expect(result.warnings).toEqual([]);
+  });
+
+  it('converts simple weights and literals', () => {
+    const result = convertPrompt('(masterpiece:1.5), (tag), \\(literal\\), @artist', 'anima', 'novelai');
+    expect(result.output).toBe('1.5::masterpiece::, 1.1::tag::, (literal), artist:artist');
+  });
+
+  it('warns on unbalanced input instead of throwing', () => {
+    expect(convertPrompt('{{unclosed', 'novelai', 'anima').warnings.length).toBeGreaterThan(0);
+    expect(convertPrompt('(unclosed', 'anima', 'novelai').warnings.length).toBeGreaterThan(0);
+  });
+
+  it('has both supported directions in the registry', () => {
+    expect(promptConversions.map((item) => item.id)).toEqual(['anima-to-novelai', 'novelai-to-anima']);
+  });
+});

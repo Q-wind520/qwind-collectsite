@@ -12,8 +12,9 @@ const works = (await getCollection('works')).filter((work) => includeDrafts || !
 validateSlugs(works);
 const counts = kindCounts(works);
 const allCounts = kindCounts(works, true);
+const usedArtistIds = new Set(works.flatMap((work) => work.data.artists.map((ref) => ref.id)));
 const artists = (await getCollection('artists'))
-  .filter((artist) => !artist.data.draft)
+  .filter((artist) => !artist.data.draft && usedArtistIds.has(artist.id))
   .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
 const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
 ---

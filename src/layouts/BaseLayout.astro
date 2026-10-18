@@ -25,7 +25,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site!).href;
 const ogImage = new URL(assetUrl(image), Astro.site!).href;
 ---
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-nsfw="off">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,6 +46,7 @@ const ogImage = new URL(assetUrl(image), Astro.site!).href;
         const saved = localStorage.getItem(key);
         const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.nsfw = localStorage.getItem('qwind-nsfw') === 'on' ? 'on' : 'off';
       })();
     </script>
   </head>
@@ -60,5 +61,6 @@ const ogImage = new URL(assetUrl(image), Astro.site!).href;
     <main id="main"><slot /></main>
     <SiteFooter />
     <SearchDialog />
+    <script>import '../scripts/nsfw';</script>
   </body>
 </html>

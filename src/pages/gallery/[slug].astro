@@ -4,10 +4,8 @@ import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
-import ProtectedGate from '../../components/ProtectedGate.astro';
 import { assetUrl, withBase } from '../../lib/url';
-import { tagToSlug } from '../../lib/content';
-import { site } from '../../config/site';
+import { isNsfw, tagToSlug } from '../../lib/content';
 
 export async function getStaticPaths() {
   const includeDrafts = import.meta.env.DEV;
@@ -23,10 +21,11 @@ const cover = work.data.images[0];
 const large = await getImage({ src: cover, width: 1600, format: 'webp' });
 const artists = await Promise.all(work.data.artists.map((ref) => getEntry(ref)));
 if (artists.some((entry) => !entry)) throw new Error(`Missing artist reference in work "${work.id}"`);
-const metaTitle = work.data.protected ? '受保护内容' : work.data.title;
-const metaDescription = work.data.protected ? '输入密码后查看。' : work.data.summary;
-const metaImage = work.data.protected ? '/og-default.png' : large.src;
-const shouldNoindex = work.data.protected || work.data.rating === 'nsfw' || work.data.rating === 'r18g';
+const nsfw = isNsfw(work.data.rating);
+const metaTitle = nsfw ? 'NSFW 内容' : work.data.title;
+const metaDescription = nsfw ? 'NSFW 内容，默认隐藏。' : work.data.summary;
+const metaImage = nsfw ? '/og-default.png' : large.src;
+const shouldNoindex = nsfw;
 const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
 const kindLabel = kindLabels[work.data.kind];
 const positiveLabel = work.data.kind === 'style'
@@ -52,7 +51,15 @@ const positiveAction = work.data.kind === 'style'
   noindex={shouldNoindex}
 >
   <div class="container page" id="work-lightbox">
-    <ProtectedGate hash={site.protectedPasswordHash} enabled={work.data.protected}>
+    {nsfw && (
+      <div class="nsfw-notice glass" data-nsfw-notice>
+        <p class="kicker">NSFW</p>
+        <h2 class="warm">此内容默认隐藏</h2>
+        <p>包含成人向内容。开启 NSFW 显示并完成成年确认后查看。</p>
+        <button type="button" data-nsfw-enable>开启 NSFW 内容</button>
+      </div>
+    )}
+    <div data-nsfw={nsfw ? 'true' : 'false'}>
       <article class="glass work-detail">
       <div class="work-media">
         <a href={assetUrl(large.src)} data-pswp data-pswp-width={cover.width} data-pswp-height={cover.height} aria-label={`查看《${work.data.title}》大图`}>
@@ -88,7 +95,7 @@ const positiveAction = work.data.kind === 'style'
       </div>
       </article>
       <div class="glass work-body"><Content /></div>
-    </ProtectedGate>
+    </div>
   </div>
   <Lightbox gallerySelector="#work-lightbox" />
 </BaseLayout>
@@ -111,5 +118,9 @@ const positiveAction = work.data.kind === 'style'
   .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
   .tags a, .tags span { font-size: 11px; color: var(--color-accent); text-decoration: none; overflow-wrap: anywhere; }
   .work-body { margin-top: 14px; padding: 20px; }
+  .nsfw-notice { padding: 24px; margin-bottom: 14px; display: grid; gap: 8px; }
+  .nsfw-notice h2 { margin: 0; font-size: 24px; }
+  .nsfw-notice p { margin: 0; color: var(--color-muted); font-size: 12px; }
+  .nsfw-notice button { justify-self: start; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-accent); color: #fff; padding: 8px 14px; font-size: 12px; cursor: pointer; }
   @media (max-width: 760px) { .work-detail { grid-template-columns: 1fr; padding: 14px; } }
 </style>

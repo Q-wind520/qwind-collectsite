@@ -139,3 +139,7 @@ a, button, input, select { outline-offset: 3px; }
   h1 { overflow-wrap: anywhere; }
   .section-head { flex-wrap: wrap; }
 }
+
+/* NSFW content is hidden by default; the toggle opts in per browser. */
+html[data-nsfw="off"] [data-nsfw="true"] { display: none !important; }
+html[data-nsfw="on"] [data-nsfw-notice] { display: none !important; }

@@ -35,17 +35,15 @@ function apply() {
   const kind = currentKind();
   const filter = readFilter(form);
   const cards = [...grid.querySelectorAll<HTMLElement>('[data-work]')];
+  const nsfwOn = document.documentElement.dataset.nsfw === 'on';
 
   for (const card of cards) {
     const kindMatch = (card.dataset.kind || 'painting') === kind;
-    if (card.dataset.protected === 'true') {
-      card.hidden = !kindMatch || Boolean(filter.artist || filter.rating || filter.tag);
-      continue;
-    }
+    const nsfwMatch = card.dataset.nsfw !== 'true' || nsfwOn;
     const artistMatch = !filter.artist || (card.dataset.artists || '').split(' ').includes(filter.artist);
     const ratingMatch = !filter.rating || card.dataset.rating === filter.rating;
     const tagMatch = !filter.tag || (card.dataset.tags || '').split('|').includes(filter.tag);
-    card.hidden = !(kindMatch && artistMatch && ratingMatch && tagMatch);
+    card.hidden = !(kindMatch && nsfwMatch && artistMatch && ratingMatch && tagMatch);
   }
 
   const visible = cards.filter((card) => !card.hidden);
@@ -56,9 +54,12 @@ function apply() {
   });
   for (const card of sorted) grid.appendChild(card);
 
-  const publicVisible = visible.filter((card) => card.dataset.protected !== 'true').length;
-  if (count) count.textContent = `${publicVisible} 件作品`;
-  if (empty) empty.hidden = publicVisible > 0;
+  if (count) count.textContent = `${visible.length} 件作品`;
+  if (empty) empty.hidden = visible.length > 0;
+
+  for (const item of document.querySelectorAll<HTMLElement>('[data-kind-count]')) {
+    item.textContent = String(nsfwOn ? item.dataset.allCount : item.dataset.safeCount);
+  }
 
   const meta = KIND_META[kind];
   if (title) title.textContent = meta.title;
@@ -88,6 +89,7 @@ if (form && grid) {
   }
   form.addEventListener('change', apply);
   form.addEventListener('reset', () => window.setTimeout(apply, 0));
+  document.addEventListener('nsfwchange', apply);
   apply();
 }
 

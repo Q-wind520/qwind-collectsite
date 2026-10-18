@@ -16,8 +16,6 @@ for (const collection of COLLECTIONS) {
     entries.push({
       file,
       slug: String(parsed.data.slug ?? ''),
-      rating: parsed.data.rating ? String(parsed.data.rating) : undefined,
-      protected: Boolean(parsed.data.protected),
     });
   }
 }

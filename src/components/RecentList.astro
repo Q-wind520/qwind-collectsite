@@ -1,12 +1,12 @@
 ---
 interface Props {
-  items: { type: string; title: string; href: string; date: Date }[];
+  items: { type: string; title: string; href: string; date: Date; nsfw?: boolean }[];
 }
 const { items } = Astro.props;
 ---
 <div class="glass recent-list">
   {items.map((item) => (
-    <a class="recent-row" href={item.href}>
+    <a class="recent-row" href={item.href} data-nsfw={item.nsfw ? 'true' : 'false'}>
       <span class="type">{item.type}</span>
       <b>{item.title}</b>
       <span class="date">{item.date.toISOString().slice(0, 10)}</span>

@@ -6,14 +6,14 @@ export async function getStaticPaths() {
   const includeDrafts = import.meta.env.DEV;
   const notes = await getCollection('notes');
   return notes
-    .filter((note) => (includeDrafts || !note.data.draft) && !note.data.protected)
+    .filter((note) => includeDrafts || !note.data.draft)
     .map((note) => ({ params: { slug: note.data.slug }, props: { note } }));
 }
 
 const { note } = Astro.props;
 const { Content, headings } = await render(note);
 ---
-<BaseLayout title={note.data.title} description={note.data.summary} noindex={note.data.protected}>
+<BaseLayout title={note.data.title} description={note.data.summary}>
   <div class="container page">
     <article class="glass note-article">
       <header>

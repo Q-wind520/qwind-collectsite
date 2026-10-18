@@ -23,7 +23,9 @@ if (roots.length > 0) {
         results.innerHTML = '<p class="search-empty">输入标题、标签或正文关键词。</p>';
         return;
       }
-      const found = searchEntries(entries, query);
+      const nsfwOn = document.documentElement.dataset.nsfw === 'on';
+      const visible = nsfwOn ? entries : entries.filter((entry) => !entry.nsfw);
+      const found = searchEntries(visible, query);
       results.innerHTML = found.length
         ? found.map((entry) => `<a class="search-hit" href="${entry.url}"><span>${entry.type}</span><b>${escapeHtml(entry.title)}</b><small>${escapeHtml(entry.summary)}</small></a>`).join('')
         : '<p class="search-empty">没有找到匹配内容。</p>';
@@ -36,6 +38,7 @@ if (roots.length > 0) {
     };
 
     input.addEventListener('input', render);
+    document.addEventListener('nsfwchange', () => { if (input.value) render(); });
     input.addEventListener('keydown', (event) => {
       const items = hits();
       if (items.length === 0) return;

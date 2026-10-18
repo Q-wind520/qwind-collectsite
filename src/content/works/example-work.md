@@ -5,6 +5,7 @@ summary: 一张用来跑通画廊、灯箱和提示词复制的示例作品。
 tags: [画师参考, 场景]
 createdAt: 2026-10-01
 featured: true
+draft: true
 kind: painting
 images:
   - ../../assets/works/example-work/01.webp

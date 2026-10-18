@@ -20,10 +20,10 @@ const [works, links, notes, files] = await Promise.all([
 ]);
 for (const collection of [works, links, notes, files]) validateSlugs(collection);
 const match = (entry: { data: { tags: string[] } }) => entry.data.tags.includes(tag);
-const taggedWorks = works.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
-const taggedLinks = links.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
-const taggedNotes = notes.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
-const taggedFiles = files.filter((entry) => !entry.data.draft && !entry.data.protected && match(entry));
+const taggedWorks = works.filter((entry) => !entry.data.draft && match(entry));
+const taggedLinks = links.filter((entry) => !entry.data.draft && match(entry));
+const taggedNotes = notes.filter((entry) => !entry.data.draft && match(entry));
+const taggedFiles = files.filter((entry) => !entry.data.draft && match(entry));
 ---
 <BaseLayout title={`#${tag}`} description={`标签 #${tag} 下的收藏。`}>
   <div class="container page">

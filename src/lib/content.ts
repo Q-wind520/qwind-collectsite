@@ -16,19 +16,24 @@ export type WorkKind = 'painting' | 'style' | 'composition';
 
 export const WORK_KINDS: WorkKind[] = ['painting', 'style', 'composition'];
 
-export function kindCounts(entries: { data: { kind?: string; draft: boolean; protected: boolean } }[]): Record<WorkKind, number> {
+export function isNsfw(rating?: string): boolean {
+  return rating === 'nsfw' || rating === 'r18g';
+}
+
+export function kindCounts(entries: { data: { kind?: string; draft: boolean; rating?: string } }[], includeNsfw = false): Record<WorkKind, number> {
   const counts: Record<WorkKind, number> = { painting: 0, style: 0, composition: 0 };
   for (const entry of entries) {
-    if (entry.data.draft || entry.data.protected) continue;
+    if (entry.data.draft || (!includeNsfw && isNsfw(entry.data.rating))) continue;
     const kind = (entry.data.kind ?? 'painting') as WorkKind;
     if (kind in counts) counts[kind] += 1;
   }
   return counts;
 }
 
-export function collectAllTags(entries: { data: { tags: string[]; relatedTags?: string[] } }[]): Set<string> {
+export function collectAllTags(entries: { data: { tags: string[]; relatedTags?: string[]; draft?: boolean; rating?: string } }[]): Set<string> {
   const tags = new Set<string>();
   for (const entry of entries) {
+    if (entry.data.draft || isNsfw(entry.data.rating)) continue;
     for (const tag of entry.data.tags) tags.add(tag);
     for (const tag of entry.data.relatedTags ?? []) tags.add(tag);
   }
@@ -54,10 +59,10 @@ export function tagRoutes(tags: Iterable<string>): { tag: string; slug: string }
   return routes;
 }
 
-export function collectTags(entries: { data: { tags: string[]; draft: boolean; protected?: boolean } }[]): Map<string, number> {
+export function collectTags(entries: { data: { tags: string[]; draft: boolean; rating?: string } }[]): Map<string, number> {
   const counts = new Map<string, number>();
   for (const entry of entries) {
-    if (entry.data.draft || entry.data.protected) continue;
+    if (entry.data.draft || isNsfw(entry.data.rating)) continue;
     for (const tag of entry.data.tags) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }

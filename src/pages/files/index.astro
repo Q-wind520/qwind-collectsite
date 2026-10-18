@@ -6,7 +6,7 @@ import { withBase } from '../../lib/url';
 
 const includeDrafts = import.meta.env.DEV;
 const files = (await getCollection('files'))
-  .filter((file) => (includeDrafts || !file.data.draft) && !file.data.protected)
+  .filter((file) => includeDrafts || !file.data.draft)
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const hrefFor = (file: (typeof files)[number]) =>
   file.data.external || file.data.filePath.startsWith('http') ? file.data.filePath : withBase(file.data.filePath);

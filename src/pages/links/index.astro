@@ -5,7 +5,7 @@ import LinkCard from '../../components/LinkCard.astro';
 
 const includeDrafts = import.meta.env.DEV;
 const links = (await getCollection('links'))
-  .filter((link) => (includeDrafts || !link.data.draft) && !link.data.protected)
+  .filter((link) => includeDrafts || !link.data.draft)
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const domains = [...new Set(links.map((link) => new URL(link.data.url).hostname))].sort();
 const tags = [...new Set(links.flatMap((link) => link.data.tags))].sort();

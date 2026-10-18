@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectAllTags, collectTags, kindCounts, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
+import { collectAllTags, collectTags, isNsfw, kindCounts, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
 
 describe('tagToSlug', () => {
   it('normalizes spaces, case and punctuation', () => {
@@ -11,16 +11,28 @@ describe('tagToSlug', () => {
   });
 });
 
+describe('isNsfw', () => {
+  it('treats NSFW and R18G as hidden ratings', () => {
+    expect(isNsfw('nsfw')).toBe(true);
+    expect(isNsfw('r18g')).toBe(true);
+    expect(isNsfw('sensitive')).toBe(false);
+    expect(isNsfw('general')).toBe(false);
+  });
+});
+
 describe('kindCounts', () => {
-  it('counts public works by kind and ignores drafts and protected works', () => {
+  it('counts visible works by kind and ignores drafts and NSFW works', () => {
     const counts = kindCounts([
-      { data: { kind: 'painting', draft: false, protected: false } },
-      { data: { kind: 'style', draft: false, protected: false } },
-      { data: { kind: 'composition', draft: false, protected: false } },
-      { data: { kind: 'painting', draft: true, protected: false } },
-      { data: { kind: 'style', draft: false, protected: true } },
+      { data: { kind: 'painting', draft: false, rating: 'general' } },
+      { data: { kind: 'style', draft: false, rating: 'general' } },
+      { data: { kind: 'composition', draft: false, rating: 'general' } },
+      { data: { kind: 'painting', draft: true, rating: 'general' } },
+      { data: { kind: 'style', draft: false, rating: 'nsfw' } },
     ]);
     expect(counts).toEqual({ painting: 1, style: 1, composition: 1 });
+    expect(kindCounts([
+      { data: { kind: 'painting', draft: false, rating: 'nsfw' } },
+    ], true)).toEqual({ painting: 1, style: 0, composition: 0 });
   });
 });
 
@@ -32,6 +44,15 @@ describe('collectAllTags', () => {
     ]);
     expect([...tags]).toEqual(['a', 'b', 'c']);
   });
+
+  it('ignores drafts and NSFW entries', () => {
+    const tags = collectAllTags([
+      { data: { tags: ['a'], draft: true } },
+      { data: { tags: ['b'], rating: 'nsfw' } },
+      { data: { tags: ['c'], rating: 'general' } },
+    ]);
+    expect([...tags]).toEqual(['c']);
+  });
 });
 
 describe('tagRoutes', () => {
@@ -41,11 +62,11 @@ describe('tagRoutes', () => {
 });
 
 describe('collectTags', () => {
-  it('counts tags and ignores drafts and protected entries', () => {
+  it('counts tags and ignores drafts and NSFW entries', () => {
     const tags = collectTags([
-      { data: { tags: ['a', 'b'], draft: false } },
-      { data: { tags: ['a'], draft: true } },
-      { data: { tags: ['a', 'c'], draft: false, protected: true } },
+      { data: { tags: ['a', 'b'], draft: false, rating: 'general' } },
+      { data: { tags: ['a'], draft: true, rating: 'general' } },
+      { data: { tags: ['a', 'c'], draft: false, rating: 'nsfw' } },
     ]);
     expect(tags.get('a')).toBe(1);
     expect(tags.get('b')).toBe(1);

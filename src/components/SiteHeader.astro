@@ -23,10 +23,26 @@ const items = [
     <div class="top-actions">
       <button type="button" data-search-open>搜索 <kbd>⌘K</kbd></button>
       <button type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
+      <button type="button" class="nsfw-toggle" data-nsfw-toggle aria-pressed="false" aria-label="显示 NSFW 内容">
+        <span class="nsfw-dot" aria-hidden="true"></span><span data-nsfw-label>NSFW</span>
+      </button>
       <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单" aria-expanded="false" aria-controls="site-nav">☰</button>
     </div>
   </div>
 </header>
+
+<dialog class="nsfw-dialog" data-nsfw-dialog aria-labelledby="nsfw-dialog-title">
+  <div class="nsfw-dialog-body">
+    <p class="kicker">ADULT CHECK · <span data-nsfw-step-count>1 / 3</span></p>
+    <h2 id="nsfw-dialog-title" class="warm">确认已成年</h2>
+    <p data-nsfw-step-text></p>
+    <p class="nsfw-hint">此设置只保存在当前浏览器，可随时关闭。</p>
+    <div class="nsfw-dialog-actions">
+      <button type="button" data-nsfw-cancel>取消</button>
+      <button type="button" data-nsfw-next>我已满 18 岁</button>
+    </div>
+  </div>
+</dialog>
 
 <style>
   .topbar {
@@ -54,6 +70,26 @@ const items = [
   }
   .top-actions kbd { font: inherit; font-size: 9px; opacity: 0.7; }
   .menu-toggle { display: none; }
+  .nsfw-toggle { display: inline-flex; align-items: center; gap: 6px; }
+  .nsfw-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-muted); flex: none; }
+  .nsfw-toggle[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .nsfw-toggle[aria-pressed="true"] .nsfw-dot { background: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.22); }
+  .nsfw-dialog {
+    width: min(480px, calc(100vw - 32px)); border: 1px solid var(--glass-border);
+    border-radius: var(--radius-panel); padding: 24px; background: var(--glass-bg);
+    color: var(--color-text); backdrop-filter: blur(18px);
+  }
+  .nsfw-dialog::backdrop { background: rgba(20, 16, 18, .58); }
+  .nsfw-dialog-body { display: grid; gap: 10px; }
+  .nsfw-dialog h2 { margin: 0; font-size: 26px; }
+  .nsfw-dialog p { margin: 0; color: var(--color-muted); font-size: 12px; line-height: 1.8; }
+  .nsfw-hint { font-size: 10px !important; opacity: .8; }
+  .nsfw-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+  .nsfw-dialog-actions button {
+    border: 1px solid var(--color-line); border-radius: 999px; padding: 8px 13px;
+    background: transparent; color: var(--color-muted); font-size: 11px; cursor: pointer;
+  }
+  .nsfw-dialog-actions [data-nsfw-next] { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
   @media (max-width: 760px) {
     .topnav { display: none; }
     .topnav[data-open="true"] {
@@ -63,6 +99,16 @@ const items = [
       border-radius: var(--radius-panel); backdrop-filter: blur(18px);
     }
     .menu-toggle { display: inline-block; }
+  }
+  @media (max-width: 480px) {
+    .topbar-inner { padding: 0 14px; gap: 10px; }
+    .top-actions { gap: 5px; }
+    .top-actions button { padding: 6px 8px; }
+    .top-actions kbd { display: none; }
+    .nsfw-toggle { gap: 4px; }
+  }
+  @media (max-width: 340px) {
+    .brand span { display: none; }
   }
 </style>
 

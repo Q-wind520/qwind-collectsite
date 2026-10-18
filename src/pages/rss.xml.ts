@@ -6,7 +6,7 @@ import { site } from '../config/site';
 
 export async function GET(context: APIContext) {
   const notes = (await getCollection('notes'))
-    .filter((note) => !note.data.draft && !note.data.protected)
+    .filter((note) => !note.data.draft)
     .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 
   return rss({

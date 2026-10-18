@@ -42,9 +42,9 @@ test('work detail and tag pages stay inside a 360px viewport', async ({ page }) 
   }
 });
 
-test('sitemap excludes protected content', async ({ request }) => {
+test('sitemap excludes NSFW content', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBeTruthy();
   const text = await response.text();
-  expect(text).not.toContain('protected-work');
+  expect(text).not.toContain('kitten-shadow');
 });

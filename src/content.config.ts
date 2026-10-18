@@ -11,7 +11,6 @@ const base = {
   updatedAt: z.coerce.date().optional(),
   featured: z.boolean().default(false),
   draft: z.boolean().default(false),
-  protected: z.boolean().default(false),
   sourceUrl: z.url().optional(),
   license: z.string().optional(),
   related: z.array(z.string()).default([]),

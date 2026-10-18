@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
-import { collectTags, entryUrl, tagRoutes } from '../lib/content';
+import { collectTags, entryUrl, isNsfw, tagRoutes } from '../lib/content';
 
 export const GET: APIRoute = async ({ site }) => {
   const [works, links, notes, files] = await Promise.all([
@@ -10,8 +10,8 @@ export const GET: APIRoute = async ({ site }) => {
 
   const staticPaths = ['/', '/gallery', '/links', '/notes', '/files', '/search', '/about'];
   const entryPaths = [
-    ...works.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => entryUrl('works', entry.data.slug)),
-    ...notes.filter((entry) => !entry.data.draft && !entry.data.protected).map((entry) => entryUrl('notes', entry.data.slug)),
+    ...works.filter((entry) => !entry.data.draft && !isNsfw(entry.data.rating)).map((entry) => entryUrl('works', entry.data.slug)),
+    ...notes.filter((entry) => !entry.data.draft).map((entry) => entryUrl('notes', entry.data.slug)),
   ];
   const tagPaths = tagRoutes(collectTags([...works, ...links, ...notes, ...files]).keys())
     .map(({ slug }) => `/tags/${slug}`);

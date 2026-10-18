@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test('filters by tag and syncs the URL', async ({ page }) => {
   await page.goto('/gallery');
   await expect(page.locator('[data-work]').first()).toBeVisible();
-  await page.selectOption('select[name="tag"]', '场景');
+  await page.selectOption('select[name="tag"]', '海边');
   await expect(page).toHaveURL(/tag=/);
-  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
-  await expect(page.locator('[data-result-count]')).toContainText('1 件作品');
+  await expect(page.locator('[data-work]:visible')).toHaveCount(2);
+  await expect(page.locator('[data-result-count]')).toContainText('2 件作品');
 });
 
 test('sidebar switches between painting, style and composition', async ({ page }) => {
@@ -23,9 +23,16 @@ test('sidebar switches between painting, style and composition', async ({ page }
   await expect(page.locator('[data-kind-link="painting"]')).toHaveAttribute('aria-current', 'page');
 });
 
-test('protected works show a locked placeholder', async ({ page }) => {
+test('NSFW works stay hidden until the adult check is completed', async ({ page }) => {
   await page.goto('/gallery');
-  await expect(page.locator('[data-protected="true"]')).toHaveCount(1);
+  await expect(page.locator('[data-work][data-nsfw="true"]')).toBeHidden();
+  await page.getByRole('button', { name: '显示 NSFW 内容' }).click();
+  await expect(page.getByRole('heading', { name: '确认已成年' })).toBeVisible();
+  await page.getByRole('button', { name: '我已满 18 岁' }).click();
+  await page.getByRole('button', { name: '继续确认' }).click();
+  await page.getByRole('button', { name: '确认开启' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-nsfw', 'on');
+  await expect(page.locator('[data-work][data-nsfw="true"]').first()).toBeVisible();
 });
 
 test('gallery has no horizontal overflow on mobile', async ({ page }) => {

@@ -1,17 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import WorkCard from './WorkCard.astro';
-import LockedCard from './LockedCard.astro';
 
 interface Props { works: CollectionEntry<'works'>[]; }
 const { works } = Astro.props;
 ---
 <div class="gallery-grid" id="gallery-grid" data-gallery-grid>
-  {works.map((work) => (
-    work.data.protected
-      ? <LockedCard slug={work.data.slug} kind={work.data.kind} />
-      : <WorkCard work={work} />
-  ))}
+  {works.map((work) => <WorkCard work={work} />)}
 </div>
 
 <style>

@@ -4,6 +4,7 @@ slug: composition-work
 summary: 构图示例：场景串与参考图。
 tags: [构图, 场景]
 createdAt: 2026-09-15
+draft: true
 kind: composition
 images:
   - ../../assets/works/composition-work/01.webp

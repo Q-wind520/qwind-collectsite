@@ -15,16 +15,10 @@ describe('validateContentFiles', () => {
     ])).toThrow(/Slug mismatch.*foo\.md.*bar/);
   });
 
-  it('rejects NSFW works that are not protected', () => {
-    expect(() => validateContentFiles([
-      { file: 'src/content/works/foo.md', slug: 'foo', rating: 'nsfw', protected: false },
-    ])).toThrow(/NSFW.*protected/);
-  });
-
   it('accepts valid files', () => {
     expect(() => validateContentFiles([
-      { file: 'src/content/works/foo.md', slug: 'foo', rating: 'general', protected: false },
-      { file: 'src/content/works/bar.md', slug: 'bar', rating: 'nsfw', protected: true },
+      { file: 'src/content/works/foo.md', slug: 'foo' },
+      { file: 'src/content/works/bar.md', slug: 'bar' },
     ])).not.toThrow();
   });
 });

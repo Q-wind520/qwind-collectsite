@@ -7,6 +7,7 @@ export type SearchEntry = {
   url: string;
   text: string;
   date: string;
+  nsfw?: boolean;
 };
 
 export function normalize(text: string): string {

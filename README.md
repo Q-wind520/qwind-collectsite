@@ -26,7 +26,7 @@ git commit -m "content: add foo"
 git push
 ```
 
-作品分类通过 `kind` 区分：`painting`（画作，原图 + 提示词）、`style`（画风，画师串 + 参考图）、`composition`（构图，构图/场景串 + 参考图）。
+作品分类通过 `kind` 区分：`painting`（画作，原图 + 提示词）、`style`（画风，画师串 + 参考图）、`composition`（构图，构图/场景串 + 参考图）。示例作品已设置为 `draft: true`，生产构建不会显示；本地开发模式仍会显示草稿。
 
 ## 内容目录
 
@@ -36,9 +36,9 @@ git push
 - `src/content/notes/` 笔记
 - `src/content/files/` 文件
 
-## 受保护内容
+## NSFW 内容
 
-`protected: true` 只是前端遮罩，内容仍在构建产物和 Git 历史中。v1 只对作品启用密码层；其他类型写 `protected: true` 会被公开列表和索引过滤。`rating: nsfw` / `r18g` 的作品必须同时设置 `protected: true`，否则 `pnpm check` 会失败。不要把真正私密的内容放进这个公开仓库。
+`rating: nsfw` / `r18g` 的作品默认隐藏，不进入 sitemap 和默认搜索结果。导航栏的 `NSFW` 开关会在当前浏览器中开启显示；开启前需要完成三次成年确认，设置只保存在本机 `localStorage`。这不是访问控制，图片仍在公开构建产物中，不要放真正私密的内容。
 
 ## 个性化
 

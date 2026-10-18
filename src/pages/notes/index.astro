@@ -5,7 +5,7 @@ import { withBase } from '../../lib/url';
 
 const includeDrafts = import.meta.env.DEV;
 const notes = (await getCollection('notes'))
-  .filter((note) => (includeDrafts || !note.data.draft) && !note.data.protected)
+  .filter((note) => includeDrafts || !note.data.draft)
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g, '').length / 300));
 ---

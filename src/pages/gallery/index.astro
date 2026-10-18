@@ -11,15 +11,16 @@ const includeDrafts = import.meta.env.DEV;
 const works = (await getCollection('works')).filter((work) => includeDrafts || !work.data.draft);
 validateSlugs(works);
 const counts = kindCounts(works);
+const allCounts = kindCounts(works, true);
 const artists = (await getCollection('artists'))
-  .filter((artist) => !artist.data.draft && !artist.data.protected)
+  .filter((artist) => !artist.data.draft)
   .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
 const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
 ---
 <BaseLayout title="作品" description="温水の收藏站的画作、画风与构图。">
   <div class="container page">
     <div class="gallery-layout">
-      <GallerySidebar counts={counts} />
+      <GallerySidebar counts={counts} allCounts={allCounts} />
       <div class="gallery-main">
         <header class="page-head gallery-heading">
           <p class="kicker">GALLERY</p>

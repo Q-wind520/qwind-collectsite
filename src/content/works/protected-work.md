@@ -1,10 +1,10 @@
 ---
 title: 受保护的夜航
 slug: protected-work
-summary: 用来验证密码遮罩的示例作品。
+summary: 示例作品，默认隐藏。
 tags: [角色]
 createdAt: 2026-09-10
-protected: true
+draft: true
 images:
   - ../../assets/works/protected-work/01.webp
 prompt:

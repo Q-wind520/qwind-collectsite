@@ -6,7 +6,7 @@ import RecentList from '../components/RecentList.astro';
 import { Image } from 'astro:assets';
 import { site } from '../config/site';
 import { withBase } from '../lib/url';
-import { sortByDate, kindCounts } from '../lib/content';
+import { sortByDate, kindCounts, isNsfw } from '../lib/content';
 import { getCollection } from 'astro:content';
 
 const [works, links, notes, files] = await Promise.all([
@@ -14,16 +14,18 @@ const [works, links, notes, files] = await Promise.all([
 ]);
 
 const includeDrafts = import.meta.env.DEV;
-const publicWorks = sortByDate(works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected));
-const featured = publicWorks.filter((entry) => entry.data.featured).slice(0, 3);
+const publicWorks = sortByDate(works.filter((entry) => includeDrafts || !entry.data.draft));
+const safeWorks = publicWorks.filter((entry) => !isNsfw(entry.data.rating));
+const featured = publicWorks.filter((entry) => entry.data.featured);
+const showcase = (featured.length > 0 ? featured : safeWorks).slice(0, 3);
 const preview = publicWorks.slice(0, 8);
 const counts = kindCounts(works);
 
 const recent = [
-  ...works.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt })),
-  ...notes.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '笔记', title: entry.data.title, href: withBase(`/notes/${entry.data.slug}`), date: entry.data.createdAt })),
-  ...links.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '书签', title: entry.data.title, href: withBase('/links'), date: entry.data.createdAt })),
-  ...files.filter((entry) => (includeDrafts || !entry.data.draft) && !entry.data.protected).map((entry) => ({ type: '文件', title: entry.data.title, href: withBase('/files'), date: entry.data.createdAt })),
+  ...works.filter((entry) => includeDrafts || !entry.data.draft).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt, nsfw: isNsfw(entry.data.rating) })),
+  ...notes.filter((entry) => includeDrafts || !entry.data.draft).map((entry) => ({ type: '笔记', title: entry.data.title, href: withBase(`/notes/${entry.data.slug}`), date: entry.data.createdAt, nsfw: false })),
+  ...links.filter((entry) => includeDrafts || !entry.data.draft).map((entry) => ({ type: '书签', title: entry.data.title, href: withBase('/links'), date: entry.data.createdAt, nsfw: false })),
+  ...files.filter((entry) => includeDrafts || !entry.data.draft).map((entry) => ({ type: '文件', title: entry.data.title, href: withBase('/files'), date: entry.data.createdAt, nsfw: false })),
 ].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
 ---
 <BaseLayout>
@@ -31,12 +33,12 @@ const recent = [
     <p class="hero-kicker">✦ Personal Archive · 2026</p>
     <h1 class="warm">{site.name}</h1>
     <p class="hero-sub">{site.englishName} · Images, Artists & Notes</p>
-    <span class="hero-badge">首批收录 {publicWorks.length} 件作品 · 持续整理中</span>
+    <span class="hero-badge">首批收录 {safeWorks.length} 件作品 · 持续整理中</span>
   </section>
 
   <div class="container home-content">
     <ProfileCard stats={[
-      { label: '条目', value: publicWorks.length + links.filter((entry) => !entry.data.draft && !entry.data.protected).length + notes.filter((entry) => !entry.data.draft && !entry.data.protected).length + files.filter((entry) => !entry.data.draft && !entry.data.protected).length },
+      { label: '条目', value: safeWorks.length + links.filter((entry) => !entry.data.draft).length + notes.filter((entry) => !entry.data.draft).length + files.filter((entry) => !entry.data.draft).length },
       { label: '画作', value: counts.painting },
       { label: '画风', value: counts.style },
       { label: '构图', value: counts.composition },
@@ -49,14 +51,14 @@ const recent = [
 
     <section class="home-section">
       <div class="section-head"><h2 class="warm">精选作品</h2><a href={withBase('/gallery')}>全部作品 →</a></div>
-      <div class="grid">{featured.map((work) => <WorkCard work={work} />)}</div>
+      <div class="grid">{showcase.map((work) => <WorkCard work={work} />)}</div>
     </section>
 
     <section class="home-section">
       <div class="section-head"><h2 class="warm">画廊</h2><a href={withBase('/gallery')}>进入画廊 →</a></div>
       <div class="preview-grid">
         {preview.map((work) => (
-          <a class="preview" href={withBase(`/gallery/${work.data.slug}`)} aria-label={work.data.title}>
+          <a class="preview" href={withBase(`/gallery/${work.data.slug}`)} aria-label={work.data.title} data-nsfw={isNsfw(work.data.rating) ? 'true' : 'false'}>
             <Image src={work.data.images[0]} alt={work.data.title} widths={[300, 600]} format="webp" loading="lazy" />
           </a>
         ))}

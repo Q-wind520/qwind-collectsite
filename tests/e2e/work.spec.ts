@@ -13,7 +13,7 @@ test('work detail shows prompt and copies it', async ({ page }) => {
 
 test('gallery opens a lightbox and closes with Escape', async ({ page }) => {
   await page.goto('/gallery');
-  await page.locator('#gallery-grid a[data-pswp]').first().click();
+  await page.locator('#gallery-grid [data-work]:visible a[data-pswp]').first().click();
   await expect(page.locator('.pswp')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator('.pswp')).toBeHidden();

@@ -4,6 +4,7 @@ slug: second-work
 summary: 画风示例：画师串与参考图。
 tags: [画风, 深海]
 createdAt: 2026-09-20
+draft: true
 kind: style
 images:
   - ../../assets/works/second-work/01.webp

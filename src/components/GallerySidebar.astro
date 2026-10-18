@@ -4,8 +4,9 @@ import type { WorkKind } from '../lib/content';
 
 interface Props {
   counts: Record<WorkKind, number>;
+  allCounts: Record<WorkKind, number>;
 }
-const { counts } = Astro.props;
+const { counts, allCounts } = Astro.props;
 
 const items: { kind: WorkKind; label: string; note: string }[] = [
   { kind: 'painting', label: '画作', note: '原图 + 提示词' },
@@ -23,7 +24,12 @@ const items: { kind: WorkKind; label: string; note: string }[] = [
         data-kind-link={item.kind}
       >
         <span class="side-main"><b>{item.label}</b><small>{item.note}</small></span>
-        <span class="count">{counts[item.kind]}</span>
+        <span
+          class="count"
+          data-kind-count={item.kind}
+          data-safe-count={counts[item.kind]}
+          data-all-count={allCounts[item.kind]}
+        >{counts[item.kind]}</span>
       </a>
     ))}
   </nav>

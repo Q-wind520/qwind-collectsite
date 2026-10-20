@@ -8,9 +8,9 @@ const description = document.querySelector<HTMLElement>('[data-gallery-desc]');
 const FIELDS = ['artist', 'rating', 'tag', 'sort'] as const;
 
 const KIND_META = {
-  painting: { title: '画作', desc: '原图与提示词。点击图片看大图，点标题进入详情。' },
-  style: { title: '画风', desc: '画师串与参考图。用画风条目记录喜欢的画师组合。' },
-  composition: { title: '构图', desc: '构图串 / 场景串与参考图。' },
+  painting: { title: '画作', desc: '原图与提示词。点击图片或标题，在当前页查看作品详情。' },
+  style: { title: '画风', desc: '画师串与参考图。点击图片或标题，在当前页查看作品详情。' },
+  composition: { title: '构图', desc: '构图串 / 场景串与参考图。点击图片或标题，在当前页查看作品详情。' },
 } as const;
 
 type Kind = keyof typeof KIND_META;

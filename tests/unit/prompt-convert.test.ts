@@ -75,7 +75,46 @@ describe('convertPrompt', () => {
     expect(convertPrompt('(unclosed', 'anima', 'novelai').warnings.length).toBeGreaterThan(0);
   });
 
-  it('has both supported directions in the registry', () => {
-    expect(promptConversions.map((item) => item.id)).toEqual(['anima-to-novelai', 'novelai-to-anima']);
+  it('has all supported directions in the registry', () => {
+    expect(promptConversions.map((item) => item.id)).toEqual([
+      'anima-to-novelai',
+      'novelai-to-anima',
+      'anima-to-novelai-v5',
+      'novelai-v5-to-anima',
+      'novelai-to-novelai-v5',
+      'novelai-v5-to-novelai',
+    ]);
+  });
+
+  it('converts V4.5 underscores and artist tags to V5 spaces', () => {
+    const result = convertPrompt(
+      '1.2::artist:foo_bar::, long_hair, year_2023, score_7',
+      'novelai',
+      'novelai-v5',
+    );
+    expect(result.output).toBe('1.2::artist:foo bar::, long hair, year 2023, score_7');
+    expect(result.warnings.join(' ')).toContain('下划线');
+  });
+
+  it('converts V5 space-separated artist names to V4.5 underscores', () => {
+    const result = convertPrompt('artist:foo bar, long hair', 'novelai-v5', 'novelai');
+    expect(result.output).toBe('artist:foo_bar, long hair');
+  });
+
+  it('warns about V5-only tags and Unicode when converting to V4.5', () => {
+    const result = convertPrompt('depthness, 1girl, 银发, artist:foo bar', 'novelai-v5', 'novelai');
+    expect(result.output).toContain('depthness');
+    expect(result.warnings.some((warning) => warning.includes('V5 专属'))).toBe(true);
+    expect(result.warnings.some((warning) => warning.includes('Unicode'))).toBe(true);
+  });
+
+  it('keeps artist spaces when converting Anima to V5', () => {
+    const result = convertPrompt('(@foo bar:0.8), long hair, score_7', 'anima', 'novelai-v5');
+    expect(result.output).toBe('0.8::artist:foo bar::, long hair, score_7');
+  });
+
+  it('converts V5 prompts to Anima weights and artist tags', () => {
+    const result = convertPrompt('0.8::artist:foo bar::, {best quality}, [blurry]', 'novelai-v5', 'anima');
+    expect(result.output).toBe('(@foo bar:0.8), (best quality:1.05), (blurry:0.9524)');
   });
 });

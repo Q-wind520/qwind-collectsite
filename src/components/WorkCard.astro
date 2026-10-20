@@ -1,13 +1,12 @@
 ---
-import { Image, getImage } from 'astro:assets';
+import { Image } from 'astro:assets';
 import { getEntry, type CollectionEntry } from 'astro:content';
-import { assetUrl, withBase } from '../lib/url';
+import { withBase } from '../lib/url';
 import { isNsfw } from '../lib/content';
 
 interface Props { work: CollectionEntry<'works'>; }
 const { work } = Astro.props;
 const cover = work.data.images[0];
-const large = await getImage({ src: cover, width: 1600, format: 'webp' });
 const artistEntries = await Promise.all(work.data.artists.map((ref) => getEntry(ref)));
 if (artistEntries.some((entry) => !entry)) throw new Error(`Missing artist reference in work "${work.id}"`);
 const artistNames = artistEntries.filter(Boolean).map((entry) => entry!.data.title);
@@ -27,13 +26,10 @@ const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
 >
   <a
     class="thumb"
-    href={assetUrl(large.src)}
-    data-pswp
-    data-pswp-width={cover.width}
-    data-pswp-height={cover.height}
-    data-prompt-positive={work.data.prompt.positive}
-    data-prompt-negative={work.data.prompt.negative}
-    aria-label={`查看《${work.data.title}》大图`}
+    href={withBase(`/gallery/${work.data.slug}`)}
+    data-work-modal-link
+    aria-haspopup="dialog"
+    aria-label={`查看《${work.data.title}》详情`}
   >
     <Image
       src={cover}
@@ -46,7 +42,7 @@ const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
     />
   </a>
   <div class="caption">
-    <a class="title" href={withBase(`/gallery/${work.data.slug}`)}>{work.data.title}</a>
+    <a class="title" href={withBase(`/gallery/${work.data.slug}`)} data-work-modal-link>{work.data.title}</a>
     <div class="meta">
       <span>{metaLabel}</span>
       <span>{work.data.createdAt.toISOString().slice(0, 10)}</span>

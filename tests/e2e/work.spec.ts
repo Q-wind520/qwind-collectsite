@@ -11,10 +11,32 @@ test('work detail shows prompt and copies it', async ({ page }) => {
   expect(clipboard).toContain('1girl, solo, sunset');
 });
 
-test('gallery opens a lightbox and closes with Escape', async ({ page }) => {
+test('gallery opens a work overlay from the image and closes with Escape', async ({ page }) => {
   await page.goto('/gallery');
-  await page.locator('#gallery-grid [data-work]:visible a[data-pswp]').first().click();
-  await expect(page.locator('.pswp')).toBeVisible();
+  const card = page.locator('#gallery-grid [data-work]:visible').first();
+  await card.locator('.thumb').click();
+
+  const dialog = page.locator('[data-work-modal]');
+  await expect(dialog).toBeVisible();
+  await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
+  await expect(dialog.locator('iframe')).toHaveAttribute('src', /embed=1/);
+  await expect(dialog.frameLocator('iframe').locator('h1')).toBeVisible();
+
   await page.keyboard.press('Escape');
-  await expect(page.locator('.pswp')).toBeHidden();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
+});
+
+test('gallery title opens the same overlay and the back button closes it', async ({ page }) => {
+  await page.goto('/gallery');
+  const card = page.locator('#gallery-grid [data-work]:visible').first();
+  await card.locator('.title').click();
+
+  const dialog = page.locator('[data-work-modal]');
+  await expect(dialog).toBeVisible();
+  await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
+
+  await page.goBack();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
 });

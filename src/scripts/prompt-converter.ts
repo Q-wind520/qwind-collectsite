@@ -12,11 +12,15 @@ if (root) {
   const copyButton = root.querySelector<HTMLButtonElement>('[data-copy]');
   const clearButton = root.querySelector<HTMLButtonElement>('[data-clear]');
   const sampleButton = root.querySelector<HTMLButtonElement>('[data-load-sample]');
+  const rulesToggle = root.querySelector<HTMLButtonElement>('[data-rules-toggle]');
+  const rulesPopover = root.querySelector<HTMLElement>('[data-rules-popover]');
+  const rulesClose = root.querySelector<HTMLButtonElement>('[data-rules-close]');
 
   const models = Object.keys(promptModels) as PromptModelId[];
   const samples: Record<PromptModelId, string> = {
     anima: '(@konya_karasue:0.73), (masterpiece:1.5), 1girl, plana \\(blue archive\\), beach, (best quality:1.05)',
     novelai: '0.73::artist:konya_karasue::, 1.5::masterpiece::, 1girl, plana (blue archive), beach, {best quality}',
+    'novelai-v5': '0.73::artist:konya karasue::, 1.5::masterpiece::, 1girl, plana (blue archive), beach, {best quality}',
   };
 
   const setStatus = (message: string, warning = false) => {
@@ -43,8 +47,9 @@ if (root) {
     }
     const result = convertPrompt(text, sourceSelect.value as PromptModelId, targetSelect.value as PromptModelId);
     output.value = result.output;
-    if (result.warnings.length > 0) setStatus(result.warnings.join(' '), true);
-    else setStatus(`已转换为 ${promptModels[targetSelect.value as PromptModelId].label}。`);
+    const label = promptModels[targetSelect.value as PromptModelId].label;
+    if (result.warnings.length > 0) setStatus(`已转换为 ${label}。${result.warnings.join(' ')}`, true);
+    else setStatus(`已转换为 ${label}。`);
   };
 
   sourceSelect?.addEventListener('change', () => {
@@ -92,5 +97,31 @@ if (root) {
     source.value = samples[sourceSelect.value as PromptModelId] ?? samples.anima;
     convert();
     source.focus();
+  });
+
+  const setRulesOpen = (open: boolean) => {
+    if (!rulesPopover || !rulesToggle) return;
+    rulesPopover.hidden = !open;
+    rulesToggle.setAttribute('aria-expanded', String(open));
+  };
+
+  rulesToggle?.addEventListener('click', () => {
+    setRulesOpen(rulesPopover?.hidden ?? true);
+  });
+  rulesClose?.addEventListener('click', () => {
+    setRulesOpen(false);
+    rulesToggle?.focus();
+  });
+  document.addEventListener('click', (event) => {
+    if (!rulesPopover || rulesPopover.hidden) return;
+    const target = event.target as Node;
+    if (rulesPopover.contains(target) || rulesToggle?.contains(target)) return;
+    setRulesOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && rulesPopover && !rulesPopover.hidden) {
+      setRulesOpen(false);
+      rulesToggle?.focus();
+    }
   });
 }

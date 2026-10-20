@@ -8,9 +8,43 @@ const models = Object.values(promptModels);
     <div>
       <p class="kicker">PROMPT BRIDGE</p>
       <h2 class="warm">提示词转换</h2>
-      <p>在 Anima 与 NovelAI 之间转译权重、嵌套和画师 tag。全部在浏览器本地完成。</p>
+      <p>在 Anima、NovelAI V4.5 与 NovelAI V5 之间转译权重、嵌套和画师 tag。全部在浏览器本地完成。</p>
     </div>
-    <button type="button" data-load-sample>载入示例</button>
+    <div class="converter-head-actions">
+      <button type="button" data-load-sample>载入示例</button>
+      <button type="button" data-rules-toggle aria-expanded="false" aria-controls="conversion-rules">详情</button>
+    </div>
+  </div>
+
+  <div class="rules-popover glass" id="conversion-rules" data-rules-popover hidden role="dialog" aria-labelledby="conversion-rules-title">
+    <div class="rules-popover-head">
+      <div>
+        <p class="kicker">TRANSLATION LIST</p>
+        <h3 class="warm" id="conversion-rules-title">转译列表</h3>
+      </div>
+      <button type="button" data-rules-close aria-label="关闭转译列表">✕</button>
+    </div>
+    <p class="rules-popover-note">
+      V4.5 与 V5 的权重语法相同，但 V5 对空格、大小写和词序更敏感。画师名在本站按 V4.5 用下划线、V5 用空格处理；V5 专属 tag 转回 V4.5 时会保留并提示。
+    </p>
+    <div class="rules-grid">
+      {promptConversions.map((conversion) => (
+        <article class="rule-card">
+          <h4>{conversion.label}</h4>
+          <p>{conversion.description}</p>
+          <ul>
+            {conversion.rules.map((rule) => (
+              <li>
+                <code>{rule.from}</code>
+                <span>→</span>
+                <code>{rule.to}</code>
+                <small>{rule.note}</small>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
   </div>
 
   <div class="converter-grid">
@@ -49,48 +83,24 @@ const models = Object.values(promptModels);
   </div>
 
   <p class="converter-note">
-    数字权重 <code>1.2::tag::</code> 适用于 NovelAI V4 / V4.5；旧版请使用 <code>{'{tag}'}</code>（×1.05）/ <code>[tag]</code>（÷1.05）规则。
+    数字权重 <code>1.2::tag::</code> 适用于 NovelAI V4 及以上；旧版请使用 <code>{'{tag}'}</code>（×1.05）/ <code>[tag]</code>（÷1.05）规则。
     Anima 官方建议权重数值明显高于 SDXL（示例 <code>(chibi:2)</code>），转换不会自动缩放数字，必要时请手动上调。
-    NovelAI → Anima 时 <code>_</code> 转为空格（<code>score_*</code> 除外）；Anima → NovelAI 时保留自然语言空格，仅画师名转下划线。
+    NovelAI → Anima 时 <code>_</code> 转为空格（<code>score_*</code> 除外）；Anima → V4.5 时画师名转下划线，Anima → V5 时画师名保留空格。
   </p>
 </section>
 
-<section class="glass translation-list">
-  <header>
-    <p class="kicker">TRANSLATION LIST</p>
-    <h2 class="warm">转译列表</h2>
-    <p>当前支持的模型方向与语法规则。以后新增模型时，这一列表会自动扩展。</p>
-  </header>
-  <div class="rules-grid">
-    {promptConversions.map((conversion) => (
-      <article class="rule-card">
-        <h3>{conversion.label}</h3>
-        <p>{conversion.description}</p>
-        <ul>
-          {conversion.rules.map((rule) => (
-            <li>
-              <code>{rule.from}</code>
-              <span>→</span>
-              <code>{rule.to}</code>
-              <small>{rule.note}</small>
-            </li>
-          ))}
-        </ul>
-      </article>
-    ))}
-  </div>
-</section>
-
 <style>
-  .converter { padding: 18px; }
+  .converter { position: relative; padding: 18px; }
   .converter-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
-  .converter-head h2, .translation-list h2 { margin: 0; font-size: 24px; }
-  .converter-head p:not(.kicker), .translation-list header > p:not(.kicker) { margin: 6px 0 0; color: var(--color-muted); font-size: 12px; line-height: 1.7; }
+  .converter-head h2 { margin: 0; font-size: 24px; }
+  .converter-head p:not(.kicker) { margin: 6px 0 0; color: var(--color-muted); font-size: 12px; line-height: 1.7; }
+  .converter-head-actions { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
   .converter-head button, .footer-actions button, .converter-actions button {
     border: 1px solid var(--color-line); border-radius: 999px; background: transparent;
     color: var(--color-muted); padding: 7px 12px; font-size: 11px; cursor: pointer;
   }
   .converter-head button:hover, .footer-actions button:hover, .converter-actions button:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .converter-head [data-rules-toggle][aria-expanded="true"] { color: var(--color-accent); border-color: var(--color-accent); }
   .converter-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; }
   .pane { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
   .pane-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10px; color: var(--color-muted); }
@@ -106,13 +116,24 @@ const models = Object.values(promptModels);
   .footer-actions { display: flex; gap: 7px; }
   .converter-note { margin: 12px 0 0; font-size: 10px; line-height: 1.7; color: var(--color-muted); }
   .converter-note code, .rule-card code { font-size: 10px; padding: 2px 5px; border-radius: 5px; background: var(--color-accent-soft); color: var(--color-accent); overflow-wrap: anywhere; }
-  .translation-list { margin-top: 14px; padding: 18px; }
-  .translation-list header { margin-bottom: 12px; }
-  .rules-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .rule-card { padding: 14px; border-radius: 14px; background: var(--field-bg-readonly); border: 1px solid var(--color-line); min-width: 0; }
-  .rule-card h3 { margin: 0; font-size: 13px; }
-  .rule-card > p { margin: 5px 0 10px; font-size: 10.5px; line-height: 1.6; color: var(--color-muted); }
-  .rule-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .rules-popover {
+    position: absolute; top: 64px; right: 18px; z-index: 40;
+    width: min(760px, calc(100% - 36px)); max-height: min(72vh, 680px); overflow: auto;
+    padding: 16px; border-radius: 16px;
+    background: var(--color-bg);
+    background: color-mix(in srgb, var(--color-bg) 94%, white 6%);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 0 0 100vmax rgba(20, 16, 18, 0.28), 0 24px 64px -28px rgba(40, 16, 28, 0.6);
+  }
+  .rules-popover-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .rules-popover-head h3 { margin: 0; font-size: 20px; }
+  .rules-popover-head button { flex: none; width: 28px; height: 28px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; color: var(--color-muted); cursor: pointer; }
+  .rules-popover-note { margin: 8px 0 14px; font-size: 10.5px; line-height: 1.7; color: var(--color-muted); }
+  .rules-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .rule-card { padding: 12px; border-radius: 12px; background: var(--field-bg-readonly); border: 1px solid var(--color-line); min-width: 0; }
+  .rule-card h4 { margin: 0; font-size: 12px; }
+  .rule-card > p { margin: 5px 0 9px; font-size: 10px; line-height: 1.6; color: var(--color-muted); }
+  .rule-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   .rule-card li { display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
   .rule-card li > span { color: var(--color-muted); font-size: 10px; }
   .rule-card small { flex-basis: 100%; font-size: 9.5px; color: var(--color-muted); }
@@ -121,6 +142,7 @@ const models = Object.values(promptModels);
     .converter-grid { grid-template-columns: 1fr; }
     .converter-actions { flex-direction: row; }
     .converter-actions button { flex: 1; }
+    .rules-popover { position: fixed; top: 8vh; right: 14px; left: 14px; width: auto; max-height: 78vh; }
     .rules-grid { grid-template-columns: 1fr; }
     textarea { min-height: 190px; }
   }

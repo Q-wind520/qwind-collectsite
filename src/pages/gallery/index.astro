@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
 import GallerySidebar from '../../components/GallerySidebar.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import Lightbox from '../../components/Lightbox.astro';
+import WorkModal from '../../components/WorkModal.astro';
 import { collectTags, kindCounts, validateSlugs } from '../../lib/content';
 
 const includeDrafts = import.meta.env.DEV;
@@ -26,7 +26,7 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
         <header class="page-head gallery-heading">
           <p class="kicker">GALLERY</p>
           <h1 data-gallery-title>画作</h1>
-          <p data-gallery-desc>原图与提示词。点击图片看大图，点标题进入详情。</p>
+          <p data-gallery-desc>原图与提示词。点击图片或标题，在当前页查看作品详情。</p>
         </header>
         <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
         <GalleryGrid works={works} />
@@ -34,7 +34,7 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
       </div>
     </div>
   </div>
-  <Lightbox gallerySelector="#gallery-grid" />
+  <WorkModal />
   <script>import '../../scripts/gallery-filter';</script>
 </BaseLayout>
 

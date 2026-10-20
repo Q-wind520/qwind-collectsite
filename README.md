@@ -30,9 +30,10 @@ git push
 
 ## 工具
 
-- `/tools`：提示词转换，支持 Anima ↔ NovelAI V4.5 的权重、嵌套括号和画师 tag 转换。
+- `/tools`：提示词转换，支持 Anima、NovelAI V4.5、NovelAI V5 三者互转，包括权重、嵌套括号和画师 tag。
 - 权重按官方语法原样转换：NovelAI `{tag}` = ×1.05、`[tag]` = ÷1.05、V4+ 数字权重 `1.2::tag::`；Anima 用 A1111 风格 `(tag:2)`，官方建议数值高于 SDXL，工具不自动缩放。
-- NovelAI → Anima 时 `_` 转为空格（`score_*` 除外）；Anima → NovelAI 时保留自然语言空格，仅画师名转 `_`，`@画师` ↔ `artist:画师`。
+- NovelAI → Anima 时 `_` 转为空格（`score_*` 除外）；Anima → V4.5 时画师名转 `_`，Anima → V5 时画师名保留空格。
+- V4.5 → V5 会把下划线 tag 和画师名统一为空格；V5 → V4.5 会把画师名改回下划线，并提示 V5 专属 tag 与 V4.5 不支持的 Unicode 字符。
 - 转换在浏览器本地完成，不请求后端。
 - 转换规则集中在 `src/lib/prompt-convert.ts` 的模型与转译注册表中，新增模型时扩展注册表即可。
 

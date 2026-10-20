@@ -49,8 +49,9 @@ const models = Object.values(promptModels);
   </div>
 
   <p class="converter-note">
-    数字权重 <code>1.2::tag::</code> 适用于 NovelAI V4 / V4.5；旧版请使用 <code>{'{tag}'}</code> / <code>[tag]</code> 规则。
-    NovelAI → Anima 时权重会自动放大 1.5 倍，低于 1 则缩小 1.5 倍；Anima → NovelAI 时保留权重，并把 tag 内空格规范为下划线。
+    数字权重 <code>1.2::tag::</code> 适用于 NovelAI V4 / V4.5；旧版请使用 <code>{'{tag}'}</code>（×1.05）/ <code>[tag]</code>（÷1.05）规则。
+    Anima 官方建议权重数值明显高于 SDXL（示例 <code>(chibi:2)</code>），转换不会自动缩放数字，必要时请手动上调。
+    NovelAI → Anima 时 <code>_</code> 转为空格（<code>score_*</code> 除外）；Anima → NovelAI 时保留自然语言空格，仅画师名转下划线。
   </p>
 </section>
 

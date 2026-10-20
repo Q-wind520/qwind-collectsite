@@ -28,30 +28,30 @@ export const promptModels: Record<PromptModelId, { id: PromptModelId; label: str
   anima: {
     id: 'anima',
     label: 'Anima',
-    note: 'A1111 风格权重：(tag:1.2)、嵌套括号、反斜杠转义。',
+    note: 'A1111 风格权重 (tag:2)；官方建议权重大于 SDXL；画师用 @，标签用空格（score_* 除外）。',
   },
   novelai: {
     id: 'novelai',
     label: 'NovelAI V4.5',
-    note: '数字权重 1.2::tag::、{} / [] 权重、artist: 画师 tag。',
+    note: '{tag} ×1.05、[tag] ÷1.05；V4+ 数字权重 1.2::tag::；artist: 画师 tag。',
   },
 };
 
 const animaNovelAiRules: ConversionRule[] = [
-  { from: '(tag:1.2)', to: '1.2::tag::', note: '显式权重' },
+  { from: '(tag:2)', to: '2::tag::', note: '数字权重，Anima 常用比 SDXL 更高的数值' },
   { from: '(tag)', to: '1.1::tag::', note: 'A1111 默认权重' },
   { from: '\\(tag\\)', to: '(tag)', note: '字面括号' },
-  { from: '@artist', to: 'artist:artist', note: '画师 tag' },
-  { from: '(rain, night:1.5)', to: '1.5::rain, night::', note: '多 tag 组合权重' },
+  { from: '@artist name', to: 'artist:artist_name', note: '画师 tag，空格转下划线' },
+  { from: '(rain, night:2)', to: '2::rain, night::', note: '多 tag 组合权重' },
 ];
 
 const novelAiAnimaRules: ConversionRule[] = [
-  { from: '1.2::tag::', to: '(tag:1.8)', note: '数字权重，Anima ×1.5' },
-  { from: '{tag}', to: '(tag:1.575)', note: '轻度强调，Anima ×1.5' },
-  { from: '{{tag}}', to: '(tag:1.6538)', note: '嵌套强调，Anima ×1.5' },
-  { from: '[tag]', to: '(tag:0.6333)', note: '轻度弱化，Anima ÷1.5' },
-  { from: 'artist:artist', to: '@artist', note: '画师 tag，下划线转空格' },
-  { from: '1.5::rain, night::', to: '(rain, night:2.25)', note: '多 tag 组合权重，Anima ×1.5' },
+  { from: '1.2::tag::', to: '(tag:1.2)', note: '数字权重原样保留，不自动缩放' },
+  { from: '{tag}', to: '(tag:1.05)', note: 'NovelAI 强调 ×1.05' },
+  { from: '{{tag}}', to: '(tag:1.1025)', note: '嵌套强调，逐层 ×1.05' },
+  { from: '[tag]', to: '(tag:0.9524)', note: 'NovelAI 弱化 ÷1.05' },
+  { from: 'artist:artist_name', to: '@artist name', note: 'Anima 画师必须加 @，下划线转空格' },
+  { from: '1.5::rain, night::', to: '(rain, night:1.5)', note: '多 tag 组合权重' },
 ];
 
 export const promptConversions: PromptConversion[] = [
@@ -60,7 +60,7 @@ export const promptConversions: PromptConversion[] = [
     from: 'anima',
     to: 'novelai',
     label: 'Anima → NovelAI V4.5',
-    description: '把 A1111 风格权重和转义转换为 NovelAI 数字权重。',
+    description: '把 A1111 风格权重和转义转换为 NovelAI 数字权重，@画师 转为 artist:。',
     rules: animaNovelAiRules,
   },
   {
@@ -68,7 +68,7 @@ export const promptConversions: PromptConversion[] = [
     from: 'novelai',
     to: 'anima',
     label: 'NovelAI V4.5 → Anima',
-    description: '把 NovelAI 数字权重、括号权重和画师 tag 转换为 Anima 格式；权重按 1.5 倍增强。',
+    description: '把 NovelAI 数字权重、括号权重和画师 tag 转换为 Anima 格式，数字权重原样保留。',
     rules: novelAiAnimaRules,
   },
 ];
@@ -87,18 +87,18 @@ export function convertPrompt(text: string, from: PromptModelId, to: PromptModel
 function convertNovelAiToAnima(text: string): ConversionResult {
   const parsed = parseNovelAi(text);
   return {
-    output: renderAnima(parsed.nodes).replace(/_/g, ' '),
+    output: renderAnima(parsed.nodes),
     warnings: parsed.warnings,
   };
 }
 
 function convertAnimaToNovelAi(text: string): ConversionResult {
   const parsed = parseAnima(text);
-  const output = renderNovelAi(parsed.nodes)
-    .replace(/([^\s:,\n])[ \t]+(?=[^\s:,\n])/g, '$1_');
-  return { output, warnings: parsed.warnings };
+  return { output: renderNovelAi(parsed.nodes), warnings: parsed.warnings };
 }
 
+const NOVELAI_STRENGTHEN = 1.05;
+const NOVELAI_WEAKEN = 1 / 1.05;
 const NAI_NUMERIC_START = /^(-?\d+(?:\.\d+)?)::/;
 
 function parseNovelAi(input: string): { nodes: PromptNode[]; warnings: string[] } {
@@ -124,7 +124,7 @@ function parseNovelAi(input: string): { nodes: PromptNode[]; warnings: string[] 
       if (char === '{' || char === '[') {
         flush();
         const close = char === '{' ? '}' : ']';
-        const weight = char === '{' ? 1.05 : 0.95;
+        const weight = char === '{' ? NOVELAI_STRENGTHEN : NOVELAI_WEAKEN;
         index += 1;
         const children = parseUntil(close);
         if (input[index] === close) index += 1;
@@ -140,7 +140,6 @@ function parseNovelAi(input: string): { nodes: PromptNode[]; warnings: string[] 
         index += numeric[0].length;
         const children = parseUntil('::');
         if (input.startsWith('::', index)) index += 2;
-        else warnings.push('未闭合的数字权重组');
         nodes.push({ type: 'weight', weight, children, source: 'novelai' });
         continue;
       }
@@ -287,13 +286,7 @@ function renderAnimaWeight(node: Extract<PromptNode, { type: 'weight' }>): strin
   let content = renderAnima(node.children).trim();
   content = content.replace(/^,+/, '').replace(/,+$/, '').trim();
   if (!content) return '';
-  return `(${content}:${formatWeight(animaWeight(node.weight))})`;
-}
-
-function animaWeight(weight: number): number {
-  if (weight > 1) return weight * 1.5;
-  if (weight > 0 && weight < 1) return weight / 1.5;
-  return weight;
+  return `(${content}:${formatWeight(node.weight)})`;
 }
 
 function renderNovelAi(nodes: PromptNode[]): string {
@@ -341,16 +334,17 @@ function needsSeparator(previous: PromptNode | undefined, current: PromptNode, o
 }
 
 function novelAiTextToAnima(value: string): string {
-  const withArtists = value.replace(/\bartist:([^,\n]+)/g, (_match, name: string) => `@${name.trim()}`);
-  return withArtists
+  return value
+    .replace(/\bartist:([^,\n]+)/g, (_match, name: string) => `@${name.trim().replace(/_/g, ' ')}`)
     .replace(/([()])/g, '\\$1')
-    .replace(/([^\s,]),(?=[^\s,])/g, '$1, ');
+    .replace(/([^\s,]),(?=[^\s,])/g, '$1, ')
+    .replace(/\b(score_\d+)\b|_/g, (_match, score?: string) => score ?? ' ');
 }
 
 function animaTextToNovelAi(value: string): string {
   const withoutEscapes = value.replace(/\\([()])/g, '$1');
   return withoutEscapes
-    .replace(/@([^,\n]+?)(?=,|\n|$)/g, (_match, name: string) => `artist:${name.trim()}`)
+    .replace(/@([^,\n]+?)(?=,|\n|$)/g, (_match, name: string) => `artist:${name.trim().replace(/\s+/g, '_')}`)
     .replace(/([^\s,]),(?=[^\s,])/g, '$1, ');
 }
 

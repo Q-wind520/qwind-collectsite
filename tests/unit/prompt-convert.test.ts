@@ -13,9 +13,9 @@ headset,assault rifle,armband,holding gun,plaid skirt,pleated skirt,neck ribbonl
 
 headset,midriff,black gloves,baseball cap,ammunition pouch,bulletproof vest,tactical clothes,knee pads,crop top,goggles on headwear,`;
 
-const animaSample = `(@maccha \\(mochancc\\), @qys3, rella:0.5867), jenmin12, (@ashima \\(roro046\\), betabeet:1.8), kelou, masterpiece, location, (best quality:1.575), (amazing quality:1.6538), very aesthetic, ultra-detailed, year 2024, year 2025
+const animaSample = `(@maccha \\(mochancc\\), @qys3, rella:0.88), jenmin12, (@ashima \\(roro046\\), betabeet:1.2), kelou, masterpiece, location, (best quality:1.05), (amazing quality:1.1025), very aesthetic, ultra-detailed, year 2024, year 2025
 
-(@m&m \\(mickey and mackey\\):3), year 2023, year 2024,
+(@m&m \\(mickey and mackey\\):2), year 2023, year 2024,
 
 
 short hair with long locks,
@@ -34,11 +34,11 @@ describe('convertPrompt', () => {
 
   it('converts Anima weights, groups and artist tags back to NovelAI', () => {
     const result = convertPrompt(animaSample, 'anima', 'novelai');
-    expect(result.output).toContain('0.5867::artist:maccha_(mochancc), artist:qys3, rella::');
-    expect(result.output).toContain('1.8::artist:ashima_(roro046), betabeet::');
-    expect(result.output).toContain('3::artist:m&m_(mickey_and_mackey)::');
-    expect(result.output).toContain('1.575::best_quality::');
-    expect(result.output).toContain('1.6538::amazing_quality::');
+    expect(result.output).toContain('0.88::artist:maccha_(mochancc), artist:qys3, rella::');
+    expect(result.output).toContain('1.2::artist:ashima_(roro046), betabeet::');
+    expect(result.output).toContain('2::artist:m&m_(mickey_and_mackey)::');
+    expect(result.output).toContain('1.05::best quality::');
+    expect(result.output).toContain('1.1025::amazing quality::');
     expect(result.warnings).toEqual([]);
   });
 
@@ -47,9 +47,27 @@ describe('convertPrompt', () => {
     expect(result.output).toBe('1.5::masterpiece::, 1.1::tag::, (literal), artist:artist');
   });
 
-  it('boosts Anima weights and normalizes underscores to spaces', () => {
-    const result = convertPrompt('1.2::artist:foo_bar::,{best quality},[a b]', 'novelai', 'anima');
-    expect(result.output).toBe('(@foo bar:1.8), (best quality:1.575), (a b:0.6333)');
+  it('converts NovelAI braces by 1.05 and brackets by dividing 1.05, without rescaling weights', () => {
+    const result = convertPrompt('1.2::artist:foo_bar::,{best quality},[a b],[[c]]', 'novelai', 'anima');
+    expect(result.output).toBe(
+      '(@foo bar:1.2), (best quality:1.05), (a b:0.9524), (c:0.907)',
+    );
+  });
+
+  it('keeps score tags underscored and converts other underscores to spaces', () => {
+    const result = convertPrompt('score_7, long_hair, year_2023', 'novelai', 'anima');
+    expect(result.output).toBe('score_7, long hair, year 2023');
+  });
+
+  it('preserves natural language spacing when converting to NovelAI', () => {
+    const result = convertPrompt('1girl, a quiet seaside village at sunset', 'anima', 'novelai');
+    expect(result.output).toBe('1girl, a quiet seaside village at sunset');
+  });
+
+  it('accepts an unterminated numeric emphasis as applying to the end', () => {
+    const result = convertPrompt('1.2::best quality', 'novelai', 'anima');
+    expect(result.output).toBe('(best quality:1.2)');
+    expect(result.warnings).toEqual([]);
   });
 
   it('warns on unbalanced input instead of throwing', () => {

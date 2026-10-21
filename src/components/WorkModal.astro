@@ -1,10 +1,36 @@
 ---
 ---
 <dialog class="work-modal" data-work-modal aria-label="作品详情">
-  <div class="work-modal-frame">
-    <button type="button" class="work-modal-close" data-work-modal-close aria-label="关闭作品详情">✕</button>
-    <div class="work-modal-loading" data-work-modal-loading aria-live="polite">载入作品…</div>
-    <iframe data-work-modal-frame title="作品详情" loading="eager"></iframe>
+  <button type="button" class="work-modal-close" data-work-modal-close aria-label="关闭作品详情">✕</button>
+  <div class="work-modal-shell">
+    <figure class="work-modal-media" data-work-modal-media>
+      <img data-work-modal-image alt="" decoding="async" />
+    </figure>
+    <article class="work-modal-panel glass" data-work-modal-panel>
+      <p class="kicker" data-work-modal-kicker></p>
+      <h2 class="warm" data-work-modal-title></h2>
+      <p class="work-modal-summary" data-work-modal-summary></p>
+      <dl class="work-modal-facts">
+        <div><dt>日期</dt><dd data-work-modal-date></dd></div>
+        <div><dt>画师</dt><dd data-work-modal-artists></dd></div>
+        <div><dt>模型</dt><dd data-work-modal-model></dd></div>
+        <div><dt>分级</dt><dd data-work-modal-rating></dd></div>
+      </dl>
+      <div class="work-modal-tags" data-work-modal-tags></div>
+      <section class="work-modal-prompts">
+        <div class="work-modal-prompt-head">
+          <h3 data-work-modal-positive-label>正向提示词</h3>
+          <button type="button" data-copy-modal-positive>复制正向</button>
+        </div>
+        <pre data-work-modal-positive></pre>
+        <div class="work-modal-prompt-head">
+          <h3>负向提示词</h3>
+          <button type="button" data-copy-modal-negative>复制负向</button>
+        </div>
+        <pre data-work-modal-negative></pre>
+      </section>
+      <a class="work-modal-more" data-work-modal-more href="#">查看完整页面 →</a>
+    </article>
   </div>
 </dialog>
 <script>import '../scripts/work-modal';</script>
@@ -12,10 +38,9 @@
 <style is:global>
   html.modal-open { overflow: hidden; }
   .work-modal {
-    width: min(1080px, calc(100vw - 28px));
-    height: min(88vh, 960px);
+    width: min(1180px, calc(100vw - 32px));
     max-width: none;
-    max-height: none;
+    max-height: 92dvh;
     padding: 0;
     border: 0;
     background: transparent;
@@ -23,36 +48,82 @@
     color: var(--color-text);
   }
   .work-modal::backdrop {
-    background: rgba(24, 18, 22, 0.42);
-    backdrop-filter: blur(18px) saturate(1.12);
-    -webkit-backdrop-filter: blur(18px) saturate(1.12);
+    background: rgba(24, 18, 22, 0.38);
+    backdrop-filter: blur(20px) saturate(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(1.12);
   }
-  .work-modal-frame {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    border-radius: var(--radius-panel);
-    border: 1px solid rgba(255, 255, 255, 0.36);
-    background: var(--glass-bg);
-    background: color-mix(in srgb, var(--color-bg) 72%, transparent);
-    box-shadow: 0 30px 90px -34px rgba(20, 8, 16, 0.72);
+  .work-modal-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    gap: 16px;
+    align-items: start;
+    justify-content: center;
   }
-  .work-modal iframe {
+  .work-modal-media {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin: 0;
+    min-width: 0;
+  }
+  .work-modal-media img {
     display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background: transparent;
-    color-scheme: inherit;
+    width: auto;
+    max-width: 100%;
+    max-height: 90dvh;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 26px 80px -34px rgba(20, 8, 16, 0.72);
   }
+  .work-modal-panel {
+    max-height: 90dvh;
+    padding: 20px;
+    overflow: auto;
+    border-radius: var(--radius-panel);
+    background: var(--glass-bg);
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  }
+  .work-modal-panel h2 { margin: 6px 0 10px; font-size: clamp(24px, 3vw, 34px); line-height: 1.2; overflow-wrap: anywhere; }
+  .work-modal-panel .kicker { margin: 0; color: var(--color-muted); }
+  .work-modal-summary { margin: 0 0 14px; color: var(--color-muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+  .work-modal-facts { display: grid; gap: 7px; margin: 0 0 14px; }
+  .work-modal-facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 5px; border-bottom: 1px solid var(--color-line); min-width: 0; }
+  .work-modal-facts dt { flex: none; font-size: 9.5px; letter-spacing: 0.1em; color: var(--color-muted); }
+  .work-modal-facts dd { margin: 0; font-size: 11.5px; text-align: right; overflow-wrap: anywhere; }
+  .work-modal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .work-modal-tags a, .work-modal-tags span { font-size: 10.5px; color: var(--color-accent); text-decoration: none; overflow-wrap: anywhere; }
+  .work-modal-prompts { display: grid; gap: 7px; }
+  .work-modal-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .work-modal-prompt-head h3 { margin: 0; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); }
+  .work-modal-prompt-head button {
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: transparent;
+    padding: 4px 9px;
+    font-size: 9.5px;
+    color: var(--color-accent);
+    cursor: pointer;
+  }
+  .work-modal-prompt-head button:disabled { opacity: .45; cursor: default; }
+  .work-modal-prompts pre {
+    margin: 0 0 8px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.05);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .work-modal-more { display: inline-flex; margin-top: 14px; font-size: 11px; color: var(--color-accent); text-decoration: none; }
   .work-modal-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 3;
-    width: 34px;
-    height: 34px;
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 5;
+    width: 36px;
+    height: 36px;
     border: 1px solid var(--color-line);
     border-radius: 999px;
     background: var(--glass-bg);
@@ -62,24 +133,12 @@
     backdrop-filter: blur(10px);
   }
   .work-modal-close:hover { color: var(--color-accent); border-color: var(--color-accent); }
-  .work-modal-loading {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    color: var(--color-muted);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    background: var(--glass-bg);
-    pointer-events: none;
-  }
-  .work-modal-loading[hidden] { display: none; }
-  @media (max-width: 760px) {
-    .work-modal {
-      width: calc(100vw - 16px);
-      height: calc(100dvh - 16px);
-    }
-    .work-modal-frame { border-radius: 16px; }
+  @media (max-width: 900px) {
+    .work-modal { width: calc(100vw - 16px); max-height: 94dvh; overflow-y: auto; }
+    .work-modal-shell { grid-template-columns: 1fr; gap: 10px; }
+    .work-modal-media { justify-content: center; }
+    .work-modal-media img { max-height: 56dvh; max-width: 100%; }
+    .work-modal-panel { max-height: none; padding: 16px; }
+    .work-modal-close { top: 10px; right: 10px; }
   }
 </style>

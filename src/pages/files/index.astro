@@ -31,7 +31,6 @@ const hrefFor = (file: (typeof files)[number]) =>
     </div>
   </div>
   <dialog class="preview-dialog" data-preview-dialog>
-    <button type="button" class="close" data-preview-close>关闭</button>
     <div data-preview-body></div>
   </dialog>
   <script>import '../../scripts/file-preview';</script>
@@ -48,7 +47,6 @@ const hrefFor = (file: (typeof files)[number]) =>
   button { border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 4px 9px; font-size: 10px; color: var(--color-muted); cursor: pointer; }
   .preview-dialog { width: min(860px, calc(100vw - 32px)); max-height: 86vh; border: 1px solid var(--glass-border); border-radius: var(--radius-panel); padding: 16px; background: var(--glass-bg); backdrop-filter: blur(18px); color: var(--color-text); }
   .preview-dialog::backdrop { background: rgba(0,0,0,.55); }
-  .close { margin-left: auto; display: block; }
   .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }
   .preview-dialog :global(iframe) { width: 100%; height: 70vh; border: 0; }
   .preview-dialog :global(audio) { width: 100%; display: block; }

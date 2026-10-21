@@ -1,7 +1,5 @@
 const dialog = document.querySelector<HTMLDialogElement>('[data-preview-dialog]');
 const body = document.querySelector<HTMLElement>('[data-preview-body]');
-const close = document.querySelector<HTMLButtonElement>('[data-preview-close]');
-
 for (const row of document.querySelectorAll<HTMLElement>('[data-file-row]')) {
   row.querySelector<HTMLButtonElement>('[data-preview]')?.addEventListener('click', () => {
     if (!dialog || !body) return;
@@ -31,7 +29,6 @@ for (const row of document.querySelectorAll<HTMLElement>('[data-file-row]')) {
 
 const stopAudio = () => body?.querySelector('audio')?.pause();
 
-close?.addEventListener('click', () => dialog?.close());
 dialog?.addEventListener('close', stopAudio);
 dialog?.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();

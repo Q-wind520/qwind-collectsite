@@ -47,9 +47,6 @@ const ogImage = new URL(assetUrl(image), Astro.site!).href;
         const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         document.documentElement.dataset.nsfw = localStorage.getItem('qwind-nsfw') === 'on' ? 'on' : 'off';
-        if (new URLSearchParams(location.search).get('embed') === '1') {
-          document.documentElement.dataset.embed = 'on';
-        }
       })();
     </script>
   </head>

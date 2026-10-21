@@ -146,15 +146,3 @@ a, button, input, select { outline-offset: 3px; }
 /* NSFW content is hidden by default; the toggle opts in per browser. */
 html[data-nsfw="off"] [data-nsfw="true"] { display: none !important; }
 html[data-nsfw="on"] [data-nsfw-notice] { display: none !important; }
-
-/* Standalone content shown inside the gallery overlay iframe. */
-html[data-embed="on"],
-html[data-embed="on"] body { background: transparent; }
-html[data-embed="on"] .backdrop,
-html[data-embed="on"] .petals,
-html[data-embed="on"] .topbar,
-html[data-embed="on"] .site-footer,
-html[data-embed="on"] .skip-link { display: none !important; }
-html[data-embed="on"] .page { padding: 16px 0; }
-html[data-embed="on"] .container { max-width: none; }
-html[data-embed="on"] { scrollbar-width: thin; }

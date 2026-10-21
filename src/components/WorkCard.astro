@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { getEntry, type CollectionEntry } from 'astro:content';
-import { withBase } from '../lib/url';
-import { isNsfw } from '../lib/content';
+import { assetUrl, withBase } from '../lib/url';
+import { isNsfw, tagToSlug } from '../lib/content';
 
-interface Props { work: CollectionEntry<'works'>; }
-const { work } = Astro.props;
+interface Props { work: CollectionEntry<'works'>; modalData?: boolean; }
+const { work, modalData = false } = Astro.props;
 const cover = work.data.images[0];
 const artistEntries = await Promise.all(work.data.artists.map((ref) => getEntry(ref)));
 if (artistEntries.some((entry) => !entry)) throw new Error(`Missing artist reference in work "${work.id}"`);
@@ -13,6 +13,47 @@ const artistNames = artistEntries.filter(Boolean).map((entry) => entry!.data.tit
 const artistSlugs = work.data.artists.map((ref) => ref.id);
 const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
 const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
+const positiveLabel = work.data.kind === 'style'
+  ? '画师串'
+  : work.data.kind === 'composition'
+    ? '构图 / 场景串'
+    : '正向提示词';
+const positiveAction = work.data.kind === 'style'
+  ? '复制画师串'
+  : work.data.kind === 'composition'
+    ? '复制构图串'
+    : '复制正向';
+const positive = work.data.kind === 'style'
+  ? (work.data.prompt.artist || work.data.prompt.positive)
+  : work.data.kind === 'composition'
+    ? (work.data.prompt.scene || work.data.prompt.positive)
+    : work.data.prompt.positive;
+const large = modalData ? await getImage({ src: cover, width: 1600, format: 'webp' }) : null;
+const modalDetail = modalData ? {
+  title: work.data.title,
+  summary: work.data.summary ?? '',
+  date: work.data.createdAt.toISOString().slice(0, 10),
+  kind: kindLabels[work.data.kind],
+  rating: work.data.rating,
+  model: work.data.prompt.model || '—',
+  artists: artistNames.join(' / ') || '—',
+  tags: work.data.tags.map((tag) => {
+    const slug = tagToSlug(tag);
+    return { label: tag, href: slug ? withBase(`/tags/${slug}`) : null };
+  }),
+  image: {
+    src: assetUrl(large!.src),
+    width: cover.width,
+    height: cover.height,
+    alt: work.data.title,
+  },
+  positive,
+  positiveLabel,
+  positiveAction,
+  negative: work.data.prompt.negative,
+  href: withBase(`/gallery/${work.data.slug}`),
+} : null;
+const modalJson = modalDetail ? JSON.stringify(modalDetail).replace(/</g, '\\u003c') : null;
 ---
 <article
   class="work-card"
@@ -48,6 +89,7 @@ const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
       <span>{work.data.createdAt.toISOString().slice(0, 10)}</span>
     </div>
   </div>
+  {modalJson && <script type="application/json" data-work-data set:html={modalJson}></script>}
 </article>
 
 <style>

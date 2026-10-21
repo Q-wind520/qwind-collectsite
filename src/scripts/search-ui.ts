@@ -2,6 +2,11 @@ import { searchEntries, type SearchEntry } from '../lib/search';
 import { withBase } from '../lib/url';
 
 const roots = [...document.querySelectorAll<HTMLElement>('[data-search-root]')];
+const searchDialog = document.querySelector<HTMLDialogElement>('[data-search-dialog]');
+
+searchDialog?.addEventListener('click', (event) => {
+  if (event.target === searchDialog) searchDialog.close();
+});
 
 if (roots.length > 0) {
   let indexPromise: Promise<SearchEntry[]> | null = null;

@@ -42,6 +42,17 @@ test('work detail and tag pages stay inside a 360px viewport', async ({ page }) 
   }
 });
 
+test('search closes from the backdrop and has no close button', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '搜索 ⌘K' }).click();
+  const dialog = page.locator('[data-search-dialog]');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('button', { name: '关闭搜索' })).toHaveCount(0);
+  await page.mouse.click(4, 4);
+  await expect(dialog).toBeHidden();
+});
+
 test('sitemap excludes NSFW content', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBeTruthy();

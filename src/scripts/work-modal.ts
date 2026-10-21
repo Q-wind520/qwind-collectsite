@@ -1,41 +1,130 @@
-const dialog = document.querySelector<HTMLDialogElement>('[data-work-modal]');
-const frame = document.querySelector<HTMLIFrameElement>('[data-work-modal-frame]');
-const loading = document.querySelector<HTMLElement>('[data-work-modal-loading]');
-const closeButton = document.querySelector<HTMLButtonElement>('[data-work-modal-close]');
+type WorkDetail = {
+  title: string;
+  summary: string;
+  date: string;
+  kind: string;
+  rating: string;
+  model: string;
+  artists: string;
+  tags: { label: string; href: string | null }[];
+  image: { src: string; width: number; height: number; alt: string };
+  positive: string;
+  positiveLabel: string;
+  positiveAction: string;
+  negative: string;
+  href: string;
+};
 
-if (dialog && frame) {
+const dialog = document.querySelector<HTMLDialogElement>('[data-work-modal]');
+
+if (dialog) {
+  const image = dialog.querySelector<HTMLImageElement>('[data-work-modal-image]');
+  const kicker = dialog.querySelector<HTMLElement>('[data-work-modal-kicker]');
+  const title = dialog.querySelector<HTMLElement>('[data-work-modal-title]');
+  const summary = dialog.querySelector<HTMLElement>('[data-work-modal-summary]');
+  const date = dialog.querySelector<HTMLElement>('[data-work-modal-date]');
+  const artists = dialog.querySelector<HTMLElement>('[data-work-modal-artists]');
+  const model = dialog.querySelector<HTMLElement>('[data-work-modal-model]');
+  const rating = dialog.querySelector<HTMLElement>('[data-work-modal-rating]');
+  const tags = dialog.querySelector<HTMLElement>('[data-work-modal-tags]');
+  const positiveLabel = dialog.querySelector<HTMLElement>('[data-work-modal-positive-label]');
+  const positive = dialog.querySelector<HTMLElement>('[data-work-modal-positive]');
+  const negative = dialog.querySelector<HTMLElement>('[data-work-modal-negative]');
+  const positiveButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-positive]');
+  const negativeButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-negative]');
+  const more = dialog.querySelector<HTMLAnchorElement>('[data-work-modal-more]');
+  const closeButton = dialog.querySelector<HTMLButtonElement>('[data-work-modal-close]');
+
+  let current: WorkDetail | null = null;
   let lastTrigger: HTMLElement | null = null;
   let originalTitle = document.title;
 
-  const modalSource = (href: string) => {
-    const url = new URL(href, location.href);
-    url.searchParams.set('embed', '1');
-    return url.href;
-  };
-
-  const closeNow = () => {
-    if (!dialog.open) return;
-    dialog.close();
-  };
-
-  const requestClose = () => {
-    if (history.state?.workModal) {
-      history.back();
-      return;
+  const copy = async (text: string, button: HTMLButtonElement) => {
+    if (!text) return;
+    const previous = button.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      document.execCommand('copy');
+      area.remove();
     }
-    closeNow();
+    button.textContent = '已复制';
+    window.setTimeout(() => { button.textContent = previous; }, 1200);
   };
 
-  const openFor = (href: string, trigger: HTMLElement | null, push: boolean) => {
+  const setText = (element: HTMLElement | null, value: string) => {
+    if (element) element.textContent = value;
+  };
+
+  const populate = (item: WorkDetail) => {
+    if (image) {
+      image.src = item.image.src;
+      image.alt = item.image.alt;
+      image.width = item.image.width;
+      image.height = item.image.height;
+    }
+    setText(kicker, `WORK / ${item.kind} / ${item.rating.toUpperCase()}`);
+    setText(title, item.title);
+    setText(summary, item.summary);
+    if (summary) summary.hidden = !item.summary;
+    setText(date, item.date);
+    setText(artists, item.artists);
+    setText(model, item.model);
+    setText(rating, item.rating);
+
+    if (tags) {
+      tags.replaceChildren(...item.tags.map((tag) => {
+        if (!tag.href) {
+          const span = document.createElement('span');
+          span.textContent = `#${tag.label}`;
+          return span;
+        }
+        const link = document.createElement('a');
+        link.href = tag.href;
+        link.textContent = `#${tag.label}`;
+        return link;
+      }));
+    }
+
+    setText(positiveLabel, item.positiveLabel);
+    setText(positive, item.positive || '—');
+    setText(negative, item.negative || '—');
+    if (positiveButton) {
+      positiveButton.textContent = item.positiveAction;
+      positiveButton.disabled = !item.positive;
+    }
+    if (negativeButton) negativeButton.disabled = !item.negative;
+    if (more) more.href = item.href;
+  };
+
+  const openFor = (item: WorkDetail, href: string, trigger: HTMLElement | null, push: boolean) => {
     if (push) history.pushState({ workModal: true }, '', href);
     lastTrigger = trigger ?? lastTrigger;
+    current = item;
+    populate(item);
     if (!dialog.open) {
       originalTitle = document.title;
       document.documentElement.classList.add('modal-open');
       dialog.showModal();
     }
-    if (loading) loading.hidden = false;
-    frame.src = modalSource(href);
+    document.title = item.title;
+  };
+
+  const closeNow = () => {
+    if (dialog.open) dialog.close();
+  };
+
+  const requestClose = () => {
+    if (!dialog.open) return;
+    const shouldGoBack = Boolean(history.state?.workModal);
+    closeNow();
+    if (shouldGoBack) history.back();
   };
 
   document.addEventListener('click', (event) => {
@@ -43,8 +132,16 @@ if (dialog && frame) {
     if (!link) return;
     if (event.defaultPrevented || event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const dataElement = link.closest('[data-work]')?.querySelector<HTMLScriptElement>('script[data-work-data]');
+    if (!dataElement?.textContent) return;
+    let item: WorkDetail;
+    try {
+      item = JSON.parse(dataElement.textContent) as WorkDetail;
+    } catch {
+      return;
+    }
     event.preventDefault();
-    openFor(link.href, link, true);
+    openFor(item, link.href, link, true);
   });
 
   closeButton?.addEventListener('click', requestClose);
@@ -56,36 +153,21 @@ if (dialog && frame) {
     requestClose();
   });
   dialog.addEventListener('close', () => {
-    frame.src = 'about:blank';
     document.documentElement.classList.remove('modal-open');
     document.title = originalTitle;
     lastTrigger?.focus();
   });
 
-  frame.addEventListener('load', () => {
-    if (loading) loading.hidden = true;
-    try {
-      const doc = frame.contentDocument;
-      if (!doc) return;
-      if (doc.title) document.title = doc.title;
-      doc.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !doc.querySelector('.pswp')) requestClose();
-      });
-      doc.addEventListener('click', (event) => {
-        const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a');
-        if (!link || link.hasAttribute('data-pswp') || link.target === '_blank') return;
-        if (link.getAttribute('href')?.startsWith('#')) return;
-        event.preventDefault();
-        location.href = link.href;
-      });
-    } catch {
-      // Cross-origin previews keep the gallery title.
-    }
+  positiveButton?.addEventListener('click', () => {
+    if (current) copy(current.positive, positiveButton);
+  });
+  negativeButton?.addEventListener('click', () => {
+    if (current) copy(current.negative, negativeButton);
   });
 
   window.addEventListener('popstate', (event) => {
-    if (event.state?.workModal) {
-      openFor(location.href, null, false);
+    if (event.state?.workModal && current) {
+      openFor(current, location.href, null, false);
       return;
     }
     if (dialog.open) closeNow();

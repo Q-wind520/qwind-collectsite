@@ -19,12 +19,37 @@ test('gallery opens a work overlay from the image and closes with Escape', async
   const dialog = page.locator('[data-work-modal]');
   await expect(dialog).toBeVisible();
   await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
-  await expect(dialog.locator('iframe')).toHaveAttribute('src', /embed=1/);
-  await expect(dialog.frameLocator('iframe').locator('h1')).toBeVisible();
+  await expect(dialog.locator('[data-work-modal-title]')).toBeVisible();
+  await expect(dialog.locator('[data-work-modal-image]')).toBeVisible();
+  await expect(dialog.locator('iframe')).toHaveCount(0);
 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
+});
+
+test('gallery overlay lays out image and details side by side, then stacks on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+  const dialog = page.locator('[data-work-modal]');
+  const image = await dialog.locator('[data-work-modal-media]').boundingBox();
+  const panel = await dialog.locator('[data-work-modal-panel]').boundingBox();
+  expect(image).not.toBeNull();
+  expect(panel).not.toBeNull();
+  expect(panel!.x).toBeGreaterThan(image!.x + image!.width - 1);
+
+  await page.mouse.click(4, 4);
+  await expect(dialog).toBeHidden();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+  await expect(dialog).toBeVisible();
+  const compactImage = await dialog.locator('[data-work-modal-media]').boundingBox();
+  const compactPanel = await dialog.locator('[data-work-modal-panel]').boundingBox();
+  expect(compactImage).not.toBeNull();
+  expect(compactPanel).not.toBeNull();
+  expect(compactPanel!.y).toBeGreaterThan(compactImage!.y + compactImage!.height - 1);
 });
 
 test('gallery title opens the same overlay and the back button closes it', async ({ page }) => {
@@ -37,6 +62,17 @@ test('gallery title opens the same overlay and the back button closes it', async
   await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
 
   await page.goBack();
+  await expect(dialog).toBeHidden();
+  await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
+});
+
+test('overlay close button closes immediately', async ({ page }) => {
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+
+  const dialog = page.locator('[data-work-modal]');
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', { name: '关闭作品详情' }).click();
   await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
 });

@@ -2,12 +2,17 @@
 @import "lxgw-wenkai-webfont/lxgwwenkai-regular.css";
 @import "./tokens.css";
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
 html {
   scroll-behavior: smooth;
   background: var(--color-bg);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
 body {
   margin: 0;

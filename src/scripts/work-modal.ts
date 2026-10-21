@@ -1,3 +1,5 @@
+import { withBase } from '../lib/url';
+
 type WorkDetail = {
   title: string;
   summary: string;
@@ -13,6 +15,7 @@ type WorkDetail = {
   positiveAction: string;
   negative: string;
   href: string;
+  path: string;
 };
 
 const dialog = document.querySelector<HTMLDialogElement>('[data-work-modal]');
@@ -32,12 +35,24 @@ if (dialog) {
   const negative = dialog.querySelector<HTMLElement>('[data-work-modal-negative]');
   const positiveButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-positive]');
   const negativeButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-negative]');
-  const more = dialog.querySelector<HTMLAnchorElement>('[data-work-modal-more]');
   const closeButton = dialog.querySelector<HTMLButtonElement>('[data-work-modal-close]');
 
   let current: WorkDetail | null = null;
   let lastTrigger: HTMLElement | null = null;
   let originalTitle = document.title;
+  let detailsPromise: Promise<WorkDetail[]> | null = null;
+
+  const galleryPrefix = withBase('/gallery/');
+  const loadDetails = () => {
+    detailsPromise ??= fetch(withBase('/works.json')).then((response) => response.json() as Promise<WorkDetail[]>);
+    return detailsPromise;
+  };
+  const pathOf = (href: string) => new URL(href, location.href).pathname;
+  const isWorkLink = (link: HTMLAnchorElement) => pathOf(link.href).startsWith(galleryPrefix);
+  const findDetail = async (href: string) => {
+    const target = pathOf(href);
+    return (await loadDetails()).find((item) => item.path === target) ?? null;
+  };
 
   const copy = async (text: string, button: HTMLButtonElement) => {
     if (!text) return;
@@ -100,7 +115,6 @@ if (dialog) {
       positiveButton.disabled = !item.positive;
     }
     if (negativeButton) negativeButton.disabled = !item.negative;
-    if (more) more.href = item.href;
   };
 
   const openFor = (item: WorkDetail, href: string, trigger: HTMLElement | null, push: boolean) => {
@@ -112,6 +126,9 @@ if (dialog) {
       originalTitle = document.title;
       document.documentElement.classList.add('modal-open');
       dialog.showModal();
+      closeButton?.focus({ preventScroll: true });
+      dialog.scrollTop = 0;
+      requestAnimationFrame(() => { dialog.scrollTop = 0; });
     }
     document.title = item.title;
   };
@@ -127,22 +144,43 @@ if (dialog) {
     if (shouldGoBack) history.back();
   };
 
+  const inlineDetail = (link: HTMLAnchorElement): WorkDetail | null => {
+    const dataElement = link.closest('[data-work]')?.querySelector<HTMLScriptElement>('script[data-work-data]');
+    if (!dataElement?.textContent) return null;
+    try {
+      return JSON.parse(dataElement.textContent) as WorkDetail;
+    } catch {
+      return null;
+    }
+  };
+
   document.addEventListener('click', (event) => {
-    const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[data-work-modal-link]');
-    if (!link) return;
+    const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+    if (!link || !isWorkLink(link)) return;
     if (event.defaultPrevented || event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const dataElement = link.closest('[data-work]')?.querySelector<HTMLScriptElement>('script[data-work-data]');
-    if (!dataElement?.textContent) return;
-    let item: WorkDetail;
-    try {
-      item = JSON.parse(dataElement.textContent) as WorkDetail;
-    } catch {
+    if (link.target === '_blank' || link.hasAttribute('download')) return;
+
+    event.preventDefault();
+    const inline = inlineDetail(link);
+    if (inline) {
+      openFor(inline, link.href, link, true);
       return;
     }
-    event.preventDefault();
-    openFor(item, link.href, link, true);
+    findDetail(link.href)
+      .then((item) => {
+        if (item) openFor(item, link.href, link, true);
+        else location.href = link.href;
+      })
+      .catch(() => { location.href = link.href; });
   });
+
+  const prefetch = (event: Event) => {
+    const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+    if (link && isWorkLink(link) && !inlineDetail(link)) loadDetails().catch(() => {});
+  };
+  document.addEventListener('pointerover', prefetch);
+  document.addEventListener('focusin', prefetch);
 
   closeButton?.addEventListener('click', requestClose);
   dialog.addEventListener('click', (event) => {

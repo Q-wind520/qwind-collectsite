@@ -66,6 +66,18 @@ test('gallery title opens the same overlay and the back button closes it', async
   await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
 });
 
+test('home work links open the overlay too', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.locator('.preview').first().click();
+  const dialog = page.locator('[data-work-modal]');
+  await expect(dialog).toBeVisible();
+  await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
+  await expect(dialog.locator('[data-work-modal-title]')).not.toBeEmpty();
+  await expect(dialog.locator('[data-work-modal-image]')).toBeInViewport();
+  await expect(dialog.getByRole('link', { name: /完整页面/ })).toHaveCount(0);
+});
+
 test('overlay close button closes immediately', async ({ page }) => {
   await page.goto('/gallery');
   await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();

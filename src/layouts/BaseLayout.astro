@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SearchDialog from '../components/SearchDialog.astro';
+import WorkModal from '../components/WorkModal.astro';
 import { site } from '../config/site';
 import { assetUrl, withBase } from '../lib/url';
 
@@ -61,6 +62,7 @@ const ogImage = new URL(assetUrl(image), Astro.site!).href;
     <main id="main"><slot /></main>
     <SiteFooter />
     <SearchDialog />
+    <WorkModal />
     <script>import '../scripts/nsfw';</script>
   </body>
 </html>

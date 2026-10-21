@@ -6,7 +6,7 @@ interface Props { works: CollectionEntry<'works'>[]; }
 const { works } = Astro.props;
 ---
 <div class="gallery-grid" id="gallery-grid" data-gallery-grid>
-  {works.map((work) => <WorkCard work={work} modalData />)}
+  {works.map((work) => <WorkCard work={work} />)}
 </div>
 
 <style>

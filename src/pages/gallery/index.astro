@@ -4,7 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
 import GallerySidebar from '../../components/GallerySidebar.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import WorkModal from '../../components/WorkModal.astro';
 import { collectTags, kindCounts, validateSlugs } from '../../lib/content';
 
 const includeDrafts = import.meta.env.DEV;
@@ -34,7 +33,6 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
       </div>
     </div>
   </div>
-  <WorkModal />
   <script>import '../../scripts/gallery-filter';</script>
 </BaseLayout>
 

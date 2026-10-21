@@ -53,6 +53,16 @@ test('search closes from the backdrop and has no close button', async ({ page })
   await expect(dialog).toBeHidden();
 });
 
+test('scrollbars are hidden across the site', async ({ page }) => {
+  await page.goto('/gallery');
+  const scrollbarWidth = await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth);
+  expect(scrollbarWidth).toBe('none');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+  await expect(page.locator('[data-work-modal] [data-work-modal-panel]')).toBeVisible();
+  const panelScrollbar = await page.evaluate(() => getComputedStyle(document.querySelector('[data-work-modal-panel]')!).scrollbarWidth);
+  expect(panelScrollbar).toBe('none');
+});
+
 test('sitemap excludes NSFW content', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBeTruthy();

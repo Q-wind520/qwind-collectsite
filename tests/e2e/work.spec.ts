@@ -78,6 +78,18 @@ test('home work links open the overlay too', async ({ page }) => {
   await expect(dialog.getByRole('link', { name: /完整页面/ })).toHaveCount(0);
 });
 
+test('clicking blank space inside the overlay closes it', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+
+  const dialog = page.locator('[data-work-modal]');
+  const panel = await dialog.locator('[data-work-modal-panel]').boundingBox();
+  expect(panel).not.toBeNull();
+  await page.mouse.click(panel!.x - 8, panel!.y + 40);
+  await expect(dialog).toBeHidden();
+});
+
 test('overlay close button closes immediately', async ({ page }) => {
   await page.goto('/gallery');
   await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();

@@ -184,7 +184,9 @@ if (dialog) {
 
   closeButton?.addEventListener('click', requestClose);
   dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) requestClose();
+    const target = event.target as HTMLElement;
+    if (target.closest('[data-work-modal-panel], [data-work-modal-image]')) return;
+    requestClose();
   });
   dialog.addEventListener('cancel', (event) => {
     event.preventDefault();

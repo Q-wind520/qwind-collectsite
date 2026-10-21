@@ -35,6 +35,23 @@ test('NSFW works stay hidden until the adult check is completed', async ({ page 
   await expect(page.locator('[data-work][data-nsfw="true"]').first()).toBeVisible();
 });
 
+test('gallery uses a waterfall layout', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/gallery');
+  const grid = page.locator('#gallery-grid');
+  await expect(grid).toHaveClass(/masonry-ready/);
+  const boxes = await page.locator('#gallery-grid [data-work]:visible').evaluateAll((cards) =>
+    cards.slice(0, 4).map((card) => {
+      const rect = card.getBoundingClientRect();
+      return { x: Math.round(rect.x), y: Math.round(rect.y), height: Math.round(rect.height) };
+    }));
+  expect(boxes).toHaveLength(4);
+  expect(boxes[0].y).toBe(boxes[1].y);
+  expect(boxes[1].y).toBe(boxes[2].y);
+  expect(boxes[3].y).toBeGreaterThan(0);
+  expect(new Set(boxes.slice(0, 3).map((box) => box.x)).size).toBe(3);
+});
+
 test('gallery has no horizontal overflow on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/gallery');

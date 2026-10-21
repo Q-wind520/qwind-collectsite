@@ -28,7 +28,7 @@ const taggedFiles = files.filter((entry) => !entry.data.draft && match(entry));
 <BaseLayout title={`#${tag}`} description={`标签 #${tag} 下的收藏。`}>
   <div class="container page">
     <header class="page-head"><p class="kicker">TAG</p><h1>#{tag}</h1></header>
-    {taggedWorks.length > 0 && <section class="tag-section"><h2>作品</h2><div class="grid">{taggedWorks.map((work) => <WorkCard work={work} />)}</div></section>}
+    {taggedWorks.length > 0 && <section class="tag-section"><h2>作品</h2><div class="grid" data-masonry>{taggedWorks.map((work) => <WorkCard work={work} />)}</div></section>}
     <section class="glass tag-list">
       {taggedLinks.map((entry) => <a href={withBase('/links')}>书签 · {entry.data.title}</a>)}
       {taggedNotes.map((entry) => <a href={withBase(`/notes/${entry.data.slug}`)}>笔记 · {entry.data.title}</a>)}
@@ -40,9 +40,8 @@ const taggedFiles = files.filter((entry) => !entry.data.draft && match(entry));
 <style>
   .tag-section { margin-bottom: 16px; }
   .tag-section h2 { color: #fff; font-size: 18px; margin: 0 0 10px; }
-  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .tag-list { display: grid; gap: 2px; padding: 8px 14px; }
   .tag-list a { padding: 9px 0; border-bottom: 1px solid var(--color-line); text-decoration: none; font-size: 12px; }
   .tag-list a:hover { color: var(--color-accent); }
-  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 </style>

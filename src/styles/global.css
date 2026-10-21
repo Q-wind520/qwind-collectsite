@@ -120,6 +120,13 @@ dialog { margin: auto; }
 .page-head p { margin: 6px 0 0; color: rgba(255, 255, 255, 0.82); }
 .kicker { margin: 0 0 8px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; }
 
+[data-masonry] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
+[data-masonry].masonry-ready { display: block; position: relative; }
+[data-masonry].masonry-ready > * { position: absolute; }
+@media (max-width: 760px) {
+  [data-masonry] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
 
 @media (max-width: 760px) {

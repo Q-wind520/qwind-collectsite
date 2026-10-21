@@ -51,7 +51,7 @@ const recent = [
 
     <section class="home-section">
       <div class="section-head"><h2 class="warm">精选作品</h2><a href={withBase('/gallery')}>全部作品 →</a></div>
-      <div class="grid">{showcase.map((work) => <WorkCard work={work} />)}</div>
+      <div class="grid" data-masonry>{showcase.map((work) => <WorkCard work={work} />)}</div>
     </section>
 
     <section class="home-section">
@@ -87,10 +87,9 @@ const recent = [
   .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-bottom: 12px; }
   .section-head h2 { margin: 0; font-size: 20px; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
   .section-head a { font-size: 11px; color: rgba(255,255,255,.82); text-decoration: none; }
-  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .preview-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
   .preview { aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
   .preview :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
   .preview:hover :global(img) { transform: scale(1.06); }
-  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .preview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .preview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>

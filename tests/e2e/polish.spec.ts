@@ -48,3 +48,38 @@ test('sitemap excludes NSFW content', async ({ request }) => {
   const text = await response.text();
   expect(text).not.toContain('kitten-shadow');
 });
+
+test('modal dialogs open centered in the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+
+  await page.goto('/');
+  await page.getByRole('button', { name: '搜索 ⌘K' }).click();
+  const search = await page.locator('[data-search-dialog]').boundingBox();
+  expect(search).not.toBeNull();
+  expect(Math.abs(search!.x + search!.width / 2 - 640)).toBeLessThan(2);
+  expect(Math.abs(search!.y + search!.height / 2 - 400)).toBeLessThan(2);
+  await page.keyboard.press('Escape');
+
+  await page.getByRole('button', { name: '显示 NSFW 内容' }).click();
+  const nsfw = await page.locator('[data-nsfw-dialog]').boundingBox();
+  expect(nsfw).not.toBeNull();
+  expect(Math.abs(nsfw!.x + nsfw!.width / 2 - 640)).toBeLessThan(2);
+  expect(Math.abs(nsfw!.y + nsfw!.height / 2 - 400)).toBeLessThan(2);
+  await page.keyboard.press('Escape');
+
+  await page.goto('/files');
+  await page.locator('[data-preview]').first().click();
+  const preview = await page.locator('[data-preview-dialog]').boundingBox();
+  expect(preview).not.toBeNull();
+  expect(Math.abs(preview!.x + preview!.width / 2 - 640)).toBeLessThan(2);
+  expect(Math.abs(preview!.y + preview!.height / 2 - 400)).toBeLessThan(2);
+
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+  const work = page.locator('[data-work-modal]');
+  await expect(work).toBeVisible();
+  const box = await work.boundingBox();
+  expect(box).not.toBeNull();
+  expect(Math.abs(box!.x + box!.width / 2 - 640)).toBeLessThan(2);
+  expect(Math.abs(box!.y + box!.height / 2 - 400)).toBeLessThan(2);
+});

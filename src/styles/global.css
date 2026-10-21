@@ -26,6 +26,9 @@ img { max-width: 100%; display: block; }
 button, input, select, textarea { font: inherit; }
 [hidden] { display: none !important; }
 
+/* Tailwind preflight zeroes margins, which also cancels the UA's dialog centering. */
+dialog { margin: auto; }
+
 .warm { font-family: var(--font-warm); }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

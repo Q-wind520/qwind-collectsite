@@ -1,3 +1,5 @@
+import PhotoSwipe from 'photoswipe';
+import 'photoswipe/style.css';
 import { withBase } from '../lib/url';
 
 type WorkDetail = {
@@ -36,11 +38,26 @@ if (dialog) {
   const positiveButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-positive]');
   const negativeButton = dialog.querySelector<HTMLButtonElement>('[data-copy-modal-negative]');
   const closeButton = dialog.querySelector<HTMLButtonElement>('[data-work-modal-close]');
+  const zoomButton = dialog.querySelector<HTMLButtonElement>('[data-work-modal-zoom]');
 
   let current: WorkDetail | null = null;
   let lastTrigger: HTMLElement | null = null;
   let originalTitle = document.title;
   let detailsPromise: Promise<WorkDetail[]> | null = null;
+  let zoom: PhotoSwipe | null = null;
+
+  const requestZoomClose = () => {
+    if (!zoom) return;
+    const pswp = zoom;
+    let attempts = 0;
+    const attempt = () => {
+      if (zoom !== pswp) return;
+      pswp.close();
+      // PhotoSwipe ignores close() while its opening animation is running.
+      if (zoom === pswp && ++attempts < 15) window.setTimeout(attempt, 100);
+    };
+    attempt();
+  };
 
   const galleryPrefix = withBase('/gallery/');
   const loadDetails = () => {
@@ -117,6 +134,27 @@ if (dialog) {
     if (negativeButton) negativeButton.disabled = !item.negative;
   };
 
+  const openZoom = () => {
+    if (!current || !image || zoom) return;
+    const pswp = new PhotoSwipe({
+      dataSource: [{
+        src: current.image.src,
+        width: image.naturalWidth || current.image.width,
+        height: image.naturalHeight || current.image.height,
+        alt: current.image.alt,
+      }],
+      pswpModule: PhotoSwipe,
+      appendToEl: dialog,
+      bgOpacity: 0.92,
+    });
+    zoom = pswp;
+    pswp.on('close', () => {
+      if (zoom === pswp) zoom = null;
+      zoomButton?.focus({ preventScroll: true });
+    });
+    pswp.init();
+  };
+
   const openFor = (item: WorkDetail, href: string, trigger: HTMLElement | null, push: boolean) => {
     if (push) history.pushState({ workModal: true }, '', href);
     lastTrigger = trigger ?? lastTrigger;
@@ -138,7 +176,7 @@ if (dialog) {
   };
 
   const requestClose = () => {
-    if (!dialog.open) return;
+    if (!dialog.open || zoom) return;
     const shouldGoBack = Boolean(history.state?.workModal);
     closeNow();
     if (shouldGoBack) history.back();
@@ -183,9 +221,25 @@ if (dialog) {
   document.addEventListener('focusin', prefetch);
 
   closeButton?.addEventListener('click', requestClose);
+  zoomButton?.addEventListener('click', openZoom);
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !zoom) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    requestZoomClose();
+  }, true);
+  document.addEventListener('click', (event) => {
+    if (!zoom) return;
+    const target = event.target as HTMLElement;
+    if (!target.closest('.pswp__button--close')) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    requestZoomClose();
+  }, true);
   dialog.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
-    if (target.closest('[data-work-modal-panel], [data-work-modal-image]')) return;
+    if (zoom || target.closest('.pswp')) return;
+    if (target.closest('[data-work-modal-panel], [data-work-modal-image], [data-work-modal-zoom]')) return;
     requestClose();
   });
   dialog.addEventListener('cancel', (event) => {
@@ -193,6 +247,8 @@ if (dialog) {
     requestClose();
   });
   dialog.addEventListener('close', () => {
+    zoom?.destroy();
+    zoom = null;
     document.documentElement.classList.remove('modal-open');
     document.title = originalTitle;
     lastTrigger?.focus();

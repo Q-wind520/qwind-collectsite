@@ -4,7 +4,10 @@
   <button type="button" class="work-modal-close" data-work-modal-close aria-label="关闭作品详情">✕</button>
   <div class="work-modal-shell">
     <figure class="work-modal-media" data-work-modal-media>
-      <img data-work-modal-image alt="" decoding="async" />
+      <button type="button" class="work-modal-zoom" data-work-modal-zoom aria-label="放大查看作品图">
+        <img data-work-modal-image alt="" decoding="async" />
+        <span class="work-modal-zoom-hint" aria-hidden="true">点击图片放大</span>
+      </button>
     </figure>
     <article class="work-modal-panel glass" data-work-modal-panel>
       <p class="kicker" data-work-modal-kicker></p>
@@ -73,6 +76,39 @@
     border-radius: 18px;
     background: rgba(0, 0, 0, 0.06);
     box-shadow: 0 26px 80px -34px rgba(20, 8, 16, 0.72);
+  }
+  .work-modal-zoom {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 18px;
+    background: transparent;
+    cursor: zoom-in;
+  }
+  .work-modal-zoom:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .work-modal-zoom-hint {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(20, 16, 18, 0.55);
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .work-modal-zoom:hover .work-modal-zoom-hint,
+  .work-modal-zoom:focus-visible .work-modal-zoom-hint { opacity: 1; }
+  @media (hover: none) {
+    .work-modal-zoom-hint { opacity: 1; }
   }
   .work-modal-panel {
     max-height: 90dvh;

@@ -28,6 +28,37 @@ test('gallery opens a work overlay from the image and closes with Escape', async
   await expect(page).toHaveURL(/\/gallery(\?.*)?$/);
 });
 
+test('overlay image opens a zoomable lightbox and Escape returns to the overlay', async ({ page }) => {
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+
+  const dialog = page.locator('[data-work-modal]');
+  await expect(dialog).toBeVisible();
+
+  await dialog.getByRole('button', { name: '放大查看作品图' }).click();
+  const lightbox = page.locator('.pswp');
+  await expect(lightbox).toBeVisible();
+  await expect(lightbox.locator('.pswp__img')).toBeVisible();
+
+  await page.keyboard.press('Escape');
+  await expect(lightbox).toBeHidden();
+  await expect(dialog).toBeVisible();
+});
+
+test('closing the zoom lightbox keeps the overlay open', async ({ page }) => {
+  await page.goto('/gallery');
+  await page.locator('#gallery-grid [data-work]:visible .thumb').first().click();
+
+  const dialog = page.locator('[data-work-modal]');
+  await dialog.getByRole('button', { name: '放大查看作品图' }).click();
+  const lightbox = page.locator('.pswp');
+  await expect(lightbox).toBeVisible();
+
+  await lightbox.getByRole('button', { name: 'Close' }).click();
+  await expect(lightbox).toBeHidden();
+  await expect(dialog).toBeVisible();
+});
+
 test('gallery overlay lays out image and details side by side, then stacks on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/gallery');

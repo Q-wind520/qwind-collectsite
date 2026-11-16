@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteToc from '../../components/NoteToc.astro';
+import { withBase } from '../../lib/url';
+import { tagToSlug } from '../../lib/content';
 
 export async function getStaticPaths() {
   const includeDrafts = import.meta.env.DEV;
@@ -12,43 +15,127 @@ export async function getStaticPaths() {
 
 const { note } = Astro.props;
 const { Content, headings } = await render(note);
+const readingTime = note.data.readingTime
+  ?? Math.max(1, Math.round((note.body ?? '').replace(/\s+/g, '').length / 300));
+const sections = headings.filter((heading) => heading.depth <= 3);
+const showToc = note.data.toc && sections.length > 0;
+const created = note.data.createdAt.toISOString().slice(0, 10);
+const updated = note.data.updatedAt?.toISOString().slice(0, 10);
 ---
 <BaseLayout title={note.data.title} description={note.data.summary}>
   <div class="container page">
-    <article class="glass note-article">
-      <header>
-        <p class="kicker">NOTE / {note.data.createdAt.toISOString().slice(0, 10)}</p>
+    <article class="glass note-article" class:list={{ 'with-toc': showToc }}>
+      <header class="note-head">
+        <p class="kicker">NOTE / {created}</p>
         <h1 class="warm">{note.data.title}</h1>
         {note.data.summary && <p class="summary">{note.data.summary}</p>}
-        <div class="tags">{note.data.tags.map((tag) => <span>#{tag}</span>)}</div>
+        <div class="note-meta">
+          <span>{readingTime} 分钟阅读</span>
+          {note.data.tags.map((tag) => {
+            const slug = tagToSlug(tag);
+            return slug
+              ? <a href={withBase(`/tags/${slug}`)}>#{tag}</a>
+              : <span class="tag-plain">#{tag}</span>;
+          })}
+          {updated && updated !== created && <span class="updated">更新于 {updated}</span>}
+        </div>
       </header>
-      {note.data.toc && headings.length > 0 && (
-        <aside class="toc">
-          <b>目录</b>
-          {headings.filter((heading) => heading.depth <= 3).map((heading) => (
-            <a href={`#${heading.slug}`}>{heading.text}</a>
-          ))}
-        </aside>
-      )}
-      <div class="prose"><Content /></div>
+
+      <div class="note-body">
+        <div class="prose" data-note-prose><Content /></div>
+        <footer class="note-foot">
+          <a class="back" href={withBase('/notes')}>← 全部笔记</a>
+          <div class="note-source">
+            {note.data.sourceUrl && (
+              <a href={note.data.sourceUrl} target="_blank" rel="noopener noreferrer">原文来源 ↗</a>
+            )}
+            {note.data.license && <span>{note.data.license}</span>}
+          </div>
+        </footer>
+      </div>
+
+      {showToc && <NoteToc headings={sections} />}
     </article>
   </div>
 </BaseLayout>
 
 <style>
-  .note-article { padding: 24px; }
-  .note-article h1 { margin: 6px 0 8px; font-size: clamp(28px, 4vw, 42px); }
-  .summary { color: var(--color-muted); font-size: 13px; }
-  .tags { display: flex; gap: 8px; margin: 10px 0 20px; font-size: 10px; color: var(--color-accent); }
-  .toc { display: grid; gap: 4px; padding: 10px 12px; margin: 0 0 20px; border-left: 2px solid var(--color-accent); font-size: 11px; }
-  .toc a { color: var(--color-muted); text-decoration: none; }
-  .toc a:hover { color: var(--color-accent); }
-  .prose :global(h2) { margin-top: 28px; font-size: 22px; }
-  .prose :global(h3) { margin-top: 22px; font-size: 17px; }
-  .prose :global(p) { margin: 10px 0; }
-  .prose :global(pre) { padding: 14px; border-radius: 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 11px; }
-  .prose :global(code) { font-family: var(--font-mono); }
+  .note-article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 30px 24px 34px;
+  }
+  .note-article.with-toc {
+    grid-template-areas:
+      "head head"
+      "body toc";
+    grid-template-columns: minmax(0, 1fr) 208px;
+    column-gap: 38px;
+  }
+  .note-head { grid-area: head; }
+  .note-body { grid-area: body; min-width: 0; }
+
+  .note-article h1 { margin: 6px 0 10px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; }
+  .summary { margin: 0; color: var(--color-muted); font-size: 13.5px; line-height: 1.8; }
+
+  .note-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    margin: 16px 0 26px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 11px;
+  }
+  .note-meta a,
+  .note-meta .tag-plain {
+    padding: 2px 9px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 32%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    color: var(--color-link);
+    font-size: 10.5px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .note-meta a:hover { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+  .note-meta .updated { margin-left: auto; }
+
+  .note-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-line);
+    font-size: 11px;
+    color: var(--color-muted);
+  }
+  .note-foot .back { color: var(--color-link); text-decoration: none; }
+  .note-foot .back:hover { color: var(--color-accent); }
+  .note-source { display: flex; gap: 12px; flex-wrap: wrap; }
+  .note-source a { color: var(--color-muted); text-decoration: none; }
+  .note-source a:hover { color: var(--color-link); }
+
   @media (min-width: 900px) {
-    .note-article { max-width: 820px; margin: 0 auto; }
+    .note-article { padding: 40px 46px 44px; }
+  }
+  @media (max-width: 1079px) {
+    .note-article.with-toc {
+      grid-template-areas:
+        "head"
+        "toc"
+        "body";
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .note-article :global(.note-toc) { margin-bottom: 10px; }
+  }
+  @media (max-width: 480px) {
+    .note-article { padding: 22px 16px 26px; }
+    .note-meta .updated { margin-left: 0; }
   }
 </style>

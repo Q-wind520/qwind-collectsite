@@ -7,8 +7,18 @@
   --color-muted: #8b8380;
   --color-accent: #f0808c;
   --color-accent-soft: #fff0f0;
+  --color-link: #b8495e;
   --color-bg: #f6e7ec;
   --color-line: rgba(76, 73, 72, 0.12);
+
+  --prose-inline-bg: rgba(76, 73, 72, 0.065);
+  --prose-inline-border: rgba(76, 73, 72, 0.08);
+  --prose-inline-text: #9c4d5c;
+  --prose-pre-border: rgba(255, 255, 255, 0.1);
+  --prose-table-bg: rgba(255, 255, 255, 0.4);
+  --prose-table-stripe: rgba(255, 255, 255, 0.34);
+  --prose-th-bg: rgba(240, 128, 140, 0.1);
+  --prose-quote-bg: rgba(255, 255, 255, 0.42);
 
   --glass-bg: rgba(255, 255, 255, 0.68);
   --glass-border: rgba(255, 255, 255, 0.64);
@@ -30,8 +40,18 @@
   --color-muted: #b8aeaa;
   --color-accent: #f4a7ad;
   --color-accent-soft: rgba(244, 167, 173, 0.14);
+  --color-link: #f3aab2;
   --color-bg: #171214;
   --color-line: rgba(255, 255, 255, 0.14);
+
+  --prose-inline-bg: rgba(255, 255, 255, 0.08);
+  --prose-inline-border: rgba(255, 255, 255, 0.08);
+  --prose-inline-text: #f3b7bd;
+  --prose-pre-border: rgba(255, 255, 255, 0.12);
+  --prose-table-bg: rgba(255, 255, 255, 0.035);
+  --prose-table-stripe: rgba(255, 255, 255, 0.03);
+  --prose-th-bg: rgba(244, 167, 173, 0.1);
+  --prose-quote-bg: rgba(255, 255, 255, 0.04);
 
   --glass-bg: rgba(28, 22, 26, 0.62);
   --glass-border: rgba(255, 255, 255, 0.14);

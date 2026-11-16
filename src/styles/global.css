@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "lxgw-wenkai-webfont/lxgwwenkai-regular.css";
 @import "./tokens.css";
+@import "./prose.css";
 
 * { box-sizing: border-box; scrollbar-width: none; }
 *::-webkit-scrollbar { display: none; width: 0; height: 0; }

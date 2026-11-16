@@ -1,0 +1,140 @@
+---
+title: Anima 提示词笔记：语法、参数与避坑
+slug: anima-prompting-notes
+summary: 整理 Anima 的标签顺序、自然语言写法、权重、版本参数和常见翻车点。
+tags: [Anima, 提示词, 避坑]
+createdAt: 2026-11-16
+updatedAt: 2026-11-16
+toc: true
+---
+
+Anima 使用 Qwen3-0.6B 文本编码器，既能读 Danbooru 风格标签，也能读自然语言。它和 SDXL / Pony 的习惯不完全一样，下面按“先能出图，再少翻车”的顺序整理。
+
+## 先记结论
+
+- 标签用小写，空格代替下划线；只有 `score_*` 保留下划线。
+- 画师 tag 必须写 `@artist`，否则效果很弱。
+- 权重 `(tag:2)` 有效，但数值要比 SDXL 高；tag 自带的括号要转义成 `\(` `\)`。
+- Base / Aesthetic 常用 30–50 步、CFG 4–5；Turbo 用 8–12 步、CFG 1。
+- 纯自然语言至少写两句；多角色要分别写外貌和位置。
+- 负面提示从官方短名单开始，不要直接搬 Illustrious 的长列表。
+
+## 版本与参数
+
+| 版本 | 适合 | 步数 | CFG | 备注 |
+| --- | --- | --- | --- | --- |
+| Base v1.0 | 探索风格、训练 LoRA、最大自由度 | 30–50 | 4–5 | 默认风格平淡，需要画师或风格 tag |
+| Aesthetic | 稳定成品、默认画风较好 | 30–50 | 4–5 | 不要用 `score_*`，`masterpiece, best quality` 可保留 |
+| Turbo | 快速试提示词和种子 | 8–12 | 1 | 更稳定但多样性低，默认风格强 |
+
+- 分辨率：512²–1536²，1024×1024 比较稳。
+- 采样器：`er_sde` 中性、线条清楚，可作默认；`euler_a` 线条更软；`dpmpp_2m_sde_gpu` 更有变化但可能发散；`euler` 更自由。
+- 想要更绘画的质感，可试 beta57 调度器（需 RES4LYF 节点包）。
+
+## 标签顺序
+
+官方推荐顺序：
+
+```text
+[质量 / 元信息 / 年代 / 安全] [人数] [角色] [作品] [画师] [通用标签]
+```
+
+示例：
+
+```text
+masterpiece, best quality, score_7, safe, year 2025, highres,
+1girl, oomuro sakurako, yuru yuri, @nnn yryr,
+smile, brown hair, long hair, hat, skirt, looking at viewer
+```
+
+- 每组内部顺序随意，不必逐字照抄。
+- 角色名带作品限定，例如 `kafka \(honkai: star rail\)`；括号要转义。
+- 画师写 `@nnn yryr`；也可以加权，例如 `(@artist:0.8)`，用来控制画风强度。
+- 质量标签有两套：`masterpiece, best quality...` 和 `score_9...score_1`；可以单用、混用或不用。
+- 年代标签：`year 2025`、`newest`、`recent`、`mid`、`early`、`old`。
+- 安全标签：`safe`、`sensitive`、`nsfw`、`explicit`。
+
+## 三种写法
+
+### 纯标签
+
+适合单个角色、常见服装和简单构图，属性控制最直接。
+
+```text
+masterpiece, best quality, safe, 1girl, solo, silver hair, blue eyes,
+black sailor uniform, standing, looking at viewer, train platform, sunset
+```
+
+### 自然语言
+
+适合动作、人物关系、空间位置和氛围。用正常英文大小写写角色名和作品名，至少两句，不要只写一句很短的描述。
+
+```text
+A young swordswoman stands alone on an abandoned railway platform at sunset.
+She holds a closed umbrella in her right hand while the wind blows her short silver hair to the left.
+```
+
+### 混合写法
+
+最稳的通用方式：标签先确定“有什么”，句子再说明“在哪里、在做什么”。
+
+```text
+masterpiece, best quality, safe, 1girl, solo, silver hair, black sailor uniform.
+She stands at the center of an abandoned railway platform at sunset.
+Warm backlight separates her silhouette from the tracks behind her.
+```
+
+- 标签负责人数、身份、外貌、服装、表情、媒介。
+- 自然语言负责站位、动作、物体关系、景深和光线。
+- 多角色时不要只列名字。每个角色都写外貌，并用 `left girl`、`right girl` 这类可定位的名词。
+- 同一概念说一次就够，重复三遍以上容易让注意力失衡。
+
+## 权重与括号
+
+- 官方示例是 `(chibi:2)`，比 SDXL 常用的 1.1–1.2 高很多。
+- 只给一两个关键 tag 加权，不要靠权重修复互相矛盾的提示词。
+- tag 本身的括号要转义：`fate \(series\)`、`1990s \(style\)`。
+- 社区有“Qwen 编码器下不要用权重”的说法，但官方模型卡明确说权重可用，只是需要更高数值。建议固定种子对比测试，不要盲从任何一方。
+
+## 负面提示词
+
+官方推荐从这一组开始：
+
+```text
+worst quality, low quality, score_1, score_2, score_3, artist name,
+blurry, jpeg artifacts, chromatic aberration
+```
+
+- 先短后用，只加画面里实际出现的问题。
+- 手部不要只靠负面。想要手就写 `both hands visible, open hands, five fingers`；不想画手就写 `upper body, hands out of frame`。
+- 安全标签放在正面比只放负面更直接。
+
+## 常见坑
+
+| 现象 | 可能原因 | 先做什么 |
+| --- | --- | --- |
+| 画风平淡或随机 | 没给风格、画师或媒介 | 加一个 `@画师`，或明确 `ukiyo-e`、`cel shading` 等媒介 |
+| 画师没效果 | 缺 `@`、拼写不对、权重太弱 | 用规范小写 `@tag`，固定种子对比 |
+| 角色特征互串 | 只写名字，没分别描述或定位 | 每个角色一句，写外貌和左右位置；先去掉 LoRA |
+| 细节糊或崩 | 空间指令冲突、概念重复、token 太长 | 只留一个镜头和姿势，删重复，压到 200 token 内 |
+| 手崩 | 负面写太多，正面没描述手 | 正面写手部状态，或直接裁掉手 |
+| 文字乱 | 模型文字能力弱 | 只写单词，长文字后期加 |
+| 画面过度油腻 | CFG 或权重太高 | 回 CFG 4–5，去掉多余权重 |
+| 写实差 | 模型本来偏动漫 | 换写实向派生模型，不要硬调 Base |
+
+## 排查流程
+
+1. 固定模型、种子、分辨率、采样器、步数、CFG 和 LoRA。
+2. 去掉 LoRA、所有权重、多余画师和 `score_*`，换回官方短负面。
+3. 把正面缩到“主体 + 动作 + 镜头 + 背景”，再一块一块加回。
+4. 至少测 4 个种子再下结论。
+5. 一次只改一个变量。
+
+## 参考
+
+- [Anima 官方模型卡](https://huggingface.co/circlestone-labs/Anima)
+- [ComfyUI 官方中文教程](https://docs.comfy.org/zh/tutorials/image/anima/anima)
+- [The Ultimate Anima Prompting Guidebook](https://civitai.com/articles/35368/the-ultimate-anima-prompting-guidebook-all-you-need)
+- [How Your Prompt Breaks ANIMA](https://civitai.com/articles/31399/how-your-prompt-breaks-anima-and-how-to-fix-it)（社区观点，部分说法与官方不同）
+- [Wikiprompt：1000 份 Anima 提示词分析](https://www.wikiprompt.org/blog/best-anima-prompts)
+- [Mage Anima 中文提示词指南](https://www.mage.space/zh-CN/models/anima/prompting-guide)

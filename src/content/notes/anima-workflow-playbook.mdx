@@ -1,0 +1,122 @@
+---
+title: Anima 工作流与玩法笔记
+slug: anima-workflow-playbook
+summary: ComfyUI 部署、高清修复、分区提示词、批量、视频和 LoRA 训练的路线整理。
+tags: [Anima, ComfyUI, 工作流, LoRA]
+createdAt: 2026-11-16
+updatedAt: 2026-11-16
+toc: true
+---
+
+以 ComfyUI 为主，按“先跑通基础，再逐层加功能”的顺序整理。Anima 本身只是模型，真正决定出图效率的是工作流和参数管理。
+
+## ComfyUI 最小可用
+
+需要三个文件，分别放到对应目录：
+
+```text
+ComfyUI/
+├─ models/
+│  ├─ diffusion_models/anima-base-v1.0.safetensors
+│  ├─ text_encoders/qwen_3_06b_base.safetensors
+│  └─ vae/qwen_image_vae.safetensors
+```
+
+1. 把 ComfyUI 更新到较新版本。
+2. 在模板库搜索 `Anima Base v1`，或直接拖入官方工作流 JSON。
+3. 检查 UNETLoader、CLIPLoader、VAELoader 三个节点是否都指向刚下载的文件。
+4. 1024×1024、30 步、CFG 4、`er_sde` + `simple` 可以先跑第一张。
+
+6–8GB 显存可以运行。Loader 下拉框空白通常不是模型问题，而是文件放错目录。
+
+## 从草稿到成品
+
+推荐的顺序是：
+
+1. **草稿**：1024×1024，随机种子，一次 1–4 张。
+2. **挑图**：把满意的 PNG 拖回 ComfyUI，取回它的种子，把采样器的种子固定。
+3. **高清二段**：同一种子做 hi-res pass，让细节和构图一致。
+4. **Adetailer**：修脸、眼睛、手部。
+5. **放大**：tiled upscale 或模型放大。
+6. **局部重绘**：只修坏掉的区域，不要整张重跑。
+
+局部重绘脸部时，社区常用 denoise 0.73 左右作为起点；不同工作流不一样，先小范围试。
+
+## 分区与多角色
+
+以 Anima Made Easy 的分区工作流为例：
+
+- 用颜色遮罩划分区域：红、绿、蓝、黄各对应一个提示词框。
+- BASE 提示词只写共享的风格和场景，例如 `masterpiece, best quality, beach, sunset`。
+- 每个区域只写一个人物，包括服装和姿势。
+- 不要在 BASE 里描述角色，否则会渗到所有区域。
+- 用分区草稿时关掉普通草稿，避免多跑一遍。
+
+如果不想用遮罩，也可以在提示词里做简化分区：每个角色一句，写清外貌和 `left` / `right` 位置。角色多、场景复杂时，分区工作流更稳。
+
+## 批量与自动化
+
+- 用 prompt 文件加载器跑一长串提示词，适合夜间批量出图。
+- 草稿文件夹可以批量做高清；成品文件夹可以按形状批量放大。
+- 通配符 + LLM 生成场景列表，适合探索不同动作和地点；一致性要求高时不要用。
+- 文件名里带种子，方便回查和复现。
+- 每批记录模型版本、采样器、步数、CFG 和 LoRA，否则很难比较。
+
+## 视频玩法
+
+Anima 本身是文生图模型，视频需要额外的工作流和模型：
+
+- Wan 2.2：文生视频、图生视频、首尾帧、续接片段。
+- MiniMax H3：图生视频，可带声音。
+- 这些玩法需要额外的视频模型文件，和 Anima 的三件套分开管理。
+
+先把静态图跑稳，再玩视频；否则问题会同时来自提示词、构图和视频模型。
+
+## LoRA 训练
+
+### 数据集
+
+- 20–50 张通常够用；风格、角色、概念要尽量一致。
+- 图片要清晰，避免模糊、文字、水印和明显低质量样本。
+- 同一角色尽量覆盖不同服装和角度；不一致的离群图宁可删掉。
+- 角色 LoRA 不要混入多角色图，除非你就是要学多人构图。
+
+### 训练路线
+
+- 用 Anima Base v1.0 训练，兼容性最好；文本编码器和 VAE 与出图时保持一致。
+- kohya sd-scripts 使用 `anima_train_network.py` 和 `--network_module=networks.lora_anima`。
+- 第一轮只训 DiT，开启 gradient checkpointing、cache latents、cache text encoder outputs、bf16。
+- 不要训练 LLM adapter；它很容易被训坏。rank 32 的 LoRA 学习率可从 `2e-5` 起。
+- 8–12GB 显存用 low VRAM preset。
+
+社区常用参数：
+
+| 类型 | dim / alpha | 学习率 | 步数参考 |
+| --- | --- | --- | --- |
+| 角色 | 8 / 8 | 1e-4 | 20–30 张图约 1000–1500 步 |
+| 风格 | 16 / 16 | 5e-5 | 65 张图约 6500 步 |
+| 概念 | 8 / 8 或更低 | 1e-4 | 按效果调整 |
+
+工具选择：
+
+- kohya sd-scripts：官方脚本路线，参数最全。
+- sorryhyun/anima_lora：带 GUI，支持 T-LoRA、HydraLoRA，适合不想手写命令的人。
+- Anima-TrainFlow：更轻量的训练 GUI。
+
+## 玩法建议
+
+- Base 用来试风格、画师和训 LoRA；Aesthetic 用来出成品；Turbo 用来快速迭代。
+- 一次只加一个变量：先画师，再 LoRA，再 detailer，最后放大。
+- 复杂场景用混合提示词，控制在 200 token 左右；太长时先删重复和冲突。
+- 批量 + 通配符适合探索，挑出好种子后再精修。
+- 两个角色优先试提示词分区；三个以上再上遮罩工作流。
+
+## 参考
+
+- [ComfyUI 官方 Anima 教程](https://docs.comfy.org/zh/tutorials/image/anima/anima)
+- [Anima Made Easy 全流程指南](https://civitai.com/articles/37140/anima-made-easy-the-full-guide)
+- [Anima LoRA 本地训练入门](https://civitai.com/articles/31678/a-complete-beginners-guide-to-local-anima-lora-training)
+- [Anima LoRA training settings for sd-scripts](https://civitai.com/articles/31972/anima-lora-training-settings-for-sd-scripts)
+- [kohya sd-scripts Anima 训练文档](https://github.com/kohya-ss/sd-scripts/blob/main/docs/anima_train_network.md)
+- [sorryhyun/anima_lora](https://github.com/sorryhyun/anima_lora)
+- [Anima TV 动画质感实践](https://civitai.com/articles/31411/1-month-thoughts-on-anima-base-v10-achieving-the-tv-anime-look)

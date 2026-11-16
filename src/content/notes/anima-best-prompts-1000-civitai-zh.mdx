@@ -1,0 +1,78 @@
+---
+title: Anima 高分提示词观察：约 1000 份 Civitai 配方（中文翻译）
+slug: anima-best-prompts-1000-civitai-zh
+summary: 翻译 Wikiprompt 对约 1000 份 Anima 提示词的分析：常见模式、12 个案例和起步配方。
+tags: [Anima, 提示词, 翻译]
+createdAt: 2026-11-16
+updatedAt: 2026-11-16
+sourceUrl: https://www.wikiprompt.org/blog/best-anima-prompts
+license: CC BY-SA
+toc: true
+---
+
+> 原文：[The Best Anima Prompts: What 1,000 Civitai Recipes Teach](https://www.wikiprompt.org/blog/best-anima-prompts)  
+> 作者：Wikiprompt｜发布：2026-11-09  
+> 原文许可：CC BY-SA（来源站点声明，见 [Terms](https://www.wikiprompt.org/terms)）  
+> 本文为中文翻译，可能有删节和语句调整，按相同许可共享。
+
+Anima 在我们的目录里已经是最活跃的动漫图像模型之一。Wikiprompt 上几乎每条 Anima 提示词都来自 Civitai，作者会公开提示词、负面提示词和所用模型。我们查看了大约 1000 条可索引的 Anima 提示词，总结出高分作品的共同点。
+
+## Anima 擅长什么
+
+数据很清楚：约 80% 的提示词带有 anime 标签，超过一半带有 illustration 或 digital art 标签；最常见的主题是单角色——`1girl`、`solo`、`portrait`、`full body`、`character design`。竖构图占主导，接近一半是 9:16，约四分之一是 1:1。
+
+真正让人意外的是边缘案例。评分最高的 Anima 提示词并不是普通的角色肖像，而是明确指定某种艺术传统的作品：浮世绘风景、苏联构成主义海报、石墨交叉排线、韩漫赛璐璐上色。只要把风格说清楚，Anima 能把这些方向做得不错。
+
+元数据里还能看到许多微调版本：base、aesthetic、turbo，以及社区基于 Anima 做的融合模型。它们的提示词习惯几乎一样。
+
+## 有效的模式
+
+这些模式来自最高频的关键词和高评分提示词：
+
+- **质量标签放前面。** `masterpiece`、`best quality` 和 `score_9` / `score_8` / `score_7` 是大多数提示词的开头。有些作者会给它们降权，例如 `(masterpiece:0.8)`，避免压过画风。
+- **主体用 Booru 风格标签。** 短标签用逗号分隔，例如 `1girl, solo, long hair, looking at viewer, cowboy shot`，仍然是主体描述的主力。角色名用转义形式，例如 `kafka \(honkai: star rail\)`。
+- **把媒介写清楚。** 出彩的提示词会明确指定传统：`ukiyo-e`、`nihonga`、`constructivism`、`graphite_(medium)`、`heavy cross-hatching`、`manhwa`、`flat color`、`cel shading`。
+- **镜头标签。** `dutch angle`、`from below`、`extreme close-up`、`extreme long shot`、`foreshortening` 在高分图里反复出现。
+- **真的有负面提示词。** 约 40% 的提示词带负面，通常就是同一组短名单：`worst quality, low quality, score_1, score_2, score_3`。
+- **自然语言也行。** 尤其是 Turbo 融合模型，对描述完整场景的句子反应很好，下面的飞行员海报就是一个例子。
+
+## 12 个值得参考的提示词
+
+1. **时间倒流鹤·浮世绘风景**：`(ukiyo-e:3.0)` 加上 `no humans`，把动漫模型变成木版画师。富士山、松林、筑巢的麻雀，没有人物。
+2. **构成主义飞行员海报**：用一整段话而不是标签写成。对角线构图、红色楔形和探照灯光晕，海报感很强。
+3. **Signalis 宣传海报**：风格 LoRA + `propaganda poster`、有限色板、红黑、半调网点。适合任何需要留白横幅的复古海报。
+4. **水下图书馆废墟少女**：`extreme long shot`，人物在沉没图书馆里只占很小一块。`(glowing crystal lamp:0.8)` 这类加权细节能平衡画面。
+5. **哥特老年女性眼部特写**：证明 Anima 也能接近照片质感：充血的眼白、映在虹膜里的蕾丝、皮肤毛孔。
+6. **单色羊娘铅笔素描**：石墨、交叉排线、仿传统媒介，结果像铅笔画而不是渲染图。
+7. **韩漫风 Kafka 与蛛网**：一长串网漫术语（`flat color`、`cel shading`、`clean lineart`、`hard edges`），可以复用到任何角色。
+8. **暴雨中的武士少女**：`anime screencap`、官方风格，加轮廓光和闪电。提示词按地点、服装等分块标注，方便修改。
+9. **半绘画风动漫夕阳天台剪影**：逆光、背影、电线和城市剪影，完全用标签搭出的氛围图。
+10. **蝴蝶赤鬼 Q 版肖像**：Q 版比例、高对比黑白、蝴蝶剪影，是一个成功的风格混搭例子。
+11. **诡异树洞之眼**：很短的提示词加一个墨线 LoRA。树洞里两只发光的眼睛，没有别的。
+12. **骑机械龙的女性**：一句普通描述加标准负面。说明只要场景清楚，短提示词也可以成立。
+
+## 快速起步配方
+
+从下面这个模板开始，替换主体和风格行：
+
+```text
+masterpiece, best quality, score_9, score_8,
+[STYLE: ukiyo-e / constructivism / graphite sketch],
+[SUBJECT TAGS],
+[CAMERA: dutch angle / from below / extreme long shot],
+[LIGHTING], [BACKGROUND]
+```
+
+负面提示词：
+
+```text
+worst quality, low quality, score_1, score_2, score_3, blurry, jpeg artifacts
+```
+
+如果风格出不来，可以提高它的权重，例如 `(ukiyo-e:1.5)`，同时降低质量标签的权重。
+
+## 译者注
+
+- 这是对 Civitai 提示词习惯的观察，不是官方规范。部分做法（如给 `masterpiece` 降权、把风格权重拉到 1.5–3.0）和官方模型卡的说法不完全一致。官方模型卡明确说权重可用，但数值要比 SDXL 高；实际效果请固定种子测试。
+- 遇到冲突时，以 [Anima 官方模型卡](https://huggingface.co/circlestone-labs/Anima) 为准。
+- 原文中的示例图片和站内搜索入口未翻译；完整案例可在原文查看。

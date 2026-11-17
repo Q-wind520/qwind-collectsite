@@ -26,12 +26,12 @@ import Icon from './Icon.astro';
       <section class="work-modal-prompts">
         <div class="work-modal-prompt-head">
           <h3 data-work-modal-positive-label>正向提示词</h3>
-          <button type="button" data-copy-modal-positive><Icon name="copy" size={10} /><span data-copy-label>复制正向</span></button>
+          <button type="button" class="control control--sm" data-copy-modal-positive><Icon name="copy" size={10} /><span data-copy-label>复制正向</span></button>
         </div>
         <pre data-work-modal-positive></pre>
         <div class="work-modal-prompt-head">
           <h3>负向提示词</h3>
-          <button type="button" data-copy-modal-negative><Icon name="copy" size={10} /><span data-copy-label>复制负向</span></button>
+          <button type="button" class="control control--sm" data-copy-modal-negative><Icon name="copy" size={10} /><span data-copy-label>复制负向</span></button>
         </div>
         <pre data-work-modal-negative></pre>
       </section>
@@ -133,18 +133,6 @@ import Icon from './Icon.astro';
   .work-modal-prompts { display: grid; gap: 7px; }
   .work-modal-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .work-modal-prompt-head h3 { margin: 0; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); }
-  .work-modal-prompt-head button {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    border: 1px solid var(--color-line);
-    border-radius: 999px;
-    background: transparent;
-    padding: 4px 9px;
-    font-size: 9.5px;
-    color: var(--color-accent);
-    cursor: pointer;
-  }
   .work-modal-prompt-head button:disabled { opacity: .45; cursor: default; }
   .work-modal-prompts pre {
     margin: 0 0 8px;

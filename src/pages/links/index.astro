@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LinkCard from '../../components/LinkCard.astro';
 import PageHead from '../../components/PageHead.astro';
+import Select from '../../components/Select.astro';
 
 const includeDrafts = import.meta.env.DEV;
 const links = (await getCollection('links'))
@@ -10,19 +11,21 @@ const links = (await getCollection('links'))
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const domains = [...new Set(links.map((link) => new URL(link.data.url).hostname))].sort();
 const tags = [...new Set(links.flatMap((link) => link.data.tags))].sort();
+const domainOptions = [
+  { value: '', label: '全部域名' },
+  ...domains.map((domain) => ({ value: domain, label: domain })),
+];
+const tagOptions = [
+  { value: '', label: '全部标签' },
+  ...tags.map((tag) => ({ value: tag, label: tag })),
+];
 ---
 <BaseLayout title="书签" description="温水の收藏站的网页收藏。">
   <div class="container page">
-    <PageHead kicker="LINKS" title="书签" description="网页、工具和教程。" icon="bookmark" />
+    <PageHead kicker="LINKS" title="书签" icon="bookmark" />
     <div class="glass link-tools">
-      <select name="domain" data-link-domain>
-        <option value="">全部域名</option>
-        {domains.map((domain) => <option value={domain}>{domain}</option>)}
-      </select>
-      <select name="tag" data-link-tag>
-        <option value="">全部标签</option>
-        {tags.map((tag) => <option value={tag}>{tag}</option>)}
-      </select>
+      <Select name="domain" label="按域名筛选" options={domainOptions} data-link-domain />
+      <Select name="tag" label="按标签筛选" options={tagOptions} data-link-tag />
     </div>
     <div class="link-list" data-link-list>
       {links.map((link) => <LinkCard link={link} />)}
@@ -32,8 +35,8 @@ const tags = [...new Set(links.flatMap((link) => link.data.tags))].sort();
 </BaseLayout>
 
 <style>
-  .link-tools { display: flex; gap: 8px; padding: 10px 12px; margin-bottom: 12px; }
-  select { max-width: 100%; border: 1px solid var(--color-line); border-radius: 999px; background: rgba(255,255,255,.65); padding: 6px 10px; font-size: 11px; }
+  .link-tools { position: relative; z-index: 20; display: flex; gap: 8px; padding: 10px 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .link-tools :global(.select-trigger) { min-width: 156px; }
   .link-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   @media (max-width: 760px) { .link-list { grid-template-columns: 1fr; } }
 </style>

@@ -17,7 +17,7 @@ const hrefFor = (href: string) => (href.startsWith('http') ? href : withBase(hre
   </div>
   <div class="profile-links">
     {site.links.map((link, index) => (
-      <a class={index === 0 ? 'primary' : ''} href={hrefFor(link.href)} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+      <a class:list={['control', 'control--sm', index === 0 ? 'control--primary' : 'control--accent']} href={hrefFor(link.href)} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
         <Icon name={link.icon} size={13} />
         {link.label}
       </a>
@@ -42,9 +42,6 @@ const hrefFor = (href: string) => (href.startsWith('http') ? href : withBase(hre
   .profile-name span { font-size: 9.5px; letter-spacing: .16em; color: var(--color-muted); text-transform: uppercase; }
   .profile-bio { margin: 5px 0 0; font-size: 12px; line-height: 1.7; color: var(--color-muted); }
   .profile-links { display: flex; gap: 7px; flex-wrap: wrap; }
-  .profile-links a { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 999px; font-size: 11px; text-decoration: none; color: var(--color-accent); background: var(--color-accent-soft); border: 1px solid rgba(255,224,224,.9); }
-  .profile-links a.primary { color: #fff; background: var(--color-accent); border-color: var(--color-accent); }
-  .profile-links a:hover { transform: translateY(-1px); }
   .stats { display: flex; gap: 24px; padding-left: 22px; border-left: 1px solid var(--color-line); }
   .stats div { text-align: center; }
   .stats b { display: block; font-size: 19px; font-weight: 600; color: var(--color-accent); }

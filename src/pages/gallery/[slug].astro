@@ -58,14 +58,14 @@ const positiveAction = work.data.kind === 'style'
         <p class="kicker">NSFW</p>
         <h2 class="warm">此内容默认隐藏</h2>
         <p>包含成人向内容。开启 NSFW 显示并完成成年确认后查看。</p>
-        <button type="button" data-nsfw-enable>开启 NSFW 内容</button>
+        <button type="button" class="control control--primary" data-nsfw-enable>开启 NSFW 内容</button>
       </div>
     )}
     <div data-nsfw={nsfw ? 'true' : 'false'}>
       <article class="glass work-detail">
       <div class="work-media">
         <a href={assetUrl(large.src)} data-pswp data-pswp-width={cover.width} data-pswp-height={cover.height} aria-label={`查看《${work.data.title}》大图`}>
-          <Image src={cover} alt={work.data.title} widths={[600, 1200, 1600]} sizes="(max-width: 760px) 100vw, 60vw" format="webp" loading="eager" />
+          <Image src={cover} alt={work.data.title} widths={[600, 1200, 1600]} sizes="(max-width: 900px) 100vw, 60vw" format="webp" loading="eager" />
         </a>
         {work.data.images.length > 1 && (
           <div class="work-thumbs">
@@ -125,6 +125,6 @@ const positiveAction = work.data.kind === 'style'
   .nsfw-notice { padding: 24px; margin-bottom: 14px; display: grid; gap: 8px; }
   .nsfw-notice h2 { margin: 0; font-size: 24px; }
   .nsfw-notice p { margin: 0; color: var(--color-muted); font-size: 12px; }
-  .nsfw-notice button { justify-self: start; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-accent); color: #fff; padding: 8px 14px; font-size: 12px; cursor: pointer; }
-  @media (max-width: 760px) { .work-detail { grid-template-columns: 1fr; padding: 14px; } }
+  .nsfw-notice button { justify-self: start; }
+  @media (max-width: 900px) { .work-detail { grid-template-columns: 1fr; padding: 14px; } }
 </style>

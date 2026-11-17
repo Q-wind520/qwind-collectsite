@@ -89,7 +89,7 @@ if (root) {
   clearButton?.addEventListener('click', () => {
     if (source) source.value = '';
     if (output) output.value = '';
-    setStatus('选择模型后输入提示词，点击转换。');
+    setStatus('');
     source?.focus();
   });
   sampleButton?.addEventListener('click', () => {

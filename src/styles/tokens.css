@@ -31,6 +31,18 @@
   --radius-panel: 20px;
   --radius-card: 15px;
   --radius-thumb: 12px;
+  --radius-control: 12px;
+  --radius-control-sm: 10px;
+
+  --control-h: 34px;
+  --control-h-sm: 28px;
+  --control-bg: rgba(255, 255, 255, 0.45);
+  --control-bg-hover: rgba(255, 255, 255, 0.72);
+  --control-border: rgba(255, 255, 255, 0.7);
+  --control-border-hover: color-mix(in srgb, var(--color-accent) 42%, rgba(255, 255, 255, 0.7));
+  --control-fg: var(--color-muted);
+  --control-fg-hover: var(--color-text);
+  --control-ring: color-mix(in srgb, var(--color-accent) 26%, transparent);
 
   color-scheme: light;
 }
@@ -59,6 +71,14 @@
   --header-bg: rgba(28, 22, 26, 0.58);
   --field-bg: rgba(18, 14, 16, 0.62);
   --field-bg-readonly: rgba(18, 14, 16, 0.42);
+
+  --control-bg: rgba(255, 255, 255, 0.055);
+  --control-bg-hover: rgba(255, 255, 255, 0.12);
+  --control-border: rgba(255, 255, 255, 0.14);
+  --control-border-hover: color-mix(in srgb, var(--color-accent) 45%, rgba(255, 255, 255, 0.14));
+  --control-fg: var(--color-muted);
+  --control-fg-hover: var(--color-text);
+  --control-ring: color-mix(in srgb, var(--color-accent) 30%, transparent);
 
   color-scheme: dark;
 }

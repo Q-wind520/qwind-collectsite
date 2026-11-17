@@ -22,7 +22,6 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
       <PageHead
         kicker="GALLERY"
         title="作品"
-        description="原图与提示词。按层级、实验类型和标签筛选；点击图片或标题查看详情。"
         icon="images"
       />
       <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />

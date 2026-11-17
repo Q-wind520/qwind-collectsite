@@ -1,0 +1,142 @@
+---
+import Icon from './Icon.astro';
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  name: string;
+  options: Option[];
+  value?: string;
+  label: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { name, options, value = '', label, class: className, ...rest } = Astro.props;
+const selected = options.find((option) => option.value === value) ?? options[0];
+const listId = `select-${name}-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<div class:list={['select', className]} data-select>
+  <select class="select-native" name={name} aria-label={label} tabindex="-1" aria-hidden="true" {...rest}>
+    {options.map((option) => (
+      <option value={option.value} selected={option.value === selected?.value}>{option.label}</option>
+    ))}
+  </select>
+  <button
+    type="button"
+    class="control select-trigger"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls={listId}
+    aria-label={label}
+    data-select-trigger
+  >
+    <span class="select-value" data-select-label>{selected?.label ?? ''}</span>
+    <Icon name="chevron-down" size={13} class="select-chevron" />
+  </button>
+  <ul class="select-menu" id={listId} role="listbox" aria-label={label} data-select-menu hidden>
+    {options.map((option) => (
+      <li role="option" tabindex="-1" aria-selected={option.value === selected?.value} data-value={option.value}>
+        <span>{option.label}</span>
+        <Icon name="check" size={13} class="select-check" />
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  import '../scripts/select-ui';
+</script>
+
+<style>
+  .select { position: relative; display: inline-flex; min-width: 0; max-width: 100%; }
+
+  .select-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    pointer-events: none;
+  }
+
+  .select-trigger {
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 104px;
+    max-width: 100%;
+    color: var(--color-text);
+    font-size: 11.5px;
+  }
+
+  .select-value {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :global(.select-chevron) {
+    flex: none;
+    color: var(--color-muted);
+    transition: transform 0.18s ease, color 0.18s ease;
+  }
+  .select-trigger:hover :global(.select-chevron) { color: var(--color-link); }
+  .select-trigger[aria-expanded="true"] :global(.select-chevron) { transform: rotate(180deg); }
+
+  .select-menu {
+    position: absolute;
+    z-index: 70;
+    top: calc(100% + 6px);
+    left: 0;
+    width: max-content;
+    min-width: max(100%, 152px);
+    max-width: min(320px, 80vw);
+    max-height: min(280px, 52vh);
+    margin: 0;
+    padding: 5px;
+    overflow-y: auto;
+    list-style: none;
+    border: 1px solid var(--color-line);
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--color-bg) 94%, #fff 6%);
+    box-shadow: 0 22px 54px -26px rgba(40, 16, 28, 0.55), 0 2px 8px -4px rgba(40, 16, 28, 0.18);
+    animation: select-in 0.14s ease;
+  }
+  .select.align-end .select-menu { right: 0; left: auto; }
+
+  .select-menu li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 12px;
+    line-height: 1.45;
+    cursor: pointer;
+    transition: background-color 0.14s ease, color 0.14s ease;
+  }
+  .select-menu li:hover,
+  .select-menu li:focus-visible {
+    outline: none;
+    background: var(--color-accent-soft);
+    color: var(--color-link);
+  }
+  .select-menu li[aria-selected="true"] { color: var(--color-link); font-weight: 600; }
+  :global(.select-check) { flex: none; color: var(--color-accent); opacity: 0; }
+  .select-menu li[aria-selected="true"] :global(.select-check) { opacity: 1; }
+
+  @keyframes select-in {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

@@ -22,10 +22,12 @@ const typeFor = (mime?: string) => {
   if (/zip|compressed|tar|gzip/.test(mime)) return { icon: 'file-archive', label: 'ARCHIVE' };
   return { icon: 'file', label: mime.split('/')[0].toUpperCase() };
 };
+const canPreview = (mime?: string) =>
+  Boolean(mime?.startsWith('image/') || mime === 'application/pdf' || mime?.startsWith('audio/'));
 ---
 <BaseLayout title="文件" description="温水の收藏站的文件与资源。">
   <div class="container page">
-    <PageHead kicker="FILES" title="文件" description="可下载的资源与预览。" icon="folder-open" />
+    <PageHead kicker="FILES" title="文件" icon="folder-open" />
     <div class="glass file-table">
       {files.map((file) => (
         <div class="file-row" data-file-row data-mime={file.data.mime || ''} data-href={hrefFor(file)}>
@@ -33,14 +35,14 @@ const typeFor = (mime?: string) => {
             <Icon name={typeFor(file.data.mime).icon} size={15} />
             <span>{typeFor(file.data.mime).label}</span>
           </span>
-          <a class="name" href={hrefFor(file)} target={file.data.external ? '_blank' : undefined} rel={file.data.external ? 'noopener noreferrer' : undefined}>
+          <a class="name" href={hrefFor(file)} target={file.data.external ? '_blank' : undefined} rel={file.data.external ? 'noopener noreferrer' : undefined} aria-haspopup={canPreview(file.data.mime) ? 'dialog' : undefined}>
             <span class="name-text">{file.data.title}</span>
             {file.data.external && <Icon name="arrow-up-right" size={11} />}
           </a>
           <span class="meta size">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
           <span class="meta date">{file.data.createdAt.toISOString().slice(0, 10)}</span>
-          {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf' || file.data.mime?.startsWith('audio/')) && (
-            <button type="button" data-preview>
+          {(canPreview(file.data.mime)) && (
+            <button type="button" class="control control--sm" data-preview>
               <Icon name={file.data.mime?.startsWith('audio/') ? 'play' : 'eye'} size={11} />
               {file.data.mime?.startsWith('audio/') ? '播放' : '预览'}
             </button>
@@ -64,8 +66,7 @@ const typeFor = (mime?: string) => {
   .name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .name:hover { color: var(--color-accent); }
   .meta { font-size: 10px; color: var(--color-muted); text-align: right; }
-  button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 4px 9px; font-size: 10px; color: var(--color-muted); cursor: pointer; }
-  button:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  button:hover { color: var(--color-link); }
   .preview-dialog { width: min(860px, calc(100vw - 32px)); max-height: 86vh; border: 1px solid var(--glass-border); border-radius: var(--radius-panel); padding: 16px; background: var(--glass-bg); backdrop-filter: blur(18px); color: var(--color-text); }
   .preview-dialog::backdrop { background: rgba(0,0,0,.55); }
   .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }

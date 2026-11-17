@@ -13,8 +13,9 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
 ---
 <BaseLayout title="笔记" description="温水の收藏站的笔记与文章。">
   <div class="container page">
-    <PageHead kicker="NOTES" title="笔记" description={`${notes.length} 篇 · 零散记录、配置和心得。`} icon="notebook-pen" />
-    <div class="note-list">
+    <div class="notes-wrap">
+      <PageHead kicker="NOTES" title="笔记" icon="notebook-pen" />
+      <div class="note-list">
       {notes.map((note) => (
         <a class="glass note-card" href={withBase(`/notes/${note.data.slug}`)}>
           <span class="note-card-top">
@@ -32,22 +33,24 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
           </span>
         </a>
       ))}
+      </div>
     </div>
   </div>
 </BaseLayout>
 
 <style>
+  .notes-wrap { max-width: 940px; margin-inline: auto; }
   .note-list {
     display: grid;
-    gap: 12px;
-    max-width: 940px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: clamp(10px, 1.4vw, 16px);
   }
   .note-card {
     display: flex;
     flex-direction: column;
     gap: 8px;
     height: 100%;
-    padding: 20px 22px;
+    padding: clamp(18px, 2.2vw, 24px) clamp(18px, 2.4vw, 26px);
     text-decoration: none;
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   }
@@ -72,7 +75,7 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
     background: var(--color-accent);
   }
   .note-card-title {
-    font-size: 20px;
+    font-size: clamp(18px, 1.2vw + 12px, 21px);
     line-height: 1.45;
     color: var(--color-text);
     transition: color 0.18s ease;
@@ -116,11 +119,7 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
   }
   .note-card:hover .note-more { color: var(--color-accent); transform: translateX(2px); }
 
-  @media (min-width: 760px) {
-    .note-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  }
   @media (max-width: 480px) {
-    .note-card { padding: 16px 16px; }
     .note-card-title { font-size: 18px; }
   }
 </style>

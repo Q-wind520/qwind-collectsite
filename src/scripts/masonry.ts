@@ -1,5 +1,5 @@
 const GAP = 12;
-const MOBILE_QUERY = '(max-width: 760px)';
+const MOBILE_QUERY = '(max-width: 900px)';
 
 const grids = [...document.querySelectorAll<HTMLElement>('[data-masonry]')];
 

@@ -12,7 +12,9 @@ const { work } = Astro.props;
 const cover = work.data.images[0];
 const { detail, artistNames } = await buildWorkDetail(work);
 const artistSlugs = work.data.artists.map((ref) => ref.id);
-const metaLabel = artistNames.join(' / ') || TIER_LABELS[work.data.tier];
+const metaLabel = artistNames.length > 3
+  ? `${artistNames.slice(0, 3).join(' / ')} 等 ${artistNames.length} 位`
+  : artistNames.join(' / ') || TIER_LABELS[work.data.tier];
 const modalJson = JSON.stringify(detail).replace(/</g, '\\u003c');
 ---
 <article

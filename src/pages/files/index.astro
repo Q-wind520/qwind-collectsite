@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import PageHead from '../../components/PageHead.astro';
 import { formatBytes } from '../../lib/format';
 import { withBase } from '../../lib/url';
 
@@ -10,21 +12,38 @@ const files = (await getCollection('files'))
   .sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime());
 const hrefFor = (file: (typeof files)[number]) =>
   file.data.external || file.data.filePath.startsWith('http') ? file.data.filePath : withBase(file.data.filePath);
+const typeFor = (mime?: string) => {
+  if (!mime) return { icon: 'file', label: 'FILE' };
+  if (mime.startsWith('image/')) return { icon: 'file-image', label: 'IMAGE' };
+  if (mime.startsWith('audio/')) return { icon: 'file-audio', label: 'AUDIO' };
+  if (mime.startsWith('video/')) return { icon: 'file-video-camera', label: 'VIDEO' };
+  if (mime === 'application/pdf') return { icon: 'file-text', label: 'PDF' };
+  if (mime.startsWith('text/')) return { icon: 'file-text', label: 'TEXT' };
+  if (/zip|compressed|tar|gzip/.test(mime)) return { icon: 'file-archive', label: 'ARCHIVE' };
+  return { icon: 'file', label: mime.split('/')[0].toUpperCase() };
+};
 ---
 <BaseLayout title="文件" description="温水の收藏站的文件与资源。">
   <div class="container page">
-    <header class="page-head"><p class="kicker">FILES</p><h1>文件</h1><p>可下载的资源与预览。</p></header>
+    <PageHead kicker="FILES" title="文件" description="可下载的资源与预览。" icon="folder-open" />
     <div class="glass file-table">
       {files.map((file) => (
         <div class="file-row" data-file-row data-mime={file.data.mime || ''} data-href={hrefFor(file)}>
-          <span class="type">{file.data.mime?.split('/')[0] || 'FILE'}</span>
+          <span class="type" title={typeFor(file.data.mime).label}>
+            <Icon name={typeFor(file.data.mime).icon} size={15} />
+            <span>{typeFor(file.data.mime).label}</span>
+          </span>
           <a class="name" href={hrefFor(file)} target={file.data.external ? '_blank' : undefined} rel={file.data.external ? 'noopener noreferrer' : undefined}>
-            {file.data.title}
+            <span class="name-text">{file.data.title}</span>
+            {file.data.external && <Icon name="arrow-up-right" size={11} />}
           </a>
           <span class="meta size">{file.data.size ? formatBytes(file.data.size) : '—'}</span>
           <span class="meta date">{file.data.createdAt.toISOString().slice(0, 10)}</span>
           {(file.data.mime?.startsWith('image/') || file.data.mime === 'application/pdf' || file.data.mime?.startsWith('audio/')) && (
-            <button type="button" data-preview>{file.data.mime?.startsWith('audio/') ? '播放' : '预览'}</button>
+            <button type="button" data-preview>
+              <Icon name={file.data.mime?.startsWith('audio/') ? 'play' : 'eye'} size={11} />
+              {file.data.mime?.startsWith('audio/') ? '播放' : '预览'}
+            </button>
           )}
         </div>
       ))}
@@ -40,11 +59,13 @@ const hrefFor = (file: (typeof files)[number]) =>
   .file-table { padding: 4px 14px; }
   .file-row { display: grid; grid-template-columns: 54px minmax(0, 1fr) 74px 92px auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--color-line); font-size: 12px; }
   .file-row:last-child { border-bottom: 0; }
-  .type { font-size: 9px; letter-spacing: .08em; color: var(--color-accent); }
-  .name { text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .type { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; font-size: 8px; line-height: 1.2; letter-spacing: .06em; color: var(--color-accent); }
+  .name { display: inline-flex; align-items: center; gap: 4px; min-width: 0; text-decoration: none; }
+  .name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .name:hover { color: var(--color-accent); }
   .meta { font-size: 10px; color: var(--color-muted); text-align: right; }
-  button { border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 4px 9px; font-size: 10px; color: var(--color-muted); cursor: pointer; }
+  button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 4px 9px; font-size: 10px; color: var(--color-muted); cursor: pointer; }
+  button:hover { color: var(--color-accent); border-color: var(--color-accent); }
   .preview-dialog { width: min(860px, calc(100vw - 32px)); max-height: 86vh; border: 1px solid var(--glass-border); border-radius: var(--radius-panel); padding: 16px; background: var(--glass-bg); backdrop-filter: blur(18px); color: var(--color-text); }
   .preview-dialog::backdrop { background: rgba(0,0,0,.55); }
   .preview-dialog :global(img) { max-height: 70vh; margin: 0 auto; }

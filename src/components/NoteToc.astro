@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
 }
@@ -13,6 +15,7 @@ const items = headings.filter((heading) => heading.depth <= 3);
     <summary>
       <span class="toc-title">目录</span>
       <small data-toc-count>{items.length} 节</small>
+      <Icon name="chevron-down" size={12} class="toc-chevron" />
     </summary>
     <nav class="toc-nav">
       {items.map((heading) => (
@@ -71,14 +74,8 @@ const items = headings.filter((heading) => heading.depth <= 3);
     list-style: none;
   }
   .toc-details > summary::-webkit-details-marker { display: none; }
-  .toc-details > summary::after {
-    content: "▾";
-    margin-left: auto;
-    color: var(--color-muted);
-    font-size: 10px;
-    transition: transform 0.18s ease;
-  }
-  .toc-details[open] > summary::after { transform: rotate(180deg); }
+  .toc-details[open] :global(.toc-chevron) { transform: rotate(180deg); }
+  :global(.toc-chevron) { margin-left: auto; color: var(--color-muted); transition: transform 0.18s ease; }
   .toc-details[open] > summary { border-bottom: 1px solid var(--color-line); }
 
   .toc-title { letter-spacing: 0.08em; }

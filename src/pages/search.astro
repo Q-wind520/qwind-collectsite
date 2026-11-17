@@ -1,11 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import PageHead from '../components/PageHead.astro';
 ---
 <BaseLayout title="搜索" description="搜索温水の收藏站的全部内容。">
   <div class="container page">
-    <header class="page-head"><p class="kicker">SEARCH</p><h1>搜索</h1><p>标题、标签、正文都可以搜。</p></header>
+    <PageHead kicker="SEARCH" title="搜索" description="标题、标签、正文都可以搜。" icon="search" />
     <div class="glass search-page" data-search-root>
-      <input data-search-input type="search" placeholder="搜索标题、标签或正文…" autofocus />
+      <span class="search-field">
+        <Icon name="search" size={15} class="search-icon" />
+        <input data-search-input type="search" placeholder="搜索标题、标签或正文…" autofocus />
+      </span>
       <div data-search-results class="search-results" aria-live="polite"><p class="search-empty">输入标题、标签或正文关键词。</p></div>
     </div>
   </div>
@@ -14,7 +19,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <style>
   .search-page { padding: 16px; }
-  input { width: 100%; border: 1px solid var(--color-line); border-radius: 12px; padding: 10px 12px; background: rgba(255,255,255,.55); color: var(--color-text); }
+  .search-field { position: relative; display: block; }
+  .search-field :global(.search-icon) { position: absolute; top: 50%; left: 13px; transform: translateY(-50%); color: var(--color-muted); pointer-events: none; }
+  input { width: 100%; border: 1px solid var(--color-line); border-radius: 12px; padding: 10px 12px 10px 38px; background: rgba(255,255,255,.55); color: var(--color-text); }
   .search-results { margin-top: 12px; display: grid; gap: 6px; }
   .search-results :global(.search-hit) { display: grid; grid-template-columns: 44px 1fr; gap: 2px 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; }
   .search-results :global(.search-hit:hover),

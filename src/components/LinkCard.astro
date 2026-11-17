@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
 
 interface Props { link: CollectionEntry<'links'>; }
 const { link } = Astro.props;
@@ -19,18 +20,21 @@ const initial = domain.slice(0, 1).toUpperCase();
     {link.data.favicon ? <img src={link.data.favicon} alt="" loading="lazy" /> : initial}
   </span>
   <span class="body">
-    <b>{link.data.title}</b>
-    <small>{domain}</small>
+    <b>{link.data.title}<Icon name="external-link" size={11} class="ext" /></b>
+    <small><Icon name="globe" size={10} />{domain}</small>
     <p>{link.data.summary || link.data.description}</p>
   </span>
 </a>
 
 <style>
   .link-card { display: flex; gap: 12px; padding: 13px 15px; text-decoration: none; }
+  .link-card:hover { border-color: color-mix(in srgb, var(--color-accent) 40%, var(--glass-border)); }
+  .link-card:hover :global(.ext) { color: var(--color-accent); opacity: 1; }
   .favicon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent); font-size: 13px; font-weight: 700; overflow: hidden; }
   .favicon img { width: 100%; height: 100%; object-fit: cover; }
   .body { min-width: 0; }
-  .body b { display: block; font-size: 13px; }
-  .body small { display: block; font-size: 10px; color: var(--color-muted); }
+  .body b { display: flex; align-items: baseline; gap: 5px; font-size: 13px; }
+  .body b :global(.ext) { color: var(--color-muted); opacity: .55; transition: color .15s ease, opacity .15s ease; }
+  .body small { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--color-muted); }
   .body p { margin: 4px 0 0; font-size: 11px; color: var(--color-muted); line-height: 1.6; }
 </style>

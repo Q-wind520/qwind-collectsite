@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import NoteToc from '../../components/NoteToc.astro';
 import { withBase } from '../../lib/url';
 import { tagToSlug } from '../../lib/content';
@@ -26,28 +27,28 @@ const updated = note.data.updatedAt?.toISOString().slice(0, 10);
   <div class="container page">
     <article class="glass note-article" class:list={{ 'with-toc': showToc }}>
       <header class="note-head">
-        <p class="kicker">NOTE / {created}</p>
+        <p class="kicker"><Icon name="notebook-pen" size={11} /> NOTE / {created}</p>
         <h1 class="warm">{note.data.title}</h1>
         {note.data.summary && <p class="summary">{note.data.summary}</p>}
         <div class="note-meta">
-          <span>{readingTime} 分钟阅读</span>
+          <span><Icon name="clock" size={11} />{readingTime} 分钟阅读</span>
           {note.data.tags.map((tag) => {
             const slug = tagToSlug(tag);
             return slug
               ? <a href={withBase(`/tags/${slug}`)}>#{tag}</a>
               : <span class="tag-plain">#{tag}</span>;
           })}
-          {updated && updated !== created && <span class="updated">更新于 {updated}</span>}
+          {updated && updated !== created && <span class="updated"><Icon name="calendar-days" size={11} />更新于 {updated}</span>}
         </div>
       </header>
 
       <div class="note-body">
         <div class="prose" data-note-prose><Content /></div>
         <footer class="note-foot">
-          <a class="back" href={withBase('/notes')}>← 全部笔记</a>
+          <a class="back" href={withBase('/notes')}><Icon name="arrow-left" size={12} />全部笔记</a>
           <div class="note-source">
             {note.data.sourceUrl && (
-              <a href={note.data.sourceUrl} target="_blank" rel="noopener noreferrer">原文来源 ↗</a>
+              <a href={note.data.sourceUrl} target="_blank" rel="noopener noreferrer">原文来源 <Icon name="arrow-up-right" size={11} /></a>
             )}
             {note.data.license && <span>{note.data.license}</span>}
           </div>
@@ -89,8 +90,12 @@ const updated = note.data.updatedAt?.toISOString().slice(0, 10);
     color: var(--color-muted);
     font-size: 11px;
   }
+  .kicker { display: inline-flex; align-items: center; gap: 6px; }
+  .note-meta span { display: inline-flex; align-items: center; gap: 4px; }
   .note-meta a,
   .note-meta .tag-plain {
+    display: inline-flex;
+    align-items: center;
     padding: 2px 9px;
     border: 1px solid color-mix(in srgb, var(--color-accent) 32%, transparent);
     border-radius: 999px;
@@ -115,10 +120,10 @@ const updated = note.data.updatedAt?.toISOString().slice(0, 10);
     font-size: 11px;
     color: var(--color-muted);
   }
-  .note-foot .back { color: var(--color-link); text-decoration: none; }
+  .note-foot .back { display: inline-flex; align-items: center; gap: 5px; color: var(--color-link); text-decoration: none; }
   .note-foot .back:hover { color: var(--color-accent); }
   .note-source { display: flex; gap: 12px; flex-wrap: wrap; }
-  .note-source a { color: var(--color-muted); text-decoration: none; }
+  .note-source a { display: inline-flex; align-items: center; gap: 4px; color: var(--color-muted); text-decoration: none; }
   .note-source a:hover { color: var(--color-link); }
 
   @media (min-width: 900px) {

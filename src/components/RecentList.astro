@@ -1,13 +1,16 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   items: { type: string; title: string; href: string; date: Date; nsfw?: boolean }[];
 }
 const { items } = Astro.props;
+const typeIcons: Record<string, string> = { 作品: 'image', 笔记: 'notebook-pen', 书签: 'bookmark', 文件: 'file' };
 ---
 <div class="glass recent-list">
   {items.map((item) => (
     <a class="recent-row" href={item.href} data-nsfw={item.nsfw ? 'true' : 'false'}>
-      <span class="type">{item.type}</span>
+      <span class="type"><Icon name={typeIcons[item.type] ?? 'file'} size={12} /><span>{item.type}</span></span>
       <b>{item.title}</b>
       <span class="date">{item.date.toISOString().slice(0, 10)}</span>
     </a>
@@ -20,6 +23,6 @@ const { items } = Astro.props;
   .recent-row:last-child { border-bottom: 0; }
   .recent-row:hover b { color: var(--color-accent); }
   .recent-row b { overflow-wrap: anywhere; }
-  .type { width: 36px; flex: none; font-size: 9px; letter-spacing: .08em; color: var(--color-accent); }
-  .date { margin-left: auto; font-size: 10px; color: var(--color-muted); }
+  .type { display: inline-flex; align-items: center; gap: 4px; width: 52px; flex: none; font-size: 9px; letter-spacing: .08em; color: var(--color-accent); }
+  .date { flex: none; margin-left: auto; font-size: 10px; color: var(--color-muted); white-space: nowrap; }
 </style>

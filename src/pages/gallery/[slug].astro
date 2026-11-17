@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { assetUrl, withBase } from '../../lib/url';
@@ -81,12 +82,12 @@ const positiveAction = work.data.kind === 'style'
         <h1 class="warm">{work.data.title}</h1>
         {work.data.summary && <p class="summary">{work.data.summary}</p>}
         <dl class="facts">
-          <div><dt>日期</dt><dd>{work.data.createdAt.toISOString().slice(0, 10)}</dd></div>
-          <div><dt>画师</dt><dd>{artists.filter(Boolean).map((artist) => artist!.data.title).join(' / ') || '—'}</dd></div>
-          <div><dt>模型</dt><dd>{work.data.prompt.model || '—'}</dd></div>
-          <div><dt>层级</dt><dd>{tierLabel}</dd></div>
-          <div><dt>实验</dt><dd>{experimentLabel}</dd></div>
-          <div><dt>分级</dt><dd>{work.data.rating}</dd></div>
+          <div><dt><Icon name="calendar-days" size={10} />日期</dt><dd>{work.data.createdAt.toISOString().slice(0, 10)}</dd></div>
+          <div><dt><Icon name="user-round" size={10} />画师</dt><dd>{artists.filter(Boolean).map((artist) => artist!.data.title).join(' / ') || '—'}</dd></div>
+          <div><dt><Icon name="wand-sparkles" size={10} />模型</dt><dd>{work.data.prompt.model || '—'}</dd></div>
+          <div><dt><Icon name="tags" size={10} />层级</dt><dd>{tierLabel}</dd></div>
+          <div><dt><Icon name="list-filter" size={10} />实验</dt><dd>{experimentLabel}</dd></div>
+          <div><dt><Icon name="eye" size={10} />分级</dt><dd>{work.data.rating}</dd></div>
         </dl>
         <div class="tags">
           {work.data.tags.map((tag) => {
@@ -116,7 +117,7 @@ const positiveAction = work.data.kind === 'style'
   .summary { color: var(--color-muted); font-size: 13px; overflow-wrap: anywhere; }
   .facts { display: grid; gap: 8px; margin: 16px 0; }
   .facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--color-line); min-width: 0; }
-  .facts dt { font-size: 10px; letter-spacing: .1em; color: var(--color-muted); flex: none; }
+  .facts dt { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; letter-spacing: .1em; color: var(--color-muted); flex: none; }
   .facts dd { margin: 0; font-size: 12px; overflow-wrap: anywhere; text-align: right; }
   .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
   .tags a, .tags span { font-size: 11px; color: var(--color-accent); text-decoration: none; overflow-wrap: anywhere; }

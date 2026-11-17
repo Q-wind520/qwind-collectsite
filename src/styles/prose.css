@@ -168,23 +168,29 @@
 
 /* ---- tables ---- */
 
-.prose table {
-  display: block;
-  width: 100%;
+.prose .table-wrap {
   margin: 18px 0 22px;
   border: 1px solid var(--color-line);
   border-radius: 12px;
-  border-collapse: collapse;
   background: var(--prose-table-bg);
   overflow-x: auto;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 13px;
   line-height: 1.7;
 }
-@media (max-width: 759px) {
-  .prose table { min-width: 540px; }
-}
-@media (min-width: 760px) {
-  .prose table { display: table; }
+.prose .table-wrap table { min-width: 540px; }
+/* Fallback for Markdown tables that arrive without the wrapper. */
+.prose > table {
+  display: block;
+  margin: 18px 0 22px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--prose-table-bg);
+  overflow-x: auto;
 }
 .prose thead { background: var(--prose-th-bg); }
 .prose th,

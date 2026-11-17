@@ -36,6 +36,25 @@ button, input, select, textarea { font: inherit; }
 dialog { margin: auto; }
 
 .warm { font-family: var(--font-warm); }
+
+/* Inline Lucide icons */
+.icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: -0.14em;
+}
+svg.icon { stroke-width: 1.75; }
+
+/* Header icon states (icons are rendered by a child component, so these live globally). */
+.theme-moon { display: none; }
+:root[data-theme="dark"] .theme-sun { display: none; }
+:root[data-theme="dark"] .theme-moon { display: inline-block; }
+.nsfw-eye-on { display: none; }
+.nsfw-toggle[aria-pressed="true"] .nsfw-eye-on { display: inline-block; }
+.nsfw-toggle[aria-pressed="true"] .nsfw-eye-off { display: none; }
+.menu-icon-close { display: none; }
+.menu-toggle[aria-expanded="true"] .menu-icon-open { display: none; }
+.menu-toggle[aria-expanded="true"] .menu-icon-close { display: inline-block; }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;

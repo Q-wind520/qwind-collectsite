@@ -1,8 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
 import FilterBar from '../../components/FilterBar.astro';
+import PageHead from '../../components/PageHead.astro';
 import { collectTags, validateSlugs } from '../../lib/content';
 
 const includeDrafts = import.meta.env.DEV;
@@ -17,14 +19,15 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
 <BaseLayout title="作品" description="温水の收藏站的作品与生图实验记录。">
   <div class="container page">
     <div class="gallery-main">
-      <header class="page-head gallery-heading">
-        <p class="kicker">GALLERY</p>
-        <h1>作品</h1>
-        <p>原图与提示词。按层级、实验类型和标签筛选；点击图片或标题查看详情。</p>
-      </header>
+      <PageHead
+        kicker="GALLERY"
+        title="作品"
+        description="原图与提示词。按层级、实验类型和标签筛选；点击图片或标题查看详情。"
+        icon="images"
+      />
       <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
       <GalleryGrid works={works} />
-      <p class="gallery-empty glass" data-gallery-empty hidden>这个筛选条件还没有内容。</p>
+      <p class="gallery-empty glass" data-gallery-empty hidden><Icon name="image-off" size={14} />这个筛选条件还没有内容。</p>
     </div>
   </div>
   <script>import '../../scripts/gallery-filter';</script>
@@ -32,6 +35,5 @@ const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
 
 <style>
   .gallery-main { min-width: 0; }
-  .gallery-heading { margin-bottom: 16px; }
-  .gallery-empty { margin-top: 12px; padding: 18px; text-align: center; color: var(--color-muted); font-size: 12px; }
+  .gallery-empty { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; padding: 18px; text-align: center; color: var(--color-muted); font-size: 12px; }
 </style>

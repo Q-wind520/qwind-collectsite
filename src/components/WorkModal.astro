@@ -1,7 +1,8 @@
 ---
+import Icon from './Icon.astro';
 ---
 <dialog class="work-modal" data-work-modal aria-label="作品详情">
-  <button type="button" class="work-modal-close" data-work-modal-close aria-label="关闭作品详情">✕</button>
+  <button type="button" class="work-modal-close" data-work-modal-close aria-label="关闭作品详情"><Icon name="x" size={15} /></button>
   <div class="work-modal-shell">
     <figure class="work-modal-media" data-work-modal-media>
       <button type="button" class="work-modal-zoom" data-work-modal-zoom aria-label="放大查看作品图">
@@ -14,23 +15,23 @@
       <h2 class="warm" data-work-modal-title></h2>
       <p class="work-modal-summary" data-work-modal-summary></p>
       <dl class="work-modal-facts">
-        <div><dt>日期</dt><dd data-work-modal-date></dd></div>
-        <div><dt>画师</dt><dd data-work-modal-artists></dd></div>
-        <div><dt>模型</dt><dd data-work-modal-model></dd></div>
-        <div><dt>层级</dt><dd data-work-modal-tier></dd></div>
-        <div><dt>实验</dt><dd data-work-modal-experiment></dd></div>
-        <div><dt>分级</dt><dd data-work-modal-rating></dd></div>
+        <div><dt><Icon name="calendar-days" size={10} />日期</dt><dd data-work-modal-date></dd></div>
+        <div><dt><Icon name="user-round" size={10} />画师</dt><dd data-work-modal-artists></dd></div>
+        <div><dt><Icon name="wand-sparkles" size={10} />模型</dt><dd data-work-modal-model></dd></div>
+        <div><dt><Icon name="tags" size={10} />层级</dt><dd data-work-modal-tier></dd></div>
+        <div><dt><Icon name="list-filter" size={10} />实验</dt><dd data-work-modal-experiment></dd></div>
+        <div><dt><Icon name="eye" size={10} />分级</dt><dd data-work-modal-rating></dd></div>
       </dl>
       <div class="work-modal-tags" data-work-modal-tags></div>
       <section class="work-modal-prompts">
         <div class="work-modal-prompt-head">
           <h3 data-work-modal-positive-label>正向提示词</h3>
-          <button type="button" data-copy-modal-positive>复制正向</button>
+          <button type="button" data-copy-modal-positive><Icon name="copy" size={10} /><span data-copy-label>复制正向</span></button>
         </div>
         <pre data-work-modal-positive></pre>
         <div class="work-modal-prompt-head">
           <h3>负向提示词</h3>
-          <button type="button" data-copy-modal-negative>复制负向</button>
+          <button type="button" data-copy-modal-negative><Icon name="copy" size={10} /><span data-copy-label>复制负向</span></button>
         </div>
         <pre data-work-modal-negative></pre>
       </section>
@@ -125,7 +126,7 @@
   .work-modal-summary { margin: 0 0 14px; color: var(--color-muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
   .work-modal-facts { display: grid; gap: 7px; margin: 0 0 14px; }
   .work-modal-facts div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 5px; border-bottom: 1px solid var(--color-line); min-width: 0; }
-  .work-modal-facts dt { flex: none; font-size: 9.5px; letter-spacing: 0.1em; color: var(--color-muted); }
+  .work-modal-facts dt { display: inline-flex; align-items: center; gap: 4px; flex: none; font-size: 9.5px; letter-spacing: 0.1em; color: var(--color-muted); }
   .work-modal-facts dd { margin: 0; font-size: 11.5px; text-align: right; overflow-wrap: anywhere; }
   .work-modal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
   .work-modal-tags a, .work-modal-tags span { font-size: 10.5px; color: var(--color-accent); text-decoration: none; overflow-wrap: anywhere; }
@@ -133,6 +134,9 @@
   .work-modal-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .work-modal-prompt-head h3 { margin: 0; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); }
   .work-modal-prompt-head button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     border: 1px solid var(--color-line);
     border-radius: 999px;
     background: transparent;
@@ -158,6 +162,8 @@
     top: 18px;
     right: 18px;
     z-index: 5;
+    display: grid;
+    place-items: center;
     width: 36px;
     height: 36px;
     border: 1px solid var(--color-line);

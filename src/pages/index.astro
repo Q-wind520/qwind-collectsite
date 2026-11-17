@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import ProfileCard from '../components/ProfileCard.astro';
 import WorkCard from '../components/WorkCard.astro';
 import RecentList from '../components/RecentList.astro';
@@ -32,7 +33,7 @@ const recent = [
 ---
 <BaseLayout>
   <section class="hero">
-    <p class="hero-kicker">✦ Personal Archive · 2026</p>
+    <p class="hero-kicker"><Icon name="sparkles" size={11} /> Personal Archive · 2026</p>
     <h1 class="warm">{site.name}</h1>
     <p class="hero-sub">{site.englishName} · Images, Artists & Notes</p>
     <span class="hero-badge">首批收录 {safeWorks.length} 件作品 · 持续整理中</span>
@@ -40,24 +41,30 @@ const recent = [
 
   <div class="container home-content">
     <ProfileCard stats={[
-      { label: '作品', value: safeWorks.length },
-      { label: '标签', value: tagCount },
-      { label: '笔记', value: noteCount },
-      { label: '书签', value: linkCount },
+      { label: '作品', value: safeWorks.length, icon: 'image' },
+      { label: '标签', value: tagCount, icon: 'tags' },
+      { label: '笔记', value: noteCount, icon: 'notebook-pen' },
+      { label: '书签', value: linkCount, icon: 'bookmark' },
     ]} />
 
     <div class="glass notice" data-announcement>
-      <span>📢 <b>公告</b> · {site.announcement}</span>
-      <button type="button" aria-label="关闭公告" data-announcement-close>✕</button>
+      <span><Icon name="megaphone" size={14} /> <b>公告</b> · {site.announcement}</span>
+      <button type="button" aria-label="关闭公告" data-announcement-close><Icon name="x" size={13} /></button>
     </div>
 
     <section class="home-section">
-      <div class="section-head"><h2 class="warm">精选作品</h2><a href={withBase('/gallery')}>全部作品 →</a></div>
+      <div class="section-head">
+        <h2 class="warm"><Icon name="star" size={17} />精选作品</h2>
+        <a href={withBase('/gallery')}>全部作品 <Icon name="arrow-right" size={12} /></a>
+      </div>
       <div class="grid" data-masonry>{showcase.map((work) => <WorkCard work={work} />)}</div>
     </section>
 
     <section class="home-section">
-      <div class="section-head"><h2 class="warm">画廊</h2><a href={withBase('/gallery')}>进入画廊 →</a></div>
+      <div class="section-head">
+        <h2 class="warm"><Icon name="images" size={17} />画廊</h2>
+        <a href={withBase('/gallery')}>进入画廊 <Icon name="arrow-right" size={12} /></a>
+      </div>
       <div class="preview-grid">
         {preview.map((work) => (
           <a class="preview" href={withBase(`/gallery/${work.data.slug}`)} aria-label={work.data.title} data-nsfw={isNsfw(work.data.rating) ? 'true' : 'false'}>
@@ -68,7 +75,10 @@ const recent = [
     </section>
 
     <section class="home-section">
-      <div class="section-head"><h2 class="warm">最近更新</h2><a href={withBase('/search')}>搜索全部 →</a></div>
+      <div class="section-head">
+        <h2 class="warm"><Icon name="clock-fading" size={17} />最近更新</h2>
+        <a href={withBase('/search')}>搜索全部 <Icon name="arrow-right" size={12} /></a>
+      </div>
       <RecentList items={recent} />
     </section>
   </div>
@@ -77,18 +87,21 @@ const recent = [
 
 <style>
   .hero { max-width: 1180px; margin: 0 auto; padding: 76px 20px 84px; text-align: center; color: #fff; }
-  .hero-kicker { display: inline-flex; padding: 5px 13px; border-radius: 999px; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.34); }
+  .hero-kicker { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 999px; font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.34); }
   .hero h1 { margin: 18px 0 0; font-size: clamp(44px, 7vw, 74px); font-weight: 600; letter-spacing: .14em; text-shadow: 0 6px 36px rgba(0,0,0,.42); }
   .hero-sub { margin: 12px 0 0; font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.8); }
   .hero-badge { display: inline-flex; margin-top: 22px; padding: 7px 15px; border-radius: 999px; font-size: 11px; background: rgba(240,128,140,.5); border: 1px solid rgba(255,255,255,.38); }
   .home-content { margin-top: -34px; }
   .notice { display: flex; align-items: center; gap: 9px; margin-top: 14px; padding: 10px 15px; border-radius: 14px; font-size: 11.5px; color: #9a5d63; background: rgba(255,244,243,.82); }
-  .notice b { color: var(--color-accent); }
-  .notice button { margin-left: auto; border: 0; background: transparent; color: inherit; cursor: pointer; }
+  .notice > span { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; }
+  .notice b { white-space: nowrap; color: var(--color-accent); }
+  .notice button { display: inline-flex; margin-left: auto; border: 0; background: transparent; color: inherit; cursor: pointer; }
   .home-section { margin-top: 18px; }
-  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; margin-bottom: 12px; }
-  .section-head h2 { margin: 0; font-size: 20px; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
-  .section-head a { font-size: 11px; color: rgba(255,255,255,.82); text-decoration: none; }
+  .section-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .section-head h2 { display: inline-flex; align-items: center; gap: 7px; margin: 0; font-size: 20px; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
+  .section-head h2 :global(.icon) { opacity: .82; }
+  .section-head a { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: rgba(255,255,255,.82); text-decoration: none; }
+  .section-head a:hover { color: #fff; }
   .preview-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
   .preview { aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
   .preview :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }

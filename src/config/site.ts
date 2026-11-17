@@ -7,9 +7,9 @@ export const site = {
   banner: '/images/banner.svg',
   announcement: '作品与生图笔记先去逛，书签和文件还在陆续补。',
   links: [
-    { label: 'GitHub', href: 'https://github.com/Q-wind520' },
-    { label: '博客', href: 'https://blog.qwind.top/' },
-    { label: 'RSS', href: '/rss.xml' },
+    { label: 'GitHub', href: 'https://github.com/Q-wind520', icon: 'github' },
+    { label: '博客', href: 'https://blog.qwind.top/', icon: 'pen-line' },
+    { label: 'RSS', href: '/rss.xml', icon: 'rss' },
   ],
   license: {
     name: 'CC BY-NC 4.0',

@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import PageHead from '../../components/PageHead.astro';
 import { withBase } from '../../lib/url';
 
 const includeDrafts = import.meta.env.DEV;
@@ -11,18 +13,14 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
 ---
 <BaseLayout title="笔记" description="温水の收藏站的笔记与文章。">
   <div class="container page">
-    <header class="page-head">
-      <p class="kicker">NOTES</p>
-      <h1>笔记</h1>
-      <p>{notes.length} 篇 · 零散记录、配置和心得。</p>
-    </header>
+    <PageHead kicker="NOTES" title="笔记" description={`${notes.length} 篇 · 零散记录、配置和心得。`} icon="notebook-pen" />
     <div class="note-list">
       {notes.map((note) => (
         <a class="glass note-card" href={withBase(`/notes/${note.data.slug}`)}>
           <span class="note-card-top">
-            <time datetime={note.data.createdAt.toISOString()}>{note.data.createdAt.toISOString().slice(0, 10)}</time>
+            <span class="stat"><Icon name="calendar-days" size={11} /><time datetime={note.data.createdAt.toISOString()}>{note.data.createdAt.toISOString().slice(0, 10)}</time></span>
             <span class="dot" aria-hidden="true"></span>
-            <span>{note.data.readingTime ?? readingTime(note.body ?? '')} 分钟</span>
+            <span class="stat"><Icon name="clock" size={11} />{note.data.readingTime ?? readingTime(note.body ?? '')} 分钟</span>
           </span>
           <b class="warm note-card-title">{note.data.title}</b>
           {note.data.summary && <p class="note-card-summary">{note.data.summary}</p>}
@@ -30,7 +28,7 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
             <span class="note-tags">
               {note.data.tags.map((tag) => <span>#{tag}</span>)}
             </span>
-            <span class="note-more" aria-hidden="true">阅读 →</span>
+            <span class="note-more" aria-hidden="true">阅读 <Icon name="arrow-right" size={12} /></span>
           </span>
         </a>
       ))}
@@ -61,11 +59,12 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
   .note-card-top {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     color: var(--color-muted);
     font-size: 10.5px;
     letter-spacing: 0.04em;
   }
+  .note-card-top .stat { display: inline-flex; align-items: center; gap: 4px; }
   .note-card-top .dot {
     width: 3px;
     height: 3px;
@@ -107,6 +106,9 @@ const readingTime = (body: string) => Math.max(1, Math.round(body.replace(/\s+/g
     font-size: 10px;
   }
   .note-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     flex: none;
     color: var(--color-muted);
     font-size: 10.5px;

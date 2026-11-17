@@ -1,13 +1,14 @@
 ---
+import Icon from './Icon.astro';
 import { site } from '../config/site';
 import { withBase } from '../lib/url';
 
 const items = [
-  { label: '作品', href: '/gallery' },
-  { label: '工具', href: '/tools' },
-  { label: '书签', href: '/links' },
-  { label: '笔记', href: '/notes' },
-  { label: '文件', href: '/files' },
+  { label: '作品', href: '/gallery', icon: 'image' },
+  { label: '工具', href: '/tools', icon: 'wand-sparkles' },
+  { label: '书签', href: '/links', icon: 'bookmark' },
+  { label: '笔记', href: '/notes', icon: 'notebook-pen' },
+  { label: '文件', href: '/files', icon: 'folder-open' },
 ];
 ---
 <header class="topbar">
@@ -18,16 +19,31 @@ const items = [
     </a>
     <nav class="topnav" id="site-nav" data-nav aria-label="主导航">
       {items.map((item) => (
-        <a href={withBase(item.href)}>{item.label}</a>
+        <a href={withBase(item.href)}>
+          <Icon name={item.icon} size={14} />
+          <span>{item.label}</span>
+        </a>
       ))}
     </nav>
     <div class="top-actions">
-      <button type="button" data-search-open>搜索 <kbd>⌘K</kbd></button>
-      <button type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
-      <button type="button" class="nsfw-toggle" data-nsfw-toggle aria-pressed="false" aria-label="显示 NSFW 内容">
-        <span class="nsfw-dot" aria-hidden="true"></span><span data-nsfw-label>NSFW</span>
+      <button type="button" data-search-open>
+        <Icon name="search" size={13} />
+        <span>搜索</span>
+        <kbd>⌘K</kbd>
       </button>
-      <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单" aria-expanded="false" aria-controls="site-nav">☰</button>
+      <button type="button" data-theme-toggle aria-label="切换明暗主题">
+        <Icon name="sun" size={14} class="theme-sun" />
+        <Icon name="moon" size={14} class="theme-moon" />
+      </button>
+      <button type="button" class="nsfw-toggle" data-nsfw-toggle aria-pressed="false" aria-label="显示 NSFW 内容">
+        <Icon name="eye-off" size={13} class="nsfw-eye nsfw-eye-off" />
+        <Icon name="eye" size={13} class="nsfw-eye nsfw-eye-on" />
+        <span data-nsfw-label>NSFW</span>
+      </button>
+      <button type="button" class="menu-toggle" data-menu-toggle aria-label="打开菜单" aria-expanded="false" aria-controls="site-nav">
+        <Icon name="menu" size={16} class="menu-icon-open" />
+        <Icon name="x" size={16} class="menu-icon-close" />
+      </button>
     </div>
   </div>
 </header>
@@ -61,20 +77,26 @@ const items = [
   .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; text-decoration: none; }
   .brand img { border-radius: 50%; border: 1.5px solid #fff; }
   .topnav { display: flex; gap: 20px; }
-  .topnav a { color: var(--color-muted); text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid transparent; }
+  .topnav a { display: inline-flex; align-items: center; gap: 5px; color: var(--color-muted); text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid transparent; }
+  .topnav a :global(.icon) { opacity: 0.7; transition: opacity 0.15s ease; }
+  .topnav a:hover :global(.icon) { opacity: 1; }
   .topnav a:hover { color: var(--color-accent); border-color: var(--color-accent); }
   .top-actions { display: flex; align-items: center; gap: 7px; }
   .top-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     color: var(--color-muted); background: rgba(255, 255, 255, 0.35);
     border: 1px solid var(--glass-border); border-radius: 999px;
     padding: 6px 11px; font-size: 11px; cursor: pointer;
   }
+  .top-actions button:hover { color: var(--color-accent); border-color: color-mix(in srgb, var(--color-accent) 45%, var(--glass-border)); }
   .top-actions kbd { font: inherit; font-size: 9px; opacity: 0.7; }
   .menu-toggle { display: none; }
   .nsfw-toggle { display: inline-flex; align-items: center; gap: 6px; }
-  .nsfw-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-muted); flex: none; }
   .nsfw-toggle[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
-  .nsfw-toggle[aria-pressed="true"] .nsfw-dot { background: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.22); }
+  .top-actions .menu-toggle { display: none; }
   .nsfw-dialog {
     width: min(480px, calc(100vw - 32px)); border: 1px solid var(--glass-border);
     border-radius: var(--radius-panel); padding: 24px; background: var(--glass-bg);
@@ -100,6 +122,7 @@ const items = [
       border-radius: var(--radius-panel); backdrop-filter: blur(18px);
     }
     .menu-toggle { display: inline-block; }
+    .top-actions .menu-toggle { display: inline-flex; }
   }
   @media (max-width: 480px) {
     .topbar-inner { padding: 0 14px; gap: 10px; }

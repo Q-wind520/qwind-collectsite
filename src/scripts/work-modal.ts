@@ -78,7 +78,8 @@ if (dialog) {
 
   const copy = async (text: string, button: HTMLButtonElement) => {
     if (!text) return;
-    const previous = button.textContent;
+    const label = button.querySelector<HTMLElement>('[data-copy-label]') ?? button;
+    const previous = label.textContent;
     try {
       await navigator.clipboard.writeText(text);
     } catch {
@@ -91,8 +92,8 @@ if (dialog) {
       document.execCommand('copy');
       area.remove();
     }
-    button.textContent = '已复制';
-    window.setTimeout(() => { button.textContent = previous; }, 1200);
+    label.textContent = '已复制';
+    window.setTimeout(() => { label.textContent = previous; }, 1200);
   };
 
   const setText = (element: HTMLElement | null, value: string) => {
@@ -135,7 +136,8 @@ if (dialog) {
     setText(positive, item.positive || '—');
     setText(negative, item.negative || '—');
     if (positiveButton) {
-      positiveButton.textContent = item.positiveAction;
+      const label = positiveButton.querySelector<HTMLElement>('[data-copy-label]') ?? positiveButton;
+      label.textContent = item.positiveAction;
       positiveButton.disabled = !item.positive;
     }
     if (negativeButton) negativeButton.disabled = !item.negative;

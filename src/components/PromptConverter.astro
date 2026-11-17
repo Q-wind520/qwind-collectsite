@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { promptConversions, promptModels } from '../lib/prompt-convert';
 
 const models = Object.values(promptModels);
@@ -11,8 +12,8 @@ const models = Object.values(promptModels);
       <p>在 Anima、NovelAI V4.5 与 NovelAI V5 之间转译权重、嵌套和画师 tag。全部在浏览器本地完成。</p>
     </div>
     <div class="converter-head-actions">
-      <button type="button" data-load-sample>载入示例</button>
-      <button type="button" data-rules-toggle aria-expanded="false" aria-controls="conversion-rules">详情</button>
+      <button type="button" data-load-sample><Icon name="sparkles" size={11} />载入示例</button>
+      <button type="button" data-rules-toggle aria-expanded="false" aria-controls="conversion-rules"><Icon name="list-filter" size={11} />详情</button>
     </div>
   </div>
 
@@ -22,7 +23,7 @@ const models = Object.values(promptModels);
         <p class="kicker">TRANSLATION LIST</p>
         <h3 class="warm" id="conversion-rules-title">转译列表</h3>
       </div>
-      <button type="button" data-rules-close aria-label="关闭转译列表">✕</button>
+      <button type="button" data-rules-close aria-label="关闭转译列表"><Icon name="x" size={14} /></button>
     </div>
     <p class="rules-popover-note">
       V4.5 与 V5 的权重语法相同，但 V5 对空格、大小写和词序更敏感。画师名在本站按 V4.5 用下划线、V5 用空格处理；V5 专属 tag 转回 V4.5 时会保留并提示。
@@ -36,7 +37,7 @@ const models = Object.values(promptModels);
             {conversion.rules.map((rule) => (
               <li>
                 <code>{rule.from}</code>
-                <span>→</span>
+                <span><Icon name="arrow-right" size={11} /></span>
                 <code>{rule.to}</code>
                 <small>{rule.note}</small>
               </li>
@@ -59,8 +60,8 @@ const models = Object.values(promptModels);
     </label>
 
     <div class="converter-actions" aria-label="转换操作">
-      <button type="button" class="primary" data-convert>转换</button>
-      <button type="button" data-swap>交换</button>
+      <button type="button" class="primary" data-convert><Icon name="wand-sparkles" size={12} />转换</button>
+      <button type="button" data-swap><Icon name="arrow-left-right" size={12} />交换</button>
     </div>
 
     <label class="pane">
@@ -77,8 +78,8 @@ const models = Object.values(promptModels);
   <div class="converter-footer">
     <p class="status" data-status aria-live="polite">选择模型后输入提示词，点击转换。</p>
     <div class="footer-actions">
-      <button type="button" data-copy>复制结果</button>
-      <button type="button" data-clear>清空</button>
+      <button type="button" data-copy><Icon name="copy" size={11} />复制结果</button>
+      <button type="button" data-clear><Icon name="eraser" size={11} />清空</button>
     </div>
   </div>
 
@@ -96,6 +97,10 @@ const models = Object.values(promptModels);
   .converter-head p:not(.kicker) { margin: 6px 0 0; color: var(--color-muted); font-size: 12px; line-height: 1.7; }
   .converter-head-actions { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
   .converter-head button, .footer-actions button, .converter-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     border: 1px solid var(--color-line); border-radius: 999px; background: transparent;
     color: var(--color-muted); padding: 7px 12px; font-size: 11px; cursor: pointer;
   }
@@ -127,7 +132,7 @@ const models = Object.values(promptModels);
   }
   .rules-popover-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
   .rules-popover-head h3 { margin: 0; font-size: 20px; }
-  .rules-popover-head button { flex: none; width: 28px; height: 28px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; color: var(--color-muted); cursor: pointer; }
+  .rules-popover-head button { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; color: var(--color-muted); cursor: pointer; }
   .rules-popover-note { margin: 8px 0 14px; font-size: 10.5px; line-height: 1.7; color: var(--color-muted); }
   .rules-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .rule-card { padding: 12px; border-radius: 12px; background: var(--field-bg-readonly); border: 1px solid var(--color-line); min-width: 0; }
@@ -135,7 +140,7 @@ const models = Object.values(promptModels);
   .rule-card > p { margin: 5px 0 9px; font-size: 10px; line-height: 1.6; color: var(--color-muted); }
   .rule-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   .rule-card li { display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
-  .rule-card li > span { color: var(--color-muted); font-size: 10px; }
+  .rule-card li > span { display: inline-flex; align-items: center; color: var(--color-muted); font-size: 10px; }
   .rule-card small { flex-basis: 100%; font-size: 9.5px; color: var(--color-muted); }
   @media (max-width: 760px) {
     .converter-head { display: grid; }

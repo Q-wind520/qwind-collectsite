@@ -1,16 +1,18 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props { positive: string; negative: string; positiveLabel?: string; positiveAction?: string; }
 const { positive, negative, positiveLabel = '正向提示词', positiveAction = '复制正向' } = Astro.props;
 ---
 <section class="prompt-block">
   <div class="prompt-head">
     <h2>{positiveLabel}</h2>
-    <button type="button" data-copy-text={positive}>{positiveAction}</button>
+    <button type="button" data-copy-text={positive}><Icon name="copy" size={11} /><span data-copy-label>{positiveAction}</span></button>
   </div>
   <pre>{positive || '—'}</pre>
   <div class="prompt-head">
     <h2>负向提示词</h2>
-    <button type="button" data-copy-text={negative}>复制负向</button>
+    <button type="button" data-copy-text={negative}><Icon name="copy" size={11} /><span data-copy-label>复制负向</span></button>
   </div>
   <pre>{negative || '—'}</pre>
 </section>
@@ -20,6 +22,6 @@ const { positive, negative, positiveLabel = '正向提示词', positiveAction = 
   .prompt-block { display: grid; gap: 8px; }
   .prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .prompt-head h2 { margin: 0; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--color-muted); }
-  button { border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 5px 10px; font-size: 10px; color: var(--color-accent); cursor: pointer; }
+  button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--color-line); border-radius: 999px; background: transparent; padding: 5px 10px; font-size: 10px; color: var(--color-accent); cursor: pointer; }
   pre { margin: 0 0 8px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,.05); font-family: var(--font-mono); font-size: 11px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
 </style>

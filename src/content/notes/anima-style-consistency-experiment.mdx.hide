@@ -1,0 +1,120 @@
+---
+title: 【归档】Anima 画风一致性实验（未完成）
+slug: anima-style-consistency-experiment
+summary: 未完成项目：Anima / Illustrious 画风一致性 pilot。因底模版本和样本限制，不作为结论。
+tags: [Anima, 画风, 实验, LoRA, 归档]
+createdAt: 2026-11-17
+updatedAt: 2026-11-17
+draft: true
+toc: true
+---
+
+> **归档 / 未完成**：本实验因光辉系底模版本不匹配（用的是 Illustrious-XL v1.0，而不是贴吧语境中的当前光辉系）、样本小、指标只是代理指标，**未能验证原帖观点**。以下内容仅作为未完成项目记录，不作为结论。
+
+社区里有一种说法：Anima 在固定质量/画风提示词、只改变人物和背景时，画风会大幅跳变；因此不建议用 Anima 探索画风，应该用光辉（Illustrious）产图，再拿这些图给 Anima 炼风格 LoRA。
+
+这个说法可以拆成三个可检验的问题：
+
+1. 固定风格提示词、改变内容时，Anima 的画风一致性是否明显低于 Illustrious？
+2. 固定画师串能不能把画风稳住？
+3. 加一个风格 LoRA 后，画风一致性会不会明显提升？
+
+我装好 Illustrious-XL v1.0 和同一个「Sketchy」风格 LoRA 的 Anima / Illustrious 两个版本，做了一组 4×6 对照。
+
+## 实验设置
+
+- 底模：Anima Aesthetic v1.1、Illustrious-XL v1.0
+- 风格 LoRA：`anima_sketchy.safetensors`（触发词 `@Sk3tchy`）、`Sk3tchy.safetensors`（触发词 `Skt3tchy`），强度 0.8
+- 分辨率：512×768
+- 采样：Anima 16 步、CFG 4、`er_sde` / `simple`；Illustrious 16 步、CFG 5、`dpmpp_2m` / `karras`
+- 固定风格提示词：`masterpiece, best quality, highres, safe, anime coloring, cel shading, flat color, clean lineart, vibrant colors, high contrast`
+- 4 个内容：初音未来花田、芙莉莲图书馆、胡桃花灯夜祭、无人物森林；每个条件使用相同种子
+- 6 个条件：Anima 底模、Anima + `@rella`、Anima + Sketchy LoRA；Illustrious 底模、Illustrious + `rella`、Illustrious + Sketchy LoRA
+- 共 24 张图
+
+评价指标：
+
+- 用 VGG19 的 Gram 矩阵计算两两余弦相似度，分别看低层颜色/纹理和高层结构；数值越高表示该层风格越一致。
+- 颜色直方图余弦相似度作为辅助指标。
+
+需要先说明一个限制：Illustrious 版 Sketchy LoRA 的作者说明它是在 WAI-NSFW V16 上训练的，而我用的是 Illustrious-XL v1.0，因此「Illustrious + Sketchy LoRA」这一行只能作为参考，不能和 Anima 的 LoRA 行完全等价比较。
+
+## 对照图
+
+<!-- 归档图片在 docs/archive/anima-style-consistency.jpg；恢复本文时复制回 public/experiments/ -->
+
+<img src="../../experiments/anima-style-consistency.jpg" alt="Anima 与 Illustrious 在固定风格提示词下的画风对照" loading="lazy" />
+
+图中每行一个条件，每列一个内容。为了版面整洁，公开图只放了花田、图书馆、森林三列；夜祭图也参与了指标计算。
+
+## 指标结果
+
+以下数字仅作为归档数据，不足以支撑对比结论。
+
+| 条件 | 低层 relu1_2 | 中层 relu2_2 | 中高层 relu3_4 | 高层 relu4_4 | 全局 Gram | 颜色直方图 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Anima 底模 | 0.663 | 0.804 | 0.760 | 0.542 | 0.692 | 0.456 |
+| Anima + `@rella` | 0.685 | 0.806 | 0.744 | 0.495 | 0.682 | 0.461 |
+| Anima + Sketchy LoRA | 0.510 | 0.835 | 0.815 | 0.626 | 0.697 | 0.198 |
+| Illustrious 底模 | 0.770 | 0.849 | 0.702 | 0.442 | 0.691 | 0.465 |
+| Illustrious + `rella` | 0.821 | 0.813 | 0.633 | 0.406 | 0.668 | 0.401 |
+| Illustrious + Sketchy LoRA* | 0.861 | 0.821 | 0.756 | 0.549 | 0.747 | 0.600 |
+
+`*` Illustrious 版 LoRA 训练底模与本次使用的底模不完全一致。
+
+## 结果怎么读
+
+### 1. 整体画风一致性并没有明显差距
+
+只看全局 Gram，Anima 底模 0.692，Illustrious 底模 0.691，基本打平。颜色直方图也是 0.456 对 0.465，差距很小。
+
+所以在这组数据里，看不到「Anima 的画风散布远大于光辉」；但受底模版本和样本限制，不能据此否定原帖。
+
+### 2. 但分层后确实有差异
+
+差异主要出现在层间：
+
+- 低层颜色/纹理：Illustrious 0.770 > Anima 0.663。光辉的局部颜色和质感更统一，Anima 的配色和笔触更容易随内容变化。
+- 高层结构：Anima 0.542 > Illustrious 0.442。Anima 在更高层的画面结构上反而更稳定。
+
+一个可能的解释是：如果你说的「画风」主要是配色、笔触、材质，那么会感觉 Anima 跳得更厉害；如果你说的是构图、光影组织和画面结构，Anima 反而更稳。
+
+### 3. 固定画师串有一点用，但解决不了差距
+
+给 Anima 加固定画师串 `@rella` 后：
+
+- 低层从 0.663 升到 0.685，有改善，但离 Illustrious 的 0.770 还差不少。
+- 高层从 0.542 降到 0.495。
+
+给 Illustrious 加 `rella` 也是类似方向：低层 0.770 → 0.821，高层 0.442 → 0.406。
+
+在这组数据里，画师串能把低层风格往一个方向拉一点，但会牺牲部分高层一致性，不能简单当作「画风稳定器」。
+
+### 4. 风格 LoRA 不是简单的「更稳」
+
+Anima + Sketchy LoRA：
+
+- 中层 0.804 → 0.835，中高层 0.760 → 0.815，高层 0.542 → 0.626，结构和笔触风格更统一。
+- 但低层 0.663 → 0.510，颜色直方图 0.456 → 0.198，配色反而更分散。
+
+在这组数据里，LoRA 更偏向在中高层把「画法」拉齐，不是把所有视觉维度都变得更一致。它可以成为风格工具，但不能用「加了 LoRA 所以画风更稳」一句话概括。
+
+Illustrious + Sketchy LoRA 的低层和高层都上升，但前面说过，这个 LoRA 的训练底模不是本次的 Illustrious-XL v1.0，所以只能作为旁证。
+
+## 归档说明
+
+这篇不再给出「部分成立 / 不成立」的结论。原因：
+
+- 对照用的光辉底模是 Illustrious-XL v1.0，版本偏旧；贴吧语境里的「光辉系」更可能是 WAI、NoobAI 等当前模型。用老 v1 对照会低估光辉系的实际表现。
+- 4 个内容、4–6 个条件、单一分辨率/步数，样本太小；VGG Gram 和颜色直方图都受内容影响，不能等同于人眼「画风」。
+- 用了 IP 角色，两个模型对角色/作品的知识不同；Illustrious v1 的初音甚至画成了无脸，风格指标被内容失败污染。
+- 「Anima 自己产图炼 LoRA 效果差」这个最关键的说法完全没有验证，需要实际训练两个 LoRA 对比。
+
+所以这组实验只能留下一个待验证线索：在低层颜色/纹理上，Illustrious v1 比 Anima 更稳；在高层结构上，Anima 的数字更高。但这个层间差异是否在换成当前光辉系后仍然存在，需要重做实验才能回答。
+
+## 参考
+
+- [贴吧原帖](https://tieba.baidu.com/p/10890067033)
+- [Sketchy style LoRA（Anima / Illustrious）](https://civitai.com/models/2313550)
+- [Anima 官方模型卡](https://huggingface.co/circlestone-labs/Anima)
+- [Illustrious-XL v1.0](https://huggingface.co/OnomaAIResearch/Illustrious-XL-v1.0)

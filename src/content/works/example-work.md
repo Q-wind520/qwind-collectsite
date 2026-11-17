@@ -7,6 +7,8 @@ createdAt: 2026-10-01
 featured: true
 draft: true
 kind: painting
+tier: sketch
+experiment: [prompt]
 images:
   - ../../assets/works/example-work/01.webp
   - ../../assets/works/example-work/02.webp

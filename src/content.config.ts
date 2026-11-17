@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { WORK_EXPERIMENTS, WORK_KINDS, WORK_TIERS } from './lib/work-meta';
 
 const base = {
   title: z.string().min(1),
@@ -20,7 +21,9 @@ const works = defineCollection({
   loader: glob({ base: './src/content/works', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => z.object({
     ...base,
-    kind: z.enum(['painting', 'style', 'composition']).default('painting'),
+    kind: z.enum(WORK_KINDS).default('painting'),
+    tier: z.enum(WORK_TIERS).default('refined'),
+    experiment: z.array(z.enum(WORK_EXPERIMENTS)).default([]),
     images: z.array(image()).min(1),
     prompt: z.object({
       positive: z.string().default(''),

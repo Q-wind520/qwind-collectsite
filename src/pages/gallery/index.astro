@@ -2,46 +2,36 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
-import GallerySidebar from '../../components/GallerySidebar.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import { collectTags, kindCounts, validateSlugs } from '../../lib/content';
+import { collectTags, validateSlugs } from '../../lib/content';
 
 const includeDrafts = import.meta.env.DEV;
 const works = (await getCollection('works')).filter((work) => includeDrafts || !work.data.draft);
 validateSlugs(works);
-const counts = kindCounts(works);
-const allCounts = kindCounts(works, true);
 const usedArtistIds = new Set(works.flatMap((work) => work.data.artists.map((ref) => ref.id)));
 const artists = (await getCollection('artists'))
   .filter((artist) => !artist.data.draft && usedArtistIds.has(artist.id))
   .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
 const tags = [...collectTags(works).entries()].sort((a, b) => b[1] - a[1]);
 ---
-<BaseLayout title="作品" description="温水の收藏站的画作、画风与构图。">
+<BaseLayout title="作品" description="温水の收藏站的作品与生图实验记录。">
   <div class="container page">
-    <div class="gallery-layout">
-      <GallerySidebar counts={counts} allCounts={allCounts} />
-      <div class="gallery-main">
-        <header class="page-head gallery-heading">
-          <p class="kicker">GALLERY</p>
-          <h1 data-gallery-title>画作</h1>
-          <p data-gallery-desc>原图与提示词。点击图片或标题，在当前页查看作品详情。</p>
-        </header>
-        <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
-        <GalleryGrid works={works} />
-        <p class="gallery-empty glass" data-gallery-empty hidden>这个分类还没有内容。</p>
-      </div>
+    <div class="gallery-main">
+      <header class="page-head gallery-heading">
+        <p class="kicker">GALLERY</p>
+        <h1>作品</h1>
+        <p>原图与提示词。按层级、实验类型和标签筛选；点击图片或标题查看详情。</p>
+      </header>
+      <FilterBar artists={artists.map((artist) => ({ id: artist.id, name: artist.data.title }))} tags={tags} />
+      <GalleryGrid works={works} />
+      <p class="gallery-empty glass" data-gallery-empty hidden>这个筛选条件还没有内容。</p>
     </div>
   </div>
   <script>import '../../scripts/gallery-filter';</script>
 </BaseLayout>
 
 <style>
-  .gallery-layout { display: grid; grid-template-columns: 224px minmax(0, 1fr); gap: 16px; align-items: start; }
   .gallery-main { min-width: 0; }
   .gallery-heading { margin-bottom: 16px; }
   .gallery-empty { margin-top: 12px; padding: 18px; text-align: center; color: var(--color-muted); font-size: 12px; }
-  @media (max-width: 760px) {
-    .gallery-layout { grid-template-columns: 1fr; gap: 10px; }
-  }
 </style>

@@ -1,6 +1,6 @@
 # 温水の收藏站
 
-个人收藏站：NovelAI 画作、画风、构图、网页书签、笔记与文件。
+个人收藏站：NovelAI 作品与生图实验记录、画师、网页书签、笔记与文件。
 
 - 主站：https://collect.qwind.top/
 - GitHub Pages 镜像：https://q-wind520.github.io/qwind-collectsite/
@@ -16,8 +16,8 @@ pnpm dev
 ## 新增内容
 
 ```bash
-pnpm new work --kind painting
-pnpm new work --kind style --artist "artist:xxx"
+pnpm new work --kind painting --tier refined --experiment prompt
+pnpm new work --kind style --tier refined --experiment lora --artist "artist:xxx"
 pnpm new work --kind composition --scene "wide shot, rule of thirds"
 pnpm optimize-image ~/Pictures/originals/foo.png src/assets/works/foo/01.webp
 pnpm check
@@ -26,7 +26,14 @@ git commit -m "content: add foo"
 git push
 ```
 
-作品分类通过 `kind` 区分：`painting`（画作，原图 + 提示词）、`style`（画风，画师串 + 参考图）、`composition`（构图，构图/场景串 + 参考图）。示例作品已设置为 `draft: true`，生产构建不会显示；本地开发模式仍会显示草稿。
+作品浏览不再按「画作 / 画风 / 构图」分栏，而是「作品 + 多轴标签」：
+
+- `kind` 只决定详情页提示词区块的类型：`painting` 正向提示词、`style` 画师串、`composition` 构图/场景串；它不参与浏览分类。
+- `tier` 是质量层级：`sketch` 草稿 / `refined` 精修 / `showcase` 精选。用 `sketch` 而不是 `draft`，避免和发布状态 `draft` 混淆。
+- `experiment` 是生图实验类型，可多选：`prompt` 提示词测试、`lora` LoRA 测试、`sampler` 采样器对比、`steps` 步数对比、`cfg` CFG 对比、`upscale` 放大对比、`inpaint` 局部重绘、`quantize` 量化对比。
+- `tags` 承担内容主题、风格、构图等自由标签，画廊里支持多选筛选。
+
+主分类（人物 / 场景 / …）和 `/gallery/<主题>/` 等每个主题有 10 件以上再拆。示例作品已设置为 `draft: true`，生产构建不会显示；本地开发模式仍会显示草稿。
 
 ## 工具
 
@@ -80,5 +87,5 @@ pnpm deploy:cf
 ## 许可
 
 - 代码使用 MIT，见 `LICENSE`。
-- 除特别声明外，本站内容（文字、画作、画风、构图、笔记等）按 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans) 共享，见 `LICENSE-CONTENT`。
+- 除特别声明外，本站内容（文字、作品、笔记等）按 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans) 共享，见 `LICENSE-CONTENT`。
 - 作品图片、第三方词条等如另有版权声明，以该声明为准。

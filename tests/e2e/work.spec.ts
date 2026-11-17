@@ -2,6 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
 
+test('work detail only renders the body panel when there is body text', async ({ page }) => {
+  await page.goto('/gallery/plana-beach');
+  await expect(page.locator('.work-body')).toHaveCount(0);
+
+  await page.goto('/gallery/example-work');
+  await expect(page.locator('.work-body')).toBeVisible();
+});
+
 test('work detail shows prompt and copies it', async ({ page }) => {
   await page.goto('/gallery/example-work');
   await expect(page.getByRole('heading', { name: '黄昏下的旅人' })).toBeVisible();

@@ -6,6 +6,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4321',
     trace: 'on-first-retry',
+    channel: 'chromium',
   },
   webServer: {
     command: 'pnpm dev --port 4321',

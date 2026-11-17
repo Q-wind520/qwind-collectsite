@@ -6,7 +6,7 @@ import RecentList from '../components/RecentList.astro';
 import { Image } from 'astro:assets';
 import { site } from '../config/site';
 import { withBase } from '../lib/url';
-import { sortByDate, kindCounts, isNsfw } from '../lib/content';
+import { collectAllTags, isNsfw, sortByDate } from '../lib/content';
 import { getCollection } from 'astro:content';
 
 const [works, links, notes, files] = await Promise.all([
@@ -19,7 +19,9 @@ const safeWorks = publicWorks.filter((entry) => !isNsfw(entry.data.rating));
 const featured = publicWorks.filter((entry) => entry.data.featured);
 const showcase = (featured.length > 0 ? featured : safeWorks).slice(0, 3);
 const preview = publicWorks.slice(0, 8);
-const counts = kindCounts(works);
+const tagCount = collectAllTags([...works, ...links, ...notes, ...files]).size;
+const noteCount = notes.filter((entry) => includeDrafts || !entry.data.draft).length;
+const linkCount = links.filter((entry) => includeDrafts || !entry.data.draft).length;
 
 const recent = [
   ...works.filter((entry) => includeDrafts || !entry.data.draft).map((entry) => ({ type: '作品', title: entry.data.title, href: withBase(`/gallery/${entry.data.slug}`), date: entry.data.createdAt, nsfw: isNsfw(entry.data.rating) })),
@@ -38,10 +40,10 @@ const recent = [
 
   <div class="container home-content">
     <ProfileCard stats={[
-      { label: '条目', value: safeWorks.length + links.filter((entry) => !entry.data.draft).length + notes.filter((entry) => !entry.data.draft).length + files.filter((entry) => !entry.data.draft).length },
-      { label: '画作', value: counts.painting },
-      { label: '画风', value: counts.style },
-      { label: '构图', value: counts.composition },
+      { label: '作品', value: safeWorks.length },
+      { label: '标签', value: tagCount },
+      { label: '笔记', value: noteCount },
+      { label: '书签', value: linkCount },
     ]} />
 
     <div class="glass notice" data-announcement>

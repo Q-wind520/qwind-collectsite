@@ -5,6 +5,8 @@ summary: 阿洛娜海边镜头，Anima 无 LoRA 生成。
 tags: [蔚蓝档案, 阿洛娜, 海边]
 createdAt: 2026-10-17
 kind: painting
+tier: refined
+experiment: [lora]
 images:
   - ../../assets/works/alona-beach/01.webp
 prompt:

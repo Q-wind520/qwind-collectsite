@@ -2,12 +2,16 @@ import { getImage } from 'astro:assets';
 import { getEntry, type CollectionEntry } from 'astro:content';
 import { assetUrl, withBase } from './url';
 import { tagToSlug } from './content';
+import { EXPERIMENT_LABELS, TIER_LABELS } from './work-meta';
 
 export type WorkDetail = {
   title: string;
   summary: string;
   date: string;
-  kind: string;
+  tier: string;
+  tierLabel: string;
+  experiment: string[];
+  experimentLabel: string;
   rating: string;
   model: string;
   artists: string;
@@ -20,8 +24,6 @@ export type WorkDetail = {
   href: string;
   path: string;
 };
-
-const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
 
 export async function buildWorkDetail(work: CollectionEntry<'works'>): Promise<{ detail: WorkDetail; artistNames: string[] }> {
   const cover = work.data.images[0];
@@ -53,7 +55,10 @@ export async function buildWorkDetail(work: CollectionEntry<'works'>): Promise<{
       title: work.data.title,
       summary: work.data.summary ?? '',
       date: work.data.createdAt.toISOString().slice(0, 10),
-      kind: kindLabels[work.data.kind],
+      tier: work.data.tier,
+      tierLabel: TIER_LABELS[work.data.tier],
+      experiment: work.data.experiment,
+      experimentLabel: work.data.experiment.map((experiment) => EXPERIMENT_LABELS[experiment]).join(' / '),
       rating: work.data.rating,
       model: work.data.prompt.model || '—',
       artists: artistNames.join(' / ') || '—',

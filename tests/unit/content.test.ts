@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectAllTags, collectTags, isNsfw, kindCounts, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
+import { collectAllTags, collectTags, isNsfw, sortByDate, tagRoutes, tagToSlug, validateSlugs } from '../../src/lib/content';
 
 describe('tagToSlug', () => {
   it('normalizes spaces, case and punctuation', () => {
@@ -17,22 +17,6 @@ describe('isNsfw', () => {
     expect(isNsfw('r18g')).toBe(true);
     expect(isNsfw('sensitive')).toBe(false);
     expect(isNsfw('general')).toBe(false);
-  });
-});
-
-describe('kindCounts', () => {
-  it('counts visible works by kind and ignores drafts and NSFW works', () => {
-    const counts = kindCounts([
-      { data: { kind: 'painting', draft: false, rating: 'general' } },
-      { data: { kind: 'style', draft: false, rating: 'general' } },
-      { data: { kind: 'composition', draft: false, rating: 'general' } },
-      { data: { kind: 'painting', draft: true, rating: 'general' } },
-      { data: { kind: 'style', draft: false, rating: 'nsfw' } },
-    ]);
-    expect(counts).toEqual({ painting: 1, style: 1, composition: 1 });
-    expect(kindCounts([
-      { data: { kind: 'painting', draft: false, rating: 'nsfw' } },
-    ], true)).toEqual({ painting: 1, style: 0, composition: 0 });
   });
 });
 

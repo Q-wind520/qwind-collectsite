@@ -3,24 +3,36 @@ import { test, expect } from '@playwright/test';
 test('filters by tag and syncs the URL', async ({ page }) => {
   await page.goto('/gallery');
   await expect(page.locator('[data-work]:visible').first()).toBeVisible();
-  await page.selectOption('select[name="tag"]', '海边');
+  await page.locator('input[name="tag"][value="海边"]').check();
   await expect(page).toHaveURL(/tag=/);
   await expect(page.locator('[data-work]:visible')).toHaveCount(3);
   await expect(page.locator('[data-result-count]')).toContainText('3 件作品');
+
+  await page.locator('input[name="tag"][value="海边"]').uncheck();
+  await expect(page.locator('[data-work]:visible')).toHaveCount(6);
 });
 
-test('sidebar switches between painting, style and composition', async ({ page }) => {
+test('filters by tier and experiment and syncs the URL', async ({ page }) => {
+  await page.goto('/gallery');
+  await page.selectOption('select[name="tier"]', 'sketch');
+  await expect(page).toHaveURL(/tier=sketch/);
+  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
+  await expect(page.locator('[data-work]:visible')).toHaveAttribute('data-tier', 'sketch');
+
+  await page.goto('/gallery');
+  await page.selectOption('select[name="experiment"]', 'lora');
+  await expect(page).toHaveURL(/experiment=lora/);
+  await expect(page.locator('[data-work]:visible')).toHaveCount(2);
+  for (const card of await page.locator('[data-work]:visible').all()) {
+    await expect(card).toHaveAttribute('data-experiments', /lora/);
+  }
+});
+
+test('has no flat painting, style and composition navigation', async ({ page }) => {
   await page.goto('/gallery?kind=style');
-  await expect(page.locator('[data-gallery-title]')).toHaveText('画风');
-  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
-
-  await page.goto('/gallery?kind=composition');
-  await expect(page.locator('[data-gallery-title]')).toHaveText('构图');
-  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
-
-  await page.goto('/gallery?kind=painting');
-  await expect(page.locator('[data-gallery-title]')).toHaveText('画作');
-  await expect(page.locator('[data-kind-link="painting"]')).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('heading', { name: '作品', level: 1 })).toBeVisible();
+  await expect(page.locator('[data-kind-link]')).toHaveCount(0);
+  await expect(page.locator('[data-work]:visible')).toHaveCount(6);
 });
 
 test('NSFW works stay hidden until the adult check is completed', async ({ page }) => {

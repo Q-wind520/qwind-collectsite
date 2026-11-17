@@ -2,6 +2,14 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { slugFromTitle } from '../src/lib/slug';
+import {
+  WORK_EXPERIMENTS,
+  WORK_KINDS,
+  WORK_TIERS,
+  type WorkExperiment,
+  type WorkKind,
+  type WorkTier,
+} from '../src/lib/work-meta';
 
 const TYPES = {
   work: { dir: 'works', ext: 'md' },
@@ -21,7 +29,7 @@ function readFlag(args: string[], name: string): string | undefined {
 async function main() {
   const [rawType, ...args] = process.argv.slice(2);
   if (!rawType || !(rawType in TYPES)) {
-    console.error('Usage: pnpm new <work|artist|link|note|file> [--title ...] [--slug ...] [--tags ...] [--kind painting|style|composition]');
+    console.error('Usage: pnpm new <work|artist|link|note|file> [--title ...] [--slug ...] [--tags ...] [--kind painting|style|composition] [--tier sketch|refined|showcase] [--experiment prompt,lora]');
     process.exit(1);
   }
   const type = rawType as EntryType;
@@ -39,9 +47,22 @@ async function main() {
   const summary = readFlag(args, 'summary') ?? '';
   const date = readFlag(args, 'date') ?? new Date().toISOString().slice(0, 10);
   const kind = readFlag(args, 'kind') ?? 'painting';
-  if (!['painting', 'style', 'composition'].includes(kind)) {
-    console.error('kind 必须是 painting、style 或 composition。');
+  if (!WORK_KINDS.includes(kind as WorkKind)) {
+    console.error(`kind 必须是 ${WORK_KINDS.join('、')}。`);
     process.exit(1);
+  }
+  const tier = readFlag(args, 'tier') ?? 'refined';
+  if (!WORK_TIERS.includes(tier as WorkTier)) {
+    console.error(`tier 必须是 ${WORK_TIERS.join('、')}。`);
+    process.exit(1);
+  }
+  const experiments = (readFlag(args, 'experiment') ?? '')
+    .split(',').map((experiment) => experiment.trim()).filter(Boolean);
+  for (const experiment of experiments) {
+    if (!WORK_EXPERIMENTS.includes(experiment as WorkExperiment)) {
+      console.error(`experiment 必须是 ${WORK_EXPERIMENTS.join('、')} 中的值。`);
+      process.exit(1);
+    }
   }
   const url = readFlag(args, 'url') ?? (type === 'link' ? await rl.question('URL: ') : '');
   const artist = readFlag(args, 'artist');
@@ -61,6 +82,8 @@ async function main() {
   if (type === 'work') {
     await mkdir(`src/assets/works/${slug}`, { recursive: true });
     lines.push(`kind: ${kind}`);
+    lines.push(`tier: ${tier}`);
+    lines.push(`experiment: [${experiments.join(', ')}]`);
     lines.push('images:', `  - ../../assets/works/${slug}/01.webp`);
     lines.push('prompt:', '  positive: ""', '  negative: ""');
     if (artist) lines.push(`  artist: ${JSON.stringify(artist)}`);

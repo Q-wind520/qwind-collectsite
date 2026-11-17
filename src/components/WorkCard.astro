@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { type CollectionEntry } from 'astro:content';
 import { withBase } from '../lib/url';
 import { isNsfw } from '../lib/content';
+import { EXPERIMENT_LABELS, TIER_LABELS } from '../lib/work-meta';
 import { buildWorkDetail } from '../lib/work-detail';
 
 interface Props { work: CollectionEntry<'works'>; }
@@ -10,18 +11,18 @@ const { work } = Astro.props;
 const cover = work.data.images[0];
 const { detail, artistNames } = await buildWorkDetail(work);
 const artistSlugs = work.data.artists.map((ref) => ref.id);
-const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
-const metaLabel = artistNames.join(' / ') || kindLabels[work.data.kind];
+const metaLabel = artistNames.join(' / ') || TIER_LABELS[work.data.tier];
 const modalJson = JSON.stringify(detail).replace(/</g, '\\u003c');
 ---
 <article
   class="work-card"
   data-work
-  data-kind={work.data.kind}
   data-nsfw={isNsfw(work.data.rating) ? 'true' : 'false'}
   data-artists={artistSlugs.join(' ')}
   data-tags={work.data.tags.join('|')}
   data-rating={work.data.rating}
+  data-tier={work.data.tier}
+  data-experiments={work.data.experiment.join('|')}
   data-date={work.data.createdAt.toISOString()}
 >
   <a
@@ -47,6 +48,12 @@ const modalJson = JSON.stringify(detail).replace(/</g, '\\u003c');
       <span>{metaLabel}</span>
       <span>{work.data.createdAt.toISOString().slice(0, 10)}</span>
     </div>
+    <div class="badges">
+      <span class="badge tier" data-tier={work.data.tier}>{TIER_LABELS[work.data.tier]}</span>
+      {work.data.experiment.map((experiment) => (
+        <span class="badge">{EXPERIMENT_LABELS[experiment]}</span>
+      ))}
+    </div>
   </div>
   {modalJson && <script type="application/json" data-work-data set:html={modalJson}></script>}
 </article>
@@ -61,4 +68,8 @@ const modalJson = JSON.stringify(detail).replace(/</g, '\\u003c');
   .title { display: block; font-size: 13px; font-weight: 550; text-decoration: none; overflow-wrap: anywhere; }
   .title:hover { color: var(--color-accent); }
   .meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 4px; font-size: 10px; color: var(--color-muted); }
+  .badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+  .badge { padding: 1px 7px; border: 1px solid rgba(255,224,224,.9); border-radius: 999px; background: var(--color-accent-soft); color: var(--color-accent); font-size: 9px; line-height: 1.7; }
+  .badge.tier[data-tier="sketch"] { border-color: var(--color-line); background: transparent; color: var(--color-muted); }
+  .badge.tier[data-tier="showcase"] { border-color: var(--color-accent); background: var(--color-accent); color: #fff; }
 </style>

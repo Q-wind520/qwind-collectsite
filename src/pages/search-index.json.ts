@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
 import { isNsfw } from '../lib/content';
+import { EXPERIMENT_LABELS, TIER_LABELS } from '../lib/work-meta';
 import type { SearchEntry } from '../lib/search';
 
 export const GET: APIRoute = async () => {
@@ -12,10 +13,16 @@ export const GET: APIRoute = async () => {
 
   const index: SearchEntry[] = [
     ...works.map((entry) => ({
-      id: `work-${entry.id}`, type: ({ painting: '画作', style: '画风', composition: '构图' } as const)[entry.data.kind],
+      id: `work-${entry.id}`, type: '作品',
       title: entry.data.title,
       summary: entry.data.summary ?? '', tags: entry.data.tags,
-      url: withBase(`/gallery/${entry.data.slug}`), text: [entry.data.prompt.positive, entry.data.prompt.artist, entry.data.prompt.scene].filter(Boolean).join(' '),
+      url: withBase(`/gallery/${entry.data.slug}`), text: [
+        entry.data.prompt.positive,
+        entry.data.prompt.artist,
+        entry.data.prompt.scene,
+        TIER_LABELS[entry.data.tier],
+        ...entry.data.experiment.map((experiment) => EXPERIMENT_LABELS[experiment]),
+      ].filter(Boolean).join(' '),
       date: entry.data.createdAt.toISOString(), nsfw: isNsfw(entry.data.rating),
     })),
     ...links.map((entry) => ({

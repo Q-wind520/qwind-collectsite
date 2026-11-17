@@ -6,7 +6,10 @@ type WorkDetail = {
   title: string;
   summary: string;
   date: string;
-  kind: string;
+  tier: string;
+  tierLabel: string;
+  experiment: string[];
+  experimentLabel: string;
   rating: string;
   model: string;
   artists: string;
@@ -30,6 +33,8 @@ if (dialog) {
   const date = dialog.querySelector<HTMLElement>('[data-work-modal-date]');
   const artists = dialog.querySelector<HTMLElement>('[data-work-modal-artists]');
   const model = dialog.querySelector<HTMLElement>('[data-work-modal-model]');
+  const tier = dialog.querySelector<HTMLElement>('[data-work-modal-tier]');
+  const experiment = dialog.querySelector<HTMLElement>('[data-work-modal-experiment]');
   const rating = dialog.querySelector<HTMLElement>('[data-work-modal-rating]');
   const tags = dialog.querySelector<HTMLElement>('[data-work-modal-tags]');
   const positiveLabel = dialog.querySelector<HTMLElement>('[data-work-modal-positive-label]');
@@ -101,13 +106,15 @@ if (dialog) {
       image.width = item.image.width;
       image.height = item.image.height;
     }
-    setText(kicker, `WORK / ${item.kind} / ${item.rating.toUpperCase()}`);
+    setText(kicker, `WORK / ${item.tierLabel} / ${item.rating.toUpperCase()}`);
     setText(title, item.title);
     setText(summary, item.summary);
     if (summary) summary.hidden = !item.summary;
     setText(date, item.date);
     setText(artists, item.artists);
     setText(model, item.model);
+    setText(tier, item.tierLabel);
+    setText(experiment, item.experimentLabel || '—');
     setText(rating, item.rating);
 
     if (tags) {

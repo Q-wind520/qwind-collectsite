@@ -6,6 +6,7 @@ import PromptBlock from '../../components/PromptBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { assetUrl, withBase } from '../../lib/url';
 import { isNsfw, tagToSlug } from '../../lib/content';
+import { EXPERIMENT_LABELS, TIER_LABELS } from '../../lib/work-meta';
 
 export async function getStaticPaths() {
   const includeDrafts = import.meta.env.DEV;
@@ -26,8 +27,8 @@ const metaTitle = nsfw ? 'NSFW 内容' : work.data.title;
 const metaDescription = nsfw ? 'NSFW 内容，默认隐藏。' : work.data.summary;
 const metaImage = nsfw ? '/og-default.png' : large.src;
 const shouldNoindex = nsfw;
-const kindLabels = { painting: '画作', style: '画风', composition: '构图' } as const;
-const kindLabel = kindLabels[work.data.kind];
+const tierLabel = TIER_LABELS[work.data.tier];
+const experimentLabel = work.data.experiment.map((experiment) => EXPERIMENT_LABELS[experiment]).join(' / ') || '—';
 const positiveLabel = work.data.kind === 'style'
   ? '画师串'
   : work.data.kind === 'composition'
@@ -76,13 +77,15 @@ const positiveAction = work.data.kind === 'style'
         )}
       </div>
       <div class="work-info">
-        <p class="kicker">WORK / {kindLabel} / {work.data.rating.toUpperCase()}</p>
+        <p class="kicker">WORK / {tierLabel} / {work.data.rating.toUpperCase()}</p>
         <h1 class="warm">{work.data.title}</h1>
         {work.data.summary && <p class="summary">{work.data.summary}</p>}
         <dl class="facts">
           <div><dt>日期</dt><dd>{work.data.createdAt.toISOString().slice(0, 10)}</dd></div>
           <div><dt>画师</dt><dd>{artists.filter(Boolean).map((artist) => artist!.data.title).join(' / ') || '—'}</dd></div>
           <div><dt>模型</dt><dd>{work.data.prompt.model || '—'}</dd></div>
+          <div><dt>层级</dt><dd>{tierLabel}</dd></div>
+          <div><dt>实验</dt><dd>{experimentLabel}</dd></div>
           <div><dt>分级</dt><dd>{work.data.rating}</dd></div>
         </dl>
         <div class="tags">
@@ -94,7 +97,7 @@ const positiveAction = work.data.kind === 'style'
         <PromptBlock positive={positiveText} negative={work.data.prompt.negative} positiveLabel={positiveLabel} positiveAction={positiveAction} />
       </div>
       </article>
-      <div class="glass work-body"><Content /></div>
+      {work.body?.trim() && <div class="glass work-body"><Content /></div>}
     </div>
   </div>
   <Lightbox gallerySelector="#work-lightbox" />

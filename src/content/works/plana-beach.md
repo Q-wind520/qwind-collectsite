@@ -5,6 +5,8 @@ summary: 普拉娜海边镜头，Anima + Turbo LoRA 生成。
 tags: [蔚蓝档案, 普拉娜, 海边]
 createdAt: 2026-10-17
 kind: painting
+tier: refined
+experiment: [lora]
 images:
   - ../../assets/works/plana-beach/01.webp
 prompt:

@@ -9,8 +9,8 @@ test('global search finds a work by Chinese title', async ({ page }) => {
 });
 
 test('tag page aggregates a cross-type tag', async ({ page }) => {
-  await page.goto('/tags/画师参考');
-  await expect(page.getByRole('heading', { name: '#画师参考' })).toBeVisible();
+  await page.goto('/tags/蔚蓝档案');
+  await expect(page.getByRole('heading', { name: '#蔚蓝档案' })).toBeVisible();
 });
 
 test('search results open a work overlay', async ({ page }) => {

@@ -1,8 +1,9 @@
 ---
 title: "Anima 采样器对比 · 神社（er_sde）"
 slug: anima-sampler-er-sde-raiden-shrine
-tags: ["Anima", "采样器对比", "神社", "雷电将军", "er_sde"]
+tags: ["Anima", "精修", "采样器对比", "神社", "雷电将军", "er_sde"]
 createdAt: 2026-11-17
+updatedAt: 2026-11-18
 kind: painting
 tier: refined
 experiment: [sampler]
@@ -20,3 +21,5 @@ rating: general
 ---
 
 采样器 `er_sde`；8 步；CFG 1；seed 323757。
+
+精修：RealESRGAN_x4plus_anime_6B 放大到 1536×2304，构图未改动。

@@ -1,8 +1,9 @@
 ---
 title: "锦木千束 · 花田"
 slug: anima-chisato-01
-tags: ["Anima", "锦木千束", "花田", "画风", "人像"]
+tags: ["Anima", "精修", "锦木千束", "花田", "画风", "人像"]
 createdAt: 2026-11-17
+updatedAt: 2026-11-18
 kind: painting
 tier: refined
 experiment: [prompt, lora]
@@ -18,3 +19,5 @@ prompt:
   model: "Anima Aesthetic v1.1 + Turbo LoRA"
 rating: general
 ---
+
+精修：RealESRGAN_x4plus_anime_6B 放大到 1536×2304；垂下的手用 Anima 局部重绘（`euler_ancestral`，12 步，denoise 0.55）。

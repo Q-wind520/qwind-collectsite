@@ -1,0 +1,220 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "anima-aesthetic-v1.1.safetensors",
+   "weight_dtype": "fp8_e4m3fn"
+  }
+ },
+ "2": {
+  "class_type": "ModelPatchLoader",
+  "inputs": {
+   "name": "anima-lllite-inpainting-v2.safetensors"
+  }
+ },
+ "3": {
+  "class_type": "AnimaLLLiteApply",
+  "inputs": {
+   "model": [
+    "1",
+    0
+   ],
+   "model_patch": [
+    "2",
+    0
+   ],
+   "image": [
+    "9",
+    0
+   ],
+   "mask": [
+    "10",
+    0
+   ],
+   "strength": 1.0,
+   "start_percent": 0.0,
+   "end_percent": 1.0
+  }
+ },
+ "4": {
+  "class_type": "LoraLoaderModelOnly",
+  "inputs": {
+   "model": [
+    "3",
+    0
+   ],
+   "lora_name": "anima-turbo-lora-v0.2.safetensors",
+   "strength_model": 1.0
+  }
+ },
+ "5": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen_3_06b_base.safetensors",
+   "type": "stable_diffusion",
+   "device": "default"
+  }
+ },
+ "6": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_vae.safetensors"
+  }
+ },
+ "7": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), vocaloid, @askzy, aqua hair, twin tails, aqua eyes, headphones, hand on hair, perfect hand, five slender fingers, natural fingers, holding hair strand, sunlit flower meadow, distant mountains, soft morning light",
+   "clip": [
+    "5",
+    0
+   ]
+  }
+ },
+ "8": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota, bad hands, extra fingers, fused fingers, missing fingers, deformed hand, mutated hand",
+   "clip": [
+    "5",
+    0
+   ]
+  }
+ },
+ "9": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "refine/input.png"
+  }
+ },
+ "10": {
+  "class_type": "LoadImageMask",
+  "inputs": {
+   "image": "refine/mask.png",
+   "channel": "red"
+  }
+ },
+ "11": {
+  "class_type": "VAEEncodeForInpaint",
+  "inputs": {
+   "pixels": [
+    "9",
+    0
+   ],
+   "vae": [
+    "6",
+    0
+   ],
+   "mask": [
+    "10",
+    0
+   ],
+   "grow_mask_by": 12
+  }
+ },
+ "12": {
+  "class_type": "KSampler",
+  "inputs": {
+   "model": [
+    "4",
+    0
+   ],
+   "positive": [
+    "7",
+    0
+   ],
+   "negative": [
+    "8",
+    0
+   ],
+   "latent_image": [
+    "11",
+    0
+   ],
+   "seed": 410021,
+   "steps": 8,
+   "cfg": 1.0,
+   "sampler_name": "euler_ancestral",
+   "scheduler": "simple",
+   "denoise": 1.0
+  }
+ },
+ "13": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "12",
+    0
+   ],
+   "vae": [
+    "6",
+    0
+   ]
+  }
+ },
+ "14": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "13",
+    0
+   ],
+   "filename_prefix": "anima/refine"
+  }
+ },
+ "15": {
+  "class_type": "UpscaleModelLoader",
+  "inputs": {
+   "model_name": "RealESRGAN_x4plus_anime_6B.pth"
+  }
+ },
+ "16": {
+  "class_type": "ImageUpscaleWithModel",
+  "inputs": {
+   "upscale_model": [
+    "15",
+    0
+   ],
+   "image": [
+    "13",
+    0
+   ]
+  }
+ },
+ "17": {
+  "class_type": "ImageScaleBy",
+  "inputs": {
+   "image": [
+    "16",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "scale_by": 0.5
+  }
+ },
+ "18": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "17",
+    0
+   ],
+   "filename_prefix": "anima/refine-upscaled"
+  }
+ },
+ "19": {
+  "class_type": "WD14Tagger|pysssss",
+  "inputs": {
+   "image": [
+    "13",
+    0
+   ],
+   "model": "wd-v1-4-moat-tagger-v2",
+   "threshold": 0.35,
+   "character_threshold": 0.85,
+   "replace_underscore": false,
+   "trailing_comma": false,
+   "exclude_tags": ""
+  }
+ }
+}

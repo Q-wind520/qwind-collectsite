@@ -1,0 +1,1356 @@
+{
+ "id": "anima-refine-fixed",
+ "revision": 0,
+ "last_node_id": 20,
+ "last_link_id": 22,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    80,
+    120
+   ],
+   "size": [
+    340,
+    130
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "unet_name",
+     "name": "unet_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "unet_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "weight_dtype",
+     "name": "weight_dtype",
+     "type": "COMBO",
+     "widget": {
+      "name": "weight_dtype"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "anima-aesthetic-v1.1.safetensors",
+    "fp8_e4m3fn"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "ModelPatchLoader",
+   "pos": [
+    80,
+    290
+   ],
+   "size": [
+    340,
+    110
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "name",
+     "name": "name",
+     "type": "COMBO",
+     "widget": {
+      "name": "name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL_PATCH",
+     "name": "MODEL_PATCH",
+     "type": "MODEL_PATCH",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelPatchLoader",
+    "models": [
+     {
+      "name": "anima-lllite-inpainting-v2.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Anima-LLLite/resolve/main/model_patches/anima-lllite-inpainting-v2.safetensors",
+      "directory": "model_patches"
+     }
+    ]
+   },
+   "widgets_values": [
+    "anima-lllite-inpainting-v2.safetensors"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "CLIPLoader",
+   "pos": [
+    80,
+    440
+   ],
+   "size": [
+    340,
+    150
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip_name",
+     "name": "clip_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "clip_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "type",
+     "name": "type",
+     "type": "COMBO",
+     "widget": {
+      "name": "type"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "device",
+     "name": "device",
+     "type": "COMBO",
+     "widget": {
+      "name": "device"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      10,
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "qwen_3_06b_base.safetensors",
+    "stable_diffusion",
+    "default"
+   ]
+  },
+  {
+   "id": 6,
+   "type": "VAELoader",
+   "pos": [
+    80,
+    620
+   ],
+   "size": [
+    340,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "vae_name",
+     "name": "vae_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "vae_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "VAE",
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      8,
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    80,
+    760
+   ],
+   "size": [
+    340,
+    130
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    },
+    {
+     "localized_name": "lora_name",
+     "name": "lora_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "lora_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "strength_model",
+     "name": "strength_model",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength_model"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "anima-turbo-lora-v0.2.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 9,
+   "type": "LoadImage",
+   "pos": [
+    480,
+    120
+   ],
+   "size": [
+    420,
+    520
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "upload",
+     "name": "upload",
+     "type": "IMAGEUPLOAD",
+     "widget": {
+      "name": "upload"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4,
+      3,
+      7
+     ]
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "输入图"
+  },
+  {
+   "id": 10,
+   "type": "Painter",
+   "pos": [
+    480,
+    700
+   ],
+   "size": [
+    460,
+    620
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 3,
+     "shape": 7
+    },
+    {
+     "localized_name": "mask",
+     "name": "mask",
+     "type": "STRING",
+     "widget": {
+      "name": "mask"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "width",
+     "name": "width",
+     "type": "INT",
+     "widget": {
+      "name": "width"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "height",
+     "name": "height",
+     "type": "INT",
+     "widget": {
+      "name": "height"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "bg_color",
+     "name": "bg_color",
+     "type": "COLOR",
+     "widget": {
+      "name": "bg_color"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": null
+    },
+    {
+     "localized_name": "MASK",
+     "name": "MASK",
+     "type": "MASK",
+     "links": [
+      6,
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Painter",
+    "painterTool": "brush",
+    "painterBrushSize": 48,
+    "painterBrushColor": "#ffffff",
+    "painterBrushOpacity": 1,
+    "painterBrushHardness": 0.8
+   },
+   "widgets_values": [
+    "",
+    832,
+    1216,
+    "#000000"
+   ],
+   "title": "涂遮罩"
+  },
+  {
+   "id": 3,
+   "type": "AnimaLLLiteApply",
+   "pos": [
+    980,
+    120
+   ],
+   "size": [
+    300,
+    240
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    },
+    {
+     "localized_name": "model_patch",
+     "name": "model_patch",
+     "type": "MODEL_PATCH",
+     "link": 2
+    },
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "localized_name": "mask",
+     "name": "mask",
+     "type": "MASK",
+     "link": 6,
+     "shape": 7
+    },
+    {
+     "localized_name": "strength",
+     "name": "strength",
+     "type": "FLOAT",
+     "widget": {
+      "name": "strength"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "start_percent",
+     "name": "start_percent",
+     "type": "FLOAT",
+     "widget": {
+      "name": "start_percent"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "end_percent",
+     "name": "end_percent",
+     "type": "FLOAT",
+     "widget": {
+      "name": "end_percent"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "MODEL",
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "AnimaLLLiteApply"
+   },
+   "widgets_values": [
+    1.0,
+    0.0,
+    1.0
+   ],
+   "title": "LLLite 局部重绘"
+  },
+  {
+   "id": 11,
+   "type": "VAEEncodeForInpaint",
+   "pos": [
+    980,
+    430
+   ],
+   "size": [
+    300,
+    120
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "pixels",
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 7
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    },
+    {
+     "localized_name": "mask",
+     "name": "mask",
+     "type": "MASK",
+     "link": 9
+    },
+    {
+     "localized_name": "grow_mask_by",
+     "name": "grow_mask_by",
+     "type": "INT",
+     "widget": {
+      "name": "grow_mask_by"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      15
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncodeForInpaint",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    12
+   ]
+  },
+  {
+   "id": 7,
+   "type": "CLIPTextEncode",
+   "pos": [
+    1320,
+    120
+   ],
+   "size": [
+    520,
+    280
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 10
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), vocaloid, @askzy, aqua hair, twin tails, aqua eyes, headphones, hand on hair, perfect hand, five slender fingers, natural fingers, holding hair strand, sunlit flower meadow, distant mountains, soft morning light"
+   ],
+   "title": "正向提示词（整张图）"
+  },
+  {
+   "id": 8,
+   "type": "CLIPTextEncode",
+   "pos": [
+    1320,
+    440
+   ],
+   "size": [
+    520,
+    220
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "clip",
+     "name": "clip",
+     "type": "CLIP",
+     "link": 11
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "widget": {
+      "name": "text"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "CONDITIONING",
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      14
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota, bad hands, extra fingers, fused fingers, missing fingers, deformed hand, mutated hand"
+   ],
+   "title": "负向提示词"
+  },
+  {
+   "id": 12,
+   "type": "KSampler",
+   "pos": [
+    1900,
+    120
+   ],
+   "size": [
+    340,
+    420
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model",
+     "name": "model",
+     "type": "MODEL",
+     "link": 12
+    },
+    {
+     "localized_name": "positive",
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 13
+    },
+    {
+     "localized_name": "negative",
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 14
+    },
+    {
+     "localized_name": "latent_image",
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 15
+    },
+    {
+     "localized_name": "seed",
+     "name": "seed",
+     "type": "INT",
+     "widget": {
+      "name": "seed"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "steps",
+     "name": "steps",
+     "type": "INT",
+     "widget": {
+      "name": "steps"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "cfg",
+     "name": "cfg",
+     "type": "FLOAT",
+     "widget": {
+      "name": "cfg"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "sampler_name",
+     "name": "sampler_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "sampler_name"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scheduler",
+     "name": "scheduler",
+     "type": "COMBO",
+     "widget": {
+      "name": "scheduler"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "denoise",
+     "name": "denoise",
+     "type": "FLOAT",
+     "widget": {
+      "name": "denoise"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "LATENT",
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      16
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    410021,
+    "randomize",
+    8,
+    1.0,
+    "euler_ancestral",
+    "simple",
+    1.0
+   ]
+  },
+  {
+   "id": 13,
+   "type": "VAEDecode",
+   "pos": [
+    2280,
+    120
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "samples",
+     "name": "samples",
+     "type": "LATENT",
+     "link": 16
+    },
+    {
+     "localized_name": "vae",
+     "name": "vae",
+     "type": "VAE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      18,
+      20
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode",
+    "cnr_id": "comfy-core"
+   }
+  },
+  {
+   "id": 14,
+   "type": "SaveImage",
+   "pos": [
+    2560,
+    120
+   ],
+   "size": [
+    500,
+    420
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 18
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "anima/refine"
+   ],
+   "title": "保存重绘图"
+  },
+  {
+   "id": 15,
+   "type": "UpscaleModelLoader",
+   "pos": [
+    2280,
+    600
+   ],
+   "size": [
+    320,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "model_name",
+     "name": "model_name",
+     "type": "COMBO",
+     "widget": {
+      "name": "model_name"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "UPSCALE_MODEL",
+     "name": "UPSCALE_MODEL",
+     "type": "UPSCALE_MODEL",
+     "links": [
+      19
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UpscaleModelLoader",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "RealESRGAN_x4plus_anime_6B.pth"
+   ]
+  },
+  {
+   "id": 16,
+   "type": "ImageUpscaleWithModel",
+   "pos": [
+    2620,
+    600
+   ],
+   "size": [
+    240,
+    60
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "upscale_model",
+     "name": "upscale_model",
+     "type": "UPSCALE_MODEL",
+     "link": 19
+    },
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 20
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageUpscaleWithModel",
+    "cnr_id": "comfy-core"
+   }
+  },
+  {
+   "id": 17,
+   "type": "ImageScaleBy",
+   "pos": [
+    2900,
+    600
+   ],
+   "size": [
+    300,
+    130
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "image",
+     "name": "image",
+     "type": "IMAGE",
+     "link": 21
+    },
+    {
+     "localized_name": "upscale_method",
+     "name": "upscale_method",
+     "type": "COMBO",
+     "widget": {
+      "name": "upscale_method"
+     },
+     "link": null
+    },
+    {
+     "localized_name": "scale_by",
+     "name": "scale_by",
+     "type": "FLOAT",
+     "widget": {
+      "name": "scale_by"
+     },
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "IMAGE",
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      22
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleBy",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "lanczos",
+    0.5
+   ]
+  },
+  {
+   "id": 18,
+   "type": "SaveImage",
+   "pos": [
+    3240,
+    600
+   ],
+   "size": [
+    500,
+    420
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "images",
+     "name": "images",
+     "type": "IMAGE",
+     "link": 22
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core"
+   },
+   "widgets_values": [
+    "anima/refine-upscaled"
+   ],
+   "title": "保存 2× 放大"
+  },
+  {
+   "id": 19,
+   "type": "MarkdownNote",
+   "pos": [
+    40,
+    1400
+   ],
+   "size": [
+    760,
+    460
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "# 用法\n1. `LoadImage` 载入要精修的图；控制在 1MP 左右（如 832×1216），太大先缩放\n2. 在 `Painter` 上用画笔涂出要重绘的区域（手、饰品、小物件最好用）\n3. 正向提示词写**整张图**的内容，不要只写手；负向保留 `bad hands` 等\n4. 队列运行：先出重绘图，再自动 2× 放大\n\n## 注意\n- 缺省遮罩为空，LLLite 会把整张图当参考；一定要先涂遮罩\n- Painter 的画笔颜色是黑色，涂过的地方就是要重绘的区域\n- 重绘幅度由 `KSampler denoise` 控制，默认 1.0；想更保守可以降到 0.5~0.7\n- 模型补丁文件放在 `models/model_patches/`，并在 `extra_model_paths.yaml` 里登记"
+   ],
+   "widgets_values_named": {
+    "text": "# 用法\n1. `LoadImage` 载入要精修的图；控制在 1MP 左右（如 832×1216），太大先缩放\n2. 在 `Painter` 上用画笔涂出要重绘的区域（手、饰品、小物件最好用）\n3. 正向提示词写**整张图**的内容，不要只写手；负向保留 `bad hands` 等\n4. 队列运行：先出重绘图，再自动 2× 放大\n\n## 注意\n- 缺省遮罩为空，LLLite 会把整张图当参考；一定要先涂遮罩\n- Painter 的画笔颜色是黑色，涂过的地方就是要重绘的区域\n- 重绘幅度由 `KSampler denoise` 控制，默认 1.0；想更保守可以降到 0.5~0.7\n- 模型补丁文件放在 `models/model_patches/`，并在 `extra_model_paths.yaml` 里登记"
+   },
+   "title": "用法",
+   "color": "#432",
+   "bgcolor": "#653"
+  },
+  {
+   "id": 20,
+   "type": "MarkdownNote",
+   "pos": [
+    840,
+    1400
+   ],
+   "size": [
+    820,
+    460
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 8 步 / CFG 1 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → Turbo LoRA → KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
+   ],
+   "widgets_values_named": {
+    "text": "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 8 步 / CFG 1 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → Turbo LoRA → KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
+   },
+   "title": "参数与来源",
+   "color": "#432",
+   "bgcolor": "#653"
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   2,
+   0,
+   3,
+   1,
+   "MODEL_PATCH"
+  ],
+  [
+   4,
+   9,
+   0,
+   3,
+   2,
+   "IMAGE"
+  ],
+  [
+   3,
+   9,
+   0,
+   10,
+   0,
+   "IMAGE"
+  ],
+  [
+   6,
+   10,
+   1,
+   3,
+   3,
+   "MASK"
+  ],
+  [
+   5,
+   3,
+   0,
+   4,
+   0,
+   "MODEL"
+  ],
+  [
+   9,
+   10,
+   1,
+   11,
+   2,
+   "MASK"
+  ],
+  [
+   7,
+   9,
+   0,
+   11,
+   0,
+   "IMAGE"
+  ],
+  [
+   8,
+   6,
+   0,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   10,
+   5,
+   0,
+   7,
+   0,
+   "CLIP"
+  ],
+  [
+   11,
+   5,
+   0,
+   8,
+   0,
+   "CLIP"
+  ],
+  [
+   12,
+   4,
+   0,
+   12,
+   0,
+   "MODEL"
+  ],
+  [
+   13,
+   7,
+   0,
+   12,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   14,
+   8,
+   0,
+   12,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   15,
+   11,
+   0,
+   12,
+   3,
+   "LATENT"
+  ],
+  [
+   16,
+   12,
+   0,
+   13,
+   0,
+   "LATENT"
+  ],
+  [
+   17,
+   6,
+   0,
+   13,
+   1,
+   "VAE"
+  ],
+  [
+   18,
+   13,
+   0,
+   14,
+   0,
+   "IMAGE"
+  ],
+  [
+   20,
+   13,
+   0,
+   16,
+   1,
+   "IMAGE"
+  ],
+  [
+   19,
+   15,
+   0,
+   16,
+   0,
+   "UPSCALE_MODEL"
+  ],
+  [
+   21,
+   16,
+   0,
+   17,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   17,
+   0,
+   18,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [
+  {
+   "title": "01 · 模型",
+   "bounding": [
+    40,
+    60,
+    420,
+    880
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "title": "02 · 输入 / 遮罩 / 重绘",
+   "bounding": [
+    460,
+    60,
+    820,
+    1300
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "title": "03 · 提示词",
+   "bounding": [
+    1300,
+    60,
+    600,
+    650
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "title": "04 · 采样、输出与放大",
+   "bounding": [
+    1860,
+    60,
+    2260,
+    1000
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "title": "05 · 说明",
+   "bounding": [
+    40,
+    1380,
+    1720,
+    520
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  }
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.5,
+   "offset": [
+    40,
+    40
+   ]
+  }
+ },
+ "version": 0.4
+}

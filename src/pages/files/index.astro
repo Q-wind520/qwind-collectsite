@@ -18,6 +18,7 @@ const typeFor = (mime?: string) => {
   if (mime.startsWith('audio/')) return { icon: 'file-audio', label: 'AUDIO' };
   if (mime.startsWith('video/')) return { icon: 'file-video-camera', label: 'VIDEO' };
   if (mime === 'application/pdf') return { icon: 'file-text', label: 'PDF' };
+  if (mime === 'application/json') return { icon: 'file-text', label: 'JSON' };
   if (mime.startsWith('text/')) return { icon: 'file-text', label: 'TEXT' };
   if (/zip|compressed|tar|gzip/.test(mime)) return { icon: 'file-archive', label: 'ARCHIVE' };
   return { icon: 'file', label: mime.split('/')[0].toUpperCase() };

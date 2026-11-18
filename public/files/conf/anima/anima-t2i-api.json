@@ -1,0 +1,167 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "anima-aesthetic-v1.1.safetensors",
+   "weight_dtype": "fp8_e4m3fn"
+  }
+ },
+ "2": {
+  "class_type": "LoraLoaderModelOnly",
+  "inputs": {
+   "model": [
+    "1",
+    0
+   ],
+   "lora_name": "anima-turbo-lora-v0.2.safetensors",
+   "strength_model": 1.0
+  }
+ },
+ "3": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen_3_06b_base.safetensors",
+   "type": "stable_diffusion",
+   "device": "default"
+  }
+ },
+ "4": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_vae.safetensors"
+  }
+ },
+ "5": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), vocaloid, @askzy, aqua hair, twin tails, aqua eyes, sleeveless white shirt, black pleated skirt, black kneehighs, headphones, standing, hand on hair, gentle smile, cowboy shot, from side, sunlit flower meadow, distant mountains, gentle breeze, soft morning light, lens flare",
+   "clip": [
+    "3",
+    0
+   ]
+  }
+ },
+ "6": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+   "clip": [
+    "3",
+    0
+   ]
+  }
+ },
+ "7": {
+  "class_type": "EmptyLatentImage",
+  "inputs": {
+   "width": 832,
+   "height": 1216,
+   "batch_size": 1
+  }
+ },
+ "8": {
+  "class_type": "KSampler",
+  "inputs": {
+   "model": [
+    "2",
+    0
+   ],
+   "positive": [
+    "5",
+    0
+   ],
+   "negative": [
+    "6",
+    0
+   ],
+   "latent_image": [
+    "7",
+    0
+   ],
+   "seed": 410001,
+   "steps": 8,
+   "cfg": 1.0,
+   "sampler_name": "euler_ancestral",
+   "scheduler": "simple",
+   "denoise": 1.0
+  }
+ },
+ "9": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "8",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ]
+  }
+ },
+ "10": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "9",
+    0
+   ],
+   "filename_prefix": "anima/t2i"
+  }
+ },
+ "11": {
+  "class_type": "UpscaleModelLoader",
+  "inputs": {
+   "model_name": "RealESRGAN_x4plus_anime_6B.pth"
+  }
+ },
+ "12": {
+  "class_type": "ImageUpscaleWithModel",
+  "inputs": {
+   "upscale_model": [
+    "11",
+    0
+   ],
+   "image": [
+    "9",
+    0
+   ]
+  }
+ },
+ "13": {
+  "class_type": "ImageScaleBy",
+  "inputs": {
+   "image": [
+    "12",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "scale_by": 0.5
+  }
+ },
+ "14": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "13",
+    0
+   ],
+   "filename_prefix": "anima/t2i-upscaled"
+  }
+ },
+ "15": {
+  "class_type": "WD14Tagger|pysssss",
+  "inputs": {
+   "image": [
+    "9",
+    0
+   ],
+   "model": "wd-v1-4-moat-tagger-v2",
+   "threshold": 0.35,
+   "character_threshold": 0.85,
+   "replace_underscore": false,
+   "trailing_comma": false,
+   "exclude_tags": ""
+  }
+ }
+}

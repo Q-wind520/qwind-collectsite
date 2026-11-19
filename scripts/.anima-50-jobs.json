@@ -1,0 +1,964 @@
+[
+  {
+    "slug": "gen50-g01",
+    "title": "西湖石桥油纸伞清晨 · hatsune miku",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "西湖石桥油纸伞清晨"
+    ],
+    "character": "hatsune miku",
+    "scene": "西湖石桥油纸伞清晨",
+    "artist": "@askzy",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), @askzy, standing on a traditional arched stone bridge at West Lake in Hangzhou in the early morning, (medium shot:1.2), (eye-level:1.2), holding a beautiful oil-paper umbrella and looking out at the view with a serene expression, wearing an elegant qipao-style dress, (surrounded by a vast:1.5), (magnificent field of giant green lotus leaves and blooming pink lotus flowers:1.5), (a thin layer of morning mist hangs over the water:1.3), (creating a poetic:1.3), (timeless:1.3), (and classically Chinese atmosphere:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600001,
+    "source": {
+      "scene": "西湖石桥油纸伞清晨"
+    }
+  },
+  {
+    "slug": "gen50-g02",
+    "title": "红砖老巷里仰望繁花 · frieren",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "红砖老巷里仰望繁花"
+    ],
+    "character": "frieren",
+    "scene": "红砖老巷里仰望繁花",
+    "artist": "@rella",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, frieren \\(sousou no frieren\\), @rella, 1girl, standing in a quiet, historic red-brick alley in southern Taiwan, (medium shot:1.2), (from a low angle:1.2), looking up with a gentle, amazed expression at the flowers above, wearing a simple white dress, (a massive:1.5), (spectacular cascade of vibrant pink bougainvillea tumbles over the top of an old wall:1.5), (creating a stunning floral waterfall:1.5), (dappled sunlight creates intricate patterns of light and shadow on the brick wall:1.3), (beautiful:1.3), (slice of life:1.3), (cultural atmosphere:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600002,
+    "source": {
+      "scene": "红砖老巷里仰望繁花"
+    }
+  },
+  {
+    "slug": "gen50-g03",
+    "title": "台式夜市里的珍珠奶茶回眸 · raiden shogun",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "台式夜市里的珍珠奶茶回眸"
+    ],
+    "character": "raiden shogun",
+    "scene": "台式夜市里的珍珠奶茶回眸",
+    "artist": "@ciloranko",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, raiden shogun \\(genshin impact\\), @ciloranko, in a bustling taiwanese night market, (close-up on her face:1.3), looking back over her shoulder with a bright, happy smile while holding a cup of bubble tea, wearing a simple summer dress, (the background is a vibrant:1.5), (colorful bokeh of countless night market stalls:1.5), (signs:1.5), (and lights:1.5), (creating a lively atmosphere:1.5), (condensation droplets are visible on the cold drink cup:1.2), (energetic:1.2), (slice of life:1.2), (foodie moment:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600003,
+    "source": {
+      "scene": "台式夜市里的珍珠奶茶回眸"
+    }
+  },
+  {
+    "slug": "gen50-g04",
+    "title": "黄昏屋顶花园浇花 · furina",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "黄昏屋顶花园浇花"
+    ],
+    "character": "furina",
+    "scene": "黄昏屋顶花园浇花",
+    "artist": "@anmi",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, furina \\(genshin impact\\), @anmi, watering plants in a rooftop garden at dusk, (medium shot:1.2), (from a low angle:1.2), holding a watering can with a content and loving smile, wearing a comfortable house dress, (the golden hour sunset light filters through the water droplets from the can:1.5), (making them sparkle like gold:1.5), (the background is a vast:1.3), (beautiful sky painted in pink and purple hues:1.3), (with the city skyline as a distant silhouette:1.3), (peaceful:1.3), (nurturing:1.3), (urban farming atmosphere:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600004,
+    "source": {
+      "scene": "黄昏屋顶花园浇花"
+    }
+  },
+  {
+    "slug": "gen50-g05",
+    "title": "阳光画室里的成品审视 · violet evergreen",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "阳光画室里的成品审视"
+    ],
+    "character": "violet evergreen",
+    "scene": "阳光画室里的成品审视",
+    "artist": "@fuzichoco",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, violet evergreen \\(violet evergreen garden\\), @fuzichoco, in a bright, sun-drenched art studio, (cowboy shot:1.2), (from behind and to the side:1.2), leaning against a large window frame with her arms crossed, appraising a freshly finished painting on an easel with a focused expression, wearing an oversized white shirt splattered with paint, (the room is filled with bright:1.4), (natural light:1.4), (illuminating the textures of the canvas and the colors on a nearby palette:1.4), (art supplies:1.2), (brushes:1.2), (and other paintings are scattered around:1.2), (creating a creative and authentic atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600005,
+    "source": {
+      "scene": "阳光画室里的成品审视"
+    }
+  },
+  {
+    "slug": "gen50-g06",
+    "title": "雷雨后捷运站台小憩 · hu tao",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "雷雨后捷运站台小憩"
+    ],
+    "character": "hu tao",
+    "scene": "雷雨后捷运站台小憩",
+    "artist": "@hiten",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hu tao \\(genshin impact\\), @hiten, leaning against a pillar on an open-air MRT station platform after a summer thunderstorm, (medium shot:1.2), (eye-level:1.2), fanning herself with a book, a calm and slightly languid expression, wearing a summer school uniform, (the platform is wet and reflective:1.4), (mirroring the clearing sky and station lights:1.4), (creating a humid and steamy atmosphere:1.4), (modern architecture of the station:1.2), (blurry city view in the background:1.2), (slice of life:1.2), (tranquil urban moment:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600006,
+    "source": {
+      "scene": "雷雨后捷运站台小憩"
+    }
+  },
+  {
+    "slug": "gen50-g07",
+    "title": "雨天窗上画心 · kitagawa marin",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "雨天窗上画心"
+    ],
+    "character": "kitagawa marin",
+    "scene": "雨天窗上画心",
+    "artist": "@krenz cushart",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, kitagawa marin \\(sono bisque doll\\), @krenz cushart, in a bright, modern living room on a rainy day, (close-up on her face and hand:1.3), drawing a heart on a foggy window pane with her finger, a gentle and playful smile on her face, wearing a comfortable linen house dress, (the window is covered in a beautiful layer of condensation:1.5), (and the lines she draws are sharp and clear:1.5), (the rainy:1.2), (blurry view outside the window is visible through her drawing:1.2), (cozy:1.2), (heartwarming:1.2), (quiet afternoon atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600007,
+    "source": {
+      "scene": "雨天窗上画心"
+    }
+  },
+  {
+    "slug": "gen50-g08",
+    "title": "乌来冬夜露天温泉 · nishikigi chisato",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "乌来冬夜露天温泉"
+    ],
+    "character": "nishikigi chisato",
+    "scene": "乌来冬夜露天温泉",
+    "artist": "@lack",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, nishikigi chisato \\(lycoris recoil\\), @lack, soaking in a private, stone-lined outdoor hot spring (rotenburo) in Wulai, Taiwan on a winter night, (close-up on her face and shoulders:1.3), her eyes are closed with an utterly relaxed and comfortable expression, (a large amount of thick:1.5), (white steam is rising from the water:1.5), (creating a dreamy and hazy atmosphere that obscures her body:1.5), (the background is a blurry Japanese-style garden with bamboo and a stone lantern covered in frost:1.2), (serene:1.2), (healing:1.2), (peaceful moment:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600008,
+    "source": {
+      "scene": "乌来冬夜露天温泉"
+    }
+  },
+  {
+    "slug": "gen50-g09",
+    "title": "台北河滨骑行 · takina ingo",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "台北河滨骑行"
+    ],
+    "character": "takina ingo",
+    "scene": "台北河滨骑行",
+    "artist": "@mika pikazo",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, takina ingo \\(lycoris recoil\\), @mika pikazo, riding a bicycle in a riverside park in Taipei at dusk, (cowboy shot:1.2), (from the side:1.2), (panning shot:1.2), looking towards the river with a content and relaxed smile, wearing an oversized hoodie, (the sky is a beautiful twilight gradient of deep blue and orange:1.4), (and the city lights from the opposite bank are reflecting on the water surface:1.4), (the iconic Taipei 101 is visible in the distant skyline:1.2), (cool autumn breeze:1.2), (peaceful:1.2), (urban sports atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600009,
+    "source": {
+      "scene": "台北河滨骑行"
+    }
+  },
+  {
+    "slug": "gen50-g10",
+    "title": "花店工作台前修剪玫瑰 · fern",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "花店工作台前修剪玫瑰"
+    ],
+    "character": "fern",
+    "scene": "花店工作台前修剪玫瑰",
+    "artist": "@wanke",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, fern \\(sousou no frieren\\), @wanke, working as a florist in a charming flower shop, (tight medium shot:1.3), (eye-level:1.3), standing behind a workbench and trimming a bouquet of roses with a focused, gentle smile, wearing a dark green waterproof apron over a dress, (the workbench is beautifully cluttered with various colorful flowers:1.4), (leaves:1.4), (and wrapping papers:1.4), (bright:1.2), (natural daylight floods the shop:1.2), (the background is a blur of countless flowers in vases:1.2), (creative and fragrant atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600010,
+    "source": {
+      "scene": "花店工作台前修剪玫瑰"
+    }
+  },
+  {
+    "slug": "gen50-g11",
+    "title": "山间茶屋品春茶 · raiden mei",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "山间茶屋品春茶"
+    ],
+    "character": "raiden mei",
+    "scene": "山间茶屋品春茶",
+    "artist": "@guweiz",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, raiden mei \\(honkai impact 3rd\\), @guweiz, 1girl, sitting at a wooden table at an outdoor tea house in the mountains, (close-up on her face and the teacup:1.3), savoring the aroma of fresh spring tea with a serene, intoxicated expression, her eyes are closed, wearing a simple white shirt, (the background is a magnificent:1.5), (blurry view of vast:1.5), (terraced green tea fields under a clear sky:1.5), (a traditional tea set is on the table:1.2), (peaceful:1.2), (refined:1.2), (zen atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600011,
+    "source": {
+      "scene": "山间茶屋品春茶"
+    }
+  },
+  {
+    "slug": "gen50-g12",
+    "title": "金色屋顶上的吉他 · kiana kaslana",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "金色屋顶上的吉他"
+    ],
+    "character": "kiana kaslana",
+    "scene": "金色屋顶上的吉他",
+    "artist": "@askzy",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, kiana kaslana \\(honkai impact 3rd\\), @askzy, on a city rooftop at golden hour, (medium shot:1.2), (eye-level:1.2), sitting on a chair with her eyes closed, immersed in playing an acoustic guitar, wearing an oversized beige hoodie, (the entire scene is bathed in the warm:1.5), (saturated light of the setting sun:1.5), (creating a beautiful:1.5), (nostalgic atmosphere:1.5), (the silhouette of the city skyline is visible in the background:1.2), (along with a water tower and some potted plants:1.2), (slice of life:1.2), (indie musician vibe:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600012,
+    "source": {
+      "scene": "金色屋顶上的吉他"
+    }
+  },
+  {
+    "slug": "gen50-g13",
+    "title": "雨后寺院撑伞漫步 · hoshino ai",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "雨后寺院撑伞漫步"
+    ],
+    "character": "hoshino ai",
+    "scene": "雨后寺院撑伞漫步",
+    "artist": "@rella",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hoshino ai \\(oshi no ko\\), @rella, in a traditional temple courtyard right after a summer rain, (cowboy shot:1.2), (from a slightly low angle:1.2), holding an umbrella and walking carefully on the wet pavement, a serene and refreshed expression, wearing a summer school uniform, (the wet stone pavement is highly reflective:1.5), (creating a perfect mirror image of the temple architecture and the clearing sky:1.5), (water is dripping from the traditional eaves:1.3), (the air is crisp and clean:1.3), (beautiful:1.3), (spiritual atmosphere:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600013,
+    "source": {
+      "scene": "雨后寺院撑伞漫步"
+    }
+  },
+  {
+    "slug": "gen50-g14",
+    "title": "中央公园暮色滑冰 · yae miko",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "中央公园暮色滑冰"
+    ],
+    "character": "yae miko",
+    "scene": "中央公园暮色滑冰",
+    "artist": "@ciloranko",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, yae miko \\(genshin impact\\), @ciloranko, ice skating at the Wollman Rink in Central Park at dusk, (cowboy shot:1.2), (dynamic angle:1.2), captured in a graceful spinning motion with a joyful, radiant smile, her cheeks flushed, wearing a white turtleneck sweater, a plaid skirt, and a red scarf, (the iconic New York City skyline is lit up in the background:1.4), (visible through the bare winter trees:1.4), (the background is a beautiful bokeh of other skaters and festive lights:1.2), (creating an energetic:1.2), (magical:1.2), (and iconic winter atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600014,
+    "source": {
+      "scene": "中央公园暮色滑冰"
+    }
+  },
+  {
+    "slug": "gen50-g15",
+    "title": "平溪天灯节放灯后仰望 · hatsune miku",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "平溪天灯节放灯后仰望"
+    ],
+    "character": "hatsune miku",
+    "scene": "平溪天灯节放灯后仰望",
+    "artist": "@anmi",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), @anmi, at the Pingxi Sky Lantern Festival in Taiwan at night, (medium shot:1.2), (from a low angle:1.2), looking up with a bright, hopeful smile after releasing a sky lantern, wearing a casual jacket, (the sky is filled with hundreds of glowing orange sky lanterns rising like a river of stars:1.5), (creating a breathtaking and magical atmosphere:1.5), (the railway tracks are crowded with people:1.2), (and the old street shops are lit up in the background:1.2), (festive:1.2), (spiritual:1.2), (and heartwarming:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600015,
+    "source": {
+      "scene": "平溪天灯节放灯后仰望"
+    }
+  },
+  {
+    "slug": "gen50-g16",
+    "title": "秋夜露天电影节回眸 · frieren",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "秋夜露天电影节回眸"
+    ],
+    "character": "frieren",
+    "scene": "秋夜露天电影节回眸",
+    "artist": "@fuzichoco",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, frieren \\(sousou no frieren\\), @fuzichoco, at an elegant outdoor film festival at night in autumn, (close-up on her face:1.3), sitting in the audience and turning back with a gentle, dreamy smile, wearing a glamorous champagne-colored evening gown, (her face is softly illuminated by the cinematic light from the giant movie screen (off-screen):1.5), (which reflects in her eyes:1.5), (the visible beam of light from a projector cuts through the dark air behind her:1.2), (romantic:1.2), (magical atmosphere:1.2), (bokeh background of other people:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600016,
+    "source": {
+      "scene": "秋夜露天电影节回眸"
+    }
+  },
+  {
+    "slug": "gen50-g17",
+    "title": "春日草坪吹蒲公英 · raiden shogun",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "春日草坪吹蒲公英"
+    ],
+    "character": "raiden shogun",
+    "scene": "春日草坪吹蒲公英",
+    "artist": "@hiten",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, raiden shogun \\(genshin impact\\), @hiten, sitting on a lush green campus lawn on a sunny spring afternoon, (extreme close-up on her face and the dandelion:1.4), holding a detailed dandelion puff close to her lips, about to blow the seeds with a hopeful and playful expression, wearing a summer school uniform, (the delicate:1.5), (translucent seeds of the dandelion are in sharp focus:1.5), (the background is a beautiful bokeh of the green grass and a grand library building:1.2), (youthful:1.2), (nostalgic:1.2), (slice of life atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600017,
+    "source": {
+      "scene": "春日草坪吹蒲公英"
+    }
+  },
+  {
+    "slug": "gen50-g18",
+    "title": "中秋苏州园林提灯 · furina",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "中秋苏州园林提灯"
+    ],
+    "character": "furina",
+    "scene": "中秋苏州园林提灯",
+    "artist": "@krenz cushart",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, furina \\(genshin impact\\), @krenz cushart, in a classical Suzhou garden on Mid-Autumn Festival night, (cowboy shot:1.2), (from the side:1.2), holding a glowing rabbit-shaped lantern and resting a hand on a stone bridge railing, a gentle and serene expression, wearing an elegant Hanfu, (a bright full moon and its perfect reflection are visible on the calm lake surface:1.5), (the scene is beautifully lit by the silver moonlight and the warm glow from her lantern:1.2), (creating a poetic:1.2), (tranquil:1.2), (and timeless Chinese atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600018,
+    "source": {
+      "scene": "中秋苏州园林提灯"
+    }
+  },
+  {
+    "slug": "gen50-g19",
+    "title": "盛夏老街折扇遮阳 · violet evergreen",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "盛夏老街折扇遮阳"
+    ],
+    "character": "violet evergreen",
+    "scene": "盛夏老街折扇遮阳",
+    "artist": "@lack",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, violet evergreen \\(violet evergreen garden\\), @lack, walking on a historic old street on a hot summer day, (close-up on her face:1.3), (framed by the fan:1.3), shielding her face from the sun with a beautiful, open folding fan, looking out with curious eyes, wearing a modern, elegant qipao-style dress, (the intricate design of the traditional fan is in sharp focus:1.4), (harsh:1.2), (bright sunlight creates strong shadows on the red brick walls in the background:1.2), (cultural:1.2), (hot:1.2), (slice of life atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600019,
+    "source": {
+      "scene": "盛夏老街折扇遮阳"
+    }
+  },
+  {
+    "slug": "gen50-g20",
+    "title": "新年市集里的糖果笑脸 · hu tao",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "新年市集里的糖果笑脸"
+    ],
+    "character": "hu tao",
+    "scene": "新年市集里的糖果笑脸",
+    "artist": "@mika pikazo",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hu tao \\(genshin impact\\), @mika pikazo, at a bustling chinese new year market on a historic street at sunset, (close-up on her face:1.3), holding a small bag of traditional candies with a bright, excited smile, looking at the festive decorations, wearing a modern dress and a warm jacket, (the warm:1.5), (golden light of the sunset mixes with the red glow from lanterns and decorations:1.5), (creating a rich:1.5), (saturated:1.5), (and festive color palette:1.5), (a dense crowd and piles of new year goods are blurred into a lively bokeh background:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600020,
+    "source": {
+      "scene": "新年市集里的糖果笑脸"
+    }
+  },
+  {
+    "slug": "gen50-g21",
+    "title": "书店木架旁整理书册 · kitagawa marin",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "书店木架旁整理书册"
+    ],
+    "character": "kitagawa marin",
+    "scene": "书店木架旁整理书册",
+    "artist": "@wanke",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, kitagawa marin \\(sono bisque doll\\), @wanke, working as a clerk in a cozy bookstore, (close-up:1.3), (from the side:1.3), arranging books neatly on a wooden bookshelf with a gentle, kind smile, wearing a canvas apron over a long-sleeve dress, (warm afternoon sunlight slants through a large window:1.5), (creating beautiful:1.5), (visible light beams and highlighting floating dust particles:1.5), (the background is filled with tall:1.2), (blurry bookshelves:1.2), (creating a scholarly and peaceful atmosphere:1.2), (slice of life:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600021,
+    "source": {
+      "scene": "书店木架旁整理书册"
+    }
+  },
+  {
+    "slug": "gen50-g22",
+    "title": "盛夏缘侧纳凉 · nishikigi chisato",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "盛夏缘侧纳凉"
+    ],
+    "character": "nishikigi chisato",
+    "scene": "盛夏缘侧纳凉",
+    "artist": "@guweiz",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, nishikigi chisato \\(lycoris recoil\\), @guweiz, sitting on the polished wooden veranda (engawa) of a traditional Japanese house on a hot summer afternoon, (medium shot:1.2), (from a slightly low angle:1.2), gently fanning herself with a round fan (uchiwa) and looking up at a wind chime with a calm, comfortable expression, wearing a light cotton yukata, (a beautiful:1.4), (translucent glass wind chime (furin) is tinkling in the foreground breeze:1.4), (the background is a lush green Japanese garden with strong:1.2), (dark tree shadows cast by the intense sunlight:1.2), (creating a tranquil:1.2), (nostalgic atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600022,
+    "source": {
+      "scene": "盛夏缘侧纳凉"
+    }
+  },
+  {
+    "slug": "gen50-g23",
+    "title": "黄昏大学天台眺望城市 · takina ingo",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "黄昏大学天台眺望城市"
+    ],
+    "character": "takina ingo",
+    "scene": "黄昏大学天台眺望城市",
+    "artist": "@askzy",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, takina ingo \\(lycoris recoil\\), @askzy, on a university rooftop at dusk, (medium shot:1.2), (from the side:1.2), leaning on the railing and looking out at the city with a calm, relaxed expression, wearing a beige cardigan, a white shirt, a pleated miniskirt, and black tights, (the low-angle golden hour sun creates a beautiful:1.5), (warm rim light on her hair and silhouette:1.5), (the background is a sprawling cityscape bathed in the warm glow of sunset:1.2), (peaceful:1.2), (academic:1.2), (autumn atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600023,
+    "source": {
+      "scene": "黄昏大学天台眺望城市"
+    }
+  },
+  {
+    "slug": "gen50-g24",
+    "title": "春日草坪上的耳机午后 · fern",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "春日草坪上的耳机午后"
+    ],
+    "character": "fern",
+    "scene": "春日草坪上的耳机午后",
+    "artist": "@rella",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, fern \\(sousou no frieren\\), @rella, 1girl, lying on a lush green lawn in a park on a spring day, (extreme close-up on her face:1.4), (from a high angle:1.4), listening to music with headphones, a blissful and completely relaxed smile on her face with eyes closed, her head is resting on her arms, (soft spring sunlight warms her face:1.5), (a few cherry blossom petals have fallen on her hair:1.5), (the background is a beautiful:1.2), (soft bokeh of green grass and sunlight:1.2), (peaceful:1.2), (serene:1.2), (ultimate relaxation:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600024,
+    "source": {
+      "scene": "春日草坪上的耳机午后"
+    }
+  },
+  {
+    "slug": "gen50-g25",
+    "title": "九份夜巷里的热汤回眸 · raiden mei",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "九份夜巷里的热汤回眸"
+    ],
+    "character": "raiden mei",
+    "scene": "九份夜巷里的热汤回眸",
+    "artist": "@ciloranko",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, raiden mei \\(honkai impact 3rd\\), @ciloranko, in a bustling, narrow old street with stone stairs at night, reminiscent of Jiufen, Taiwan, (medium shot:1.2), (from a slightly high angle:1.2), holding a bowl of hot taro ball soup with a happy and curious expression, wearing a simple dress and a jacket, (the entire scene is illuminated by the iconic warm:1.5), (red glow from hundreds of traditional paper lanterns hanging overhead:1.5), (the background is a dense crowd of people and traditional teahouses:1.2), (creating a lively:1.2), (festive:1.2), (and nostalgic atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600025,
+    "source": {
+      "scene": "九份夜巷里的热汤回眸"
+    }
+  },
+  {
+    "slug": "gen50-g26",
+    "title": "夜樱灯下仰望 · kiana kaslana",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "夜樱灯下仰望"
+    ],
+    "character": "kiana kaslana",
+    "scene": "夜樱灯下仰望",
+    "artist": "@anmi",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, kiana kaslana \\(honkai impact 3rd\\), @anmi, strolling through a park at night during a sakura festival, (close-up on her face:1.3), (from a low angle:1.3), looking up at the illuminated blossoms with an expression of awe and wonder, wearing an elegant lavender dress, (the cherry blossom trees are lit from below by spotlights:1.5), (making the petals glow with an ethereal:1.5), (magical pink light:1.5), (the unique uplighting casts soft:1.3), (dramatic shadows on her face:1.3), (yozakura (night sakura) atmosphere:1.3), (beautiful:1.3), (cinematic:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600026,
+    "source": {
+      "scene": "夜樱灯下仰望"
+    }
+  },
+  {
+    "slug": "gen50-g27",
+    "title": "台式夜市游戏摊前 · hoshino ai",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "台式夜市游戏摊前"
+    ],
+    "character": "hoshino ai",
+    "scene": "台式夜市游戏摊前",
+    "artist": "@fuzichoco",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hoshino ai \\(oshi no ko\\), @fuzichoco, at a lively taiwanese night market, (cowboy shot:1.2), (three-quarter view:1.2), crouching in front of a brightly lit game stall, completely absorbed in playing with a look of focused excitement, wearing a casual dress and a jacket, (the scene is vibrantly illuminated by the colorful:1.5), (harsh lights of the game stall itself:1.5), (creating a fun and energetic atmosphere:1.5), (the background is a blur of the night market crowd:1.2), (food stalls:1.2), (and other neon signs:1.2), (slice of life:1.2), (playful mood:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600027,
+    "source": {
+      "scene": "台式夜市游戏摊前"
+    }
+  },
+  {
+    "slug": "gen50-g28",
+    "title": "平溪铁轨旁写天灯 · yae miko",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "平溪铁轨旁写天灯"
+    ],
+    "character": "yae miko",
+    "scene": "平溪铁轨旁写天灯",
+    "artist": "@hiten",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, yae miko \\(genshin impact\\), @hiten, on a railway track in a small town like Pingxi, Taiwan at sunset, (medium shot:1.3), (eye-level:1.3), carefully writing wishes on a large sky lantern with a brush, a sincere and hopeful smile on her face, wearing a dress and a jacket, (the soft:1.4), (golden light of the setting sun bathes the scene:1.4), (while in the background:1.4), (a few lit sky lanterns are beginning to float into the twilight sky:1.4), (a bustling crowd and old street shops are blurred in the background:1.2), (magical:1.2), (hopeful:1.2), (transitional atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600028,
+    "source": {
+      "scene": "平溪铁轨旁写天灯"
+    }
+  },
+  {
+    "slug": "gen50-g29",
+    "title": "秋日岚山竹林沉思 · hatsune miku",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "秋日岚山竹林沉思"
+    ],
+    "character": "hatsune miku",
+    "scene": "秋日岚山竹林沉思",
+    "artist": "@krenz cushart",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), @krenz cushart, in the Arashiyama Bamboo Grove in Kyoto during autumn, (medium shot:1.2), (eye-level:1.2), leaning against a thick bamboo stalk with a serene, contemplative expression, wearing an elegant traditional kimono, (beautiful:1.5), (volumetric sunbeams are filtering through the tall bamboo stalks:1.5), (a few vibrant red maple leaves are scattered on the green mossy ground:1.3), (creating a strong color contrast:1.3), (peaceful:1.3), (aesthetic:1.3), (and classically Japanese atmosphere:1.3)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600029,
+    "source": {
+      "scene": "秋日岚山竹林沉思"
+    }
+  },
+  {
+    "slug": "gen50-g30",
+    "title": "秋日校园咖啡馆沉思 · frieren",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "秋日校园咖啡馆沉思"
+    ],
+    "character": "frieren",
+    "scene": "秋日校园咖啡馆沉思",
+    "artist": "@lack",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, frieren \\(sousou no frieren\\), @lack, sitting by the window in a cozy campus cafe in autumn, (close-up on her face and upper body:1.3), resting her chin on her hand with a calm, thoughtful expression, a cup of latte beside her, wearing a soft beige knit sweater, (soft afternoon sunlight streams through the window:1.4), (creating a warm and gentle light on her face:1.4), (through the window:1.2), (the leaves of the trees have turned yellow and brown:1.2), (creating a beautiful autumn view:1.2), (peaceful:1.2), (studious atmosphere:1.2)",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
+    "seed": 600030,
+    "source": {
+      "scene": "秋日校园咖啡馆沉思"
+    }
+  },
+  {
+    "slug": "gen50-s01",
+    "title": "raiden shogun · 澎湖海岸公路骑车回眸",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "澎湖海岸公路骑车回眸"
+    ],
+    "character": "raiden shogun",
+    "scene": "澎湖海岸公路骑车回眸",
+    "artist": "@ciloranko",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, raiden shogun \\(genshin impact\\), @ciloranko, white bikini, bare shoulders, riding a scooter along a beautiful coastal road in Penghu, Taiwan on a sunny summer day, (cowboy shot:1.2), (dynamic angle:1.2), turning back with a joyful, carefree laugh, wearing a simple t-shirt and denim shorts, (her long hair is blowing dramatically in the strong sea breeze:1.5), (the background is a stunning view of a turquoise blue ocean and unique basalt column cliffs:1.3), (creating an adventurous:1.3), (energetic:1.3), (and free atmosphere:1.3), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610001,
+    "source": {
+      "scene": "澎湖海岸公路骑车回眸",
+      "outfit": "white bikini, bare shoulders"
+    }
+  },
+  {
+    "slug": "gen50-s02",
+    "title": "violet evergreen · 日本乡间夏夜萤火",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "日本乡间夏夜萤火"
+    ],
+    "character": "violet evergreen",
+    "scene": "日本乡间夏夜萤火",
+    "artist": "@anmi",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, violet evergreen \\(violet evergreen garden\\), @anmi, striped one-piece swimsuit, bare midriff, on a summer night in the Japanese countryside, (close-up on her face and hand:1.3), looking with pure wonder and a gentle smile at a single firefly glowing on her outstretched fingertip, wearing a yukata, (the entire scene is magically illuminated by thousands of other flying fireflies:1.5), (creating beautiful:1.5), (glowing light trails and a spectacular bokeh effect:1.5), (the background is a dark forest by a small stream:1.2), (creating an enchanting:1.2), (peaceful:1.2), (and deeply magical atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610002,
+    "source": {
+      "scene": "日本乡间夏夜萤火",
+      "outfit": "striped one-piece swimsuit, bare midriff"
+    }
+  },
+  {
+    "slug": "gen50-s03",
+    "title": "yae miko · 山间木屋夜里捧热饮",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "山间木屋夜里捧热饮"
+    ],
+    "character": "yae miko",
+    "scene": "山间木屋夜里捧热饮",
+    "artist": "@fuzichoco",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, yae miko \\(genshin impact\\), @fuzichoco, bath towel wrapped around body, bare shoulders, inside a cozy wooden cabin at a mountain resort in Taiwan at night, (medium shot:1.3), (eye-level:1.3), curled up in a soft armchair wrapped in a wool blanket, cupping a warm mug with a comfortable expression, wearing a chunky turtleneck sweater, (the crackling fireplace is the only main light source:1.5), (casting a warm:1.5), (flickering glow on the entire scene:1.5), (through the large window beside her:1.2), (the moonlit:1.2), (colorful autumn forest is visible:1.2), (creating a strong contrast between the cold outside and the warmth inside:1.2), (extremely cozy atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610003,
+    "source": {
+      "scene": "山间木屋夜里捧热饮",
+      "outfit": "bath towel wrapped around body, bare shoulders"
+    }
+  },
+  {
+    "slug": "gen50-s04",
+    "title": "kitagawa marin · 沙发上亲密共享耳机",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "沙发上亲密共享耳机"
+    ],
+    "character": "kitagawa marin",
+    "scene": "沙发上亲密共享耳机",
+    "artist": "@hiten",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, kitagawa marin \\(sono bisque doll\\), @hiten, sports bra, midriff, athletic shorts, 2girls, sitting close together on a sofa, (close-up on their faces:1.3), afternoon sunlight from a window, warm and soft atmosphere, tangled earphone cable, shallow depth of field, cozy living room background, intimate, heartwarming moment, 角色1: gently putting one of her earbuds into the other girl's ear, a gentle, smiling expression with eyes closed, 角色2: looking slightly surprised, blushing, wide-eyed, slightly parted lips, looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610004,
+    "source": {
+      "scene": "沙发上亲密共享耳机",
+      "outfit": "sports bra, midriff, athletic shorts"
+    }
+  },
+  {
+    "slug": "gen50-s05",
+    "title": "raiden mei · 清晨花市挑选盆栽",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "清晨花市挑选盆栽"
+    ],
+    "character": "raiden mei",
+    "scene": "清晨花市挑选盆栽",
+    "artist": "@krenz cushart",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, raiden mei \\(honkai impact 3rd\\), @krenz cushart, off-shoulder summer dress, bare shoulders, at a bustling city flower market in the early morning, (close-up on her face and hands:1.3), carefully examining a small potted plant with a focused and gentle smile, wearing a simple dress and a light denim jacket, (the foreground and background are filled with a vibrant bokeh of countless colorful flowers and plants:1.5), (creating a beautiful natural frame:1.5), (the soft morning light makes the scene bright and fresh:1.2), (heartwarming:1.2), (slice of life atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610005,
+    "source": {
+      "scene": "清晨花市挑选盆栽",
+      "outfit": "off-shoulder summer dress, bare shoulders"
+    }
+  },
+  {
+    "slug": "gen50-s06",
+    "title": "hoshino ai · 淡水码头日落背影",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "淡水码头日落背影"
+    ],
+    "character": "hoshino ai",
+    "scene": "淡水码头日落背影",
+    "artist": "@lack",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, hoshino ai \\(oshi no ko\\), @lack, black one-piece swimsuit, wet hair, 2girls, at the seaside at sunset, Tamsui Fisherman's Wharf, (medium shot:1.2), (from behind:1.2), looking at the beautiful sunset over the ocean, romantic, peaceful atmosphere, silhouettes against the sky, 角色1: arm around the other girl's shoulder, head tilted slightly towards her, content expression, 角色2: leaning her head on the other girl's shoulder, relaxed and safe expression, holding hands with her, looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610006,
+    "source": {
+      "scene": "淡水码头日落背影",
+      "outfit": "black one-piece swimsuit, wet hair"
+    }
+  },
+  {
+    "slug": "gen50-s07",
+    "title": "rosaria · 日落海边咖啡馆发呆",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "日落海边咖啡馆发呆"
+    ],
+    "character": "rosaria",
+    "scene": "日落海边咖啡馆发呆",
+    "artist": "@mika pikazo",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, rosaria \\(genshin impact\\), @mika pikazo, cropped tank top, midriff, denim shorts, sitting at a rustic beachside cafe at sunset, (medium shot:1.2), (from the side:1.2), resting her chin on her hand and gazing at the ocean with a serene, relaxed expression, wearing a semi-transparent white cover-up over her swimsuit, (a brilliant sunset is happening over the ocean:1.5), (painting the sky in vibrant orange and purple hues:1.5), (the sea breeze is gently blowing her slightly wet hair and the fabric of her cover-up:1.3), (tranquil:1.3), (tropical:1.3), (beautiful atmosphere:1.3), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610007,
+    "source": {
+      "scene": "日落海边咖啡馆发呆",
+      "outfit": "cropped tank top, midriff, denim shorts"
+    }
+  },
+  {
+    "slug": "gen50-s08",
+    "title": "kiana kaslana · 公寓阳台吹晚风",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "公寓阳台吹晚风"
+    ],
+    "character": "kiana kaslana",
+    "scene": "公寓阳台吹晚风",
+    "artist": "@wanke",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, kiana kaslana \\(honkai impact 3rd\\), @wanke, lace camisole, bare shoulders, on a modern apartment balcony at dusk, (close-up on her face and upper body:1.3), leaning against the railing with her eyes closed, enjoying the evening breeze with a cozy, languid expression, wearing a white slip dress under a long, oversized beige cardigan, (the twinkling lights of the distant city create a beautiful:1.4), (colorful bokeh background:1.4), (a warm and intimate atmosphere:1.2), (slice of life:1.2), (peaceful end to the day:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610008,
+    "source": {
+      "scene": "公寓阳台吹晚风",
+      "outfit": "lace camisole, bare shoulders"
+    }
+  },
+  {
+    "slug": "gen50-s09",
+    "title": "furina · 塞纳河旧书摊选书",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "塞纳河旧书摊选书"
+    ],
+    "character": "furina",
+    "scene": "塞纳河旧书摊选书",
+    "artist": "@guweiz",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, furina \\(genshin impact\\), @guweiz, beach volleyball swimsuit, browsing a traditional bouquiniste bookstall along the Seine river in Paris on a winter day, (tight medium shot:1.2), (eye-level:1.2), intently reading an old book she picked up, a focused and curious expression, wearing a stylish wool overcoat and a beret, (light snow is gently falling:1.4), (dusting her shoulders and the iconic green book box:1.4), (the background is a blurry view of a stone bridge and Parisian architecture:1.2), (creating a romantic:1.2), (intellectual:1.2), (and timeless atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610009,
+    "source": {
+      "scene": "塞纳河旧书摊选书",
+      "outfit": "beach volleyball swimsuit"
+    }
+  },
+  {
+    "slug": "gen50-s10",
+    "title": "hatsune miku · 雨后山径与指尖蝴蝶",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "雨后山径与指尖蝴蝶"
+    ],
+    "character": "hatsune miku",
+    "scene": "雨后山径与指尖蝴蝶",
+    "artist": "@askzy",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, hatsune miku \\(vocaloid\\), @askzy, sleeveless hoodie, bare midriff, on a mountain trail after a spring rain, (close-up:1.3), (focusing on her hand and the butterfly:1.3), a beautiful, detailed butterfly is resting on her outstretched index finger, her face is in profile in the background with an expression of gentle surprise, wearing a functional windbreaker, (the butterfly's intricate wing patterns are in sharp focus:1.5), (glistening raindrops hang on the vibrant green leaves all around:1.3), (creating a fresh:1.3), (serene:1.3), (and magical atmosphere of connection with nature:1.3), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610010,
+    "source": {
+      "scene": "雨后山径与指尖蝴蝶",
+      "outfit": "sleeveless hoodie, bare midriff"
+    }
+  },
+  {
+    "slug": "gen50-s11",
+    "title": "frieren · 白川乡雪夜观景台",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "白川乡雪夜观景台"
+    ],
+    "character": "frieren",
+    "scene": "白川乡雪夜观景台",
+    "artist": "@rella",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, frieren \\(sousou no frieren\\), @rella, yellow bikini with sarong, standing on the observation deck overlooking Shirakawa-go village in Japan on a winter evening, (medium shot:1.2), (from behind and to the side:1.2), gazing at the view with a captivated and moved expression, wearing a long, thick overcoat and a scarf, (below:1.5), (the entire village of Gassho-zukuri farmhouses is covered in deep snow:1.5), (with warm:1.5), (golden light glowing from their windows:1.5), (creating a fairytale-like scenery:1.5), (the sky is a deep twilight blue and snow is gently falling:1.2), (magical:1.2), (picturesque:1.2), (and peaceful atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610011,
+    "source": {
+      "scene": "白川乡雪夜观景台",
+      "outfit": "yellow bikini with sarong"
+    }
+  },
+  {
+    "slug": "gen50-s12",
+    "title": "nishikigi chisato · 便利店夏夜吃冰棒",
+    "rating": "general",
+    "tags": [
+      "Anima",
+      "精细",
+      "便利店夏夜吃冰棒"
+    ],
+    "character": "nishikigi chisato",
+    "scene": "便利店夏夜吃冰棒",
+    "artist": "@ciloranko",
+    "prompt": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult, nishikigi chisato \\(lycoris recoil\\), @ciloranko, gym sportswear, crop top, midriff, leaning against the glass door of a 24-hour convenience store on a humid summer night, (medium shot:1.2), (eye-level:1.2), eating a fruit popsicle with a content and relaxed expression, wearing a simple summer slip dress, (the bright interior light of the store creates a strong:1.4), (beautiful rim light on her figure:1.4), (the pavement outside is wet after rain:1.2), (creating vibrant reflections:1.2), (slice of life:1.2), (quiet urban night atmosphere:1.2), looking at viewer",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nude, naked, explicit, nipples, areola, child, loli, shota",
+    "seed": 610012,
+    "source": {
+      "scene": "便利店夏夜吃冰棒",
+      "outfit": "gym sportswear, crop top, midriff"
+    }
+  },
+  {
+    "slug": "gen50-n01",
+    "title": "raiden shogun · 私密写真 1",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "raiden shogun",
+    "scene": "bedroom",
+    "artist": "@fuzichoco",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, raiden shogun \\(genshin impact\\), @fuzichoco, adult woman, lingerie set, black lace bra and panties, bedroom, morning light, sitting on bed, looking at viewer, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620001,
+    "source": {
+      "outfit": "adult woman, lingerie set, black lace bra and panties",
+      "pose": "bedroom, morning light, sitting on bed, looking at viewer"
+    }
+  },
+  {
+    "slug": "gen50-n02",
+    "title": "violet evergreen · 私密写真 2",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "violet evergreen",
+    "scene": "hotel suite",
+    "artist": "@hiten",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, violet evergreen \\(violet evergreen garden\\), @hiten, adult woman, silk robe, partially open, lace negligee beneath, hotel suite, evening, leaning against window, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620002,
+    "source": {
+      "outfit": "adult woman, silk robe, partially open, lace negligee beneath",
+      "pose": "hotel suite, evening, leaning against window"
+    }
+  },
+  {
+    "slug": "gen50-n03",
+    "title": "yae miko · 私密写真 3",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "yae miko",
+    "scene": "boudoir",
+    "artist": "@krenz cushart",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, yae miko \\(genshin impact\\), @krenz cushart, adult woman, white lace lingerie, sheer babydoll, boudoir, soft candlelight, lying on sofa, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620003,
+    "source": {
+      "outfit": "adult woman, white lace lingerie, sheer babydoll",
+      "pose": "boudoir, soft candlelight, lying on sofa"
+    }
+  },
+  {
+    "slug": "gen50-n04",
+    "title": "kitagawa marin · 私密写真 4",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "kitagawa marin",
+    "scene": "dimly lit room",
+    "artist": "@lack",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, kitagawa marin \\(sono bisque doll\\), @lack, adult woman, black stockings and garter belt, lace corset, dimly lit room, standing, hand on hip, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620004,
+    "source": {
+      "outfit": "adult woman, black stockings and garter belt, lace corset",
+      "pose": "dimly lit room, standing, hand on hip"
+    }
+  },
+  {
+    "slug": "gen50-n05",
+    "title": "raiden mei · 私密写真 5",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "raiden mei",
+    "scene": "bedroom at night",
+    "artist": "@mika pikazo",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, raiden mei \\(honkai impact 3rd\\), @mika pikazo, adult woman, off-shoulder silk nightgown, bare shoulders, bedroom at night, sitting on edge of bed, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620005,
+    "source": {
+      "outfit": "adult woman, off-shoulder silk nightgown, bare shoulders",
+      "pose": "bedroom at night, sitting on edge of bed"
+    }
+  },
+  {
+    "slug": "gen50-n06",
+    "title": "kiana kaslana · 私密写真 6",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "kiana kaslana",
+    "scene": "warm lamp light",
+    "artist": "@wanke",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, kiana kaslana \\(honkai impact 3rd\\), @wanke, adult woman, red lace lingerie, satin sheets, warm lamp light, reclining, smile, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620006,
+    "source": {
+      "outfit": "adult woman, red lace lingerie, satin sheets",
+      "pose": "warm lamp light, reclining, smile"
+    }
+  },
+  {
+    "slug": "gen50-n07",
+    "title": "hoshino ai · 私密写真 7",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "hoshino ai",
+    "scene": "bathroom mirror",
+    "artist": "@guweiz",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, hoshino ai \\(oshi no ko\\), @guweiz, adult woman, sheer nightie, wet hair after shower, bathroom mirror, steam, towel around neck, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620007,
+    "source": {
+      "outfit": "adult woman, sheer nightie, wet hair after shower",
+      "pose": "bathroom mirror, steam, towel around neck"
+    }
+  },
+  {
+    "slug": "gen50-n08",
+    "title": "rosaria · 私密写真 8",
+    "rating": "sensitive",
+    "tags": [
+      "Anima",
+      "精细"
+    ],
+    "character": "rosaria",
+    "scene": "private room",
+    "artist": "@askzy",
+    "prompt": "masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, adult woman, rosaria \\(genshin impact\\), @askzy, adult woman, velvet choker, lace bodysuit, thighhighs, private room, low angle, confident expression, detailed face, soft lighting",
+    "negative": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, child, loli, shota, teen, underage, amputation, gore, scat, bestiality",
+    "seed": 620008,
+    "source": {
+      "outfit": "adult woman, velvet choker, lace bodysuit, thighhighs",
+      "pose": "private room, low angle, confident expression"
+    }
+  }
+]

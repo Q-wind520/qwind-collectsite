@@ -15,6 +15,7 @@
     "deploy:cf": "pnpm build && wrangler pages deploy dist --project-name qwind-collectsite",
     "new": "tsx scripts/new-entry.ts",
     "optimize-image": "tsx scripts/optimize-image.ts",
+    "ingest:gui": "node scripts/ingest-gui.mjs",
     "prebuild": "tsx scripts/check-content.ts"
   },
   "dependencies": {

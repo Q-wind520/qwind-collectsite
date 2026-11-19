@@ -4,7 +4,7 @@ slug: anima-style-lora-hutao-festival
 tags: ["Anima", "画风实验", "夜祭", "胡桃", "LoRA"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 images:
   - ../../assets/works/anima-style-lora-hutao-festival/01.webp

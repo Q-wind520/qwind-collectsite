@@ -4,7 +4,7 @@ slug: anima-takina-08
 tags: ["Anima", "井之上泷奈", "雪庭", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [mika-pikazo]
 images:

@@ -4,7 +4,7 @@ slug: anima-marin-07
 tags: ["Anima", "喜多川海梦", "森林", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [ciloranko]
 images:

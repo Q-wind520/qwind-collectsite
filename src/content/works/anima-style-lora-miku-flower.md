@@ -4,7 +4,7 @@ slug: anima-style-lora-miku-flower
 tags: ["Anima", "画风实验", "花田", "初音未来", "LoRA"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 images:
   - ../../assets/works/anima-style-lora-miku-flower/01.webp

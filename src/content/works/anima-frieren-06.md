@@ -4,7 +4,7 @@ slug: anima-frieren-06
 tags: ["Anima", "芙莉莲", "海边", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [lack]
 images:

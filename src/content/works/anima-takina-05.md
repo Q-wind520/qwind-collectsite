@@ -4,7 +4,7 @@ slug: anima-takina-05
 tags: ["Anima", "井之上泷奈", "雨街", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [hiten]
 images:

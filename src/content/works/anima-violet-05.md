@@ -4,7 +4,7 @@ slug: anima-violet-05
 tags: ["Anima", "薇尔莉特", "雨街", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [rella]
 images:

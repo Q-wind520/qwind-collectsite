@@ -4,7 +4,7 @@ slug: anima-violet-01
 tags: ["Anima", "薇尔莉特", "花田", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [fuzichoco]
 images:

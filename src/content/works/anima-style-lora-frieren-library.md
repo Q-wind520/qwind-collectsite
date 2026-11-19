@@ -4,7 +4,7 @@ slug: anima-style-lora-frieren-library
 tags: ["Anima", "画风实验", "图书馆", "芙莉莲", "LoRA"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 images:
   - ../../assets/works/anima-style-lora-frieren-library/01.webp

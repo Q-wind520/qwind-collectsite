@@ -4,7 +4,7 @@ slug: anima-hutao-06
 tags: ["Anima", "胡桃", "海边", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [krenz-cushart]
 images:

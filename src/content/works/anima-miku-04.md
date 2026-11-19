@@ -4,7 +4,7 @@ slug: anima-miku-04
 tags: ["Anima", "初音未来", "夜祭", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [krenz-cushart]
 images:

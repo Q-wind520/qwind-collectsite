@@ -4,7 +4,7 @@ slug: anima-marin-01
 tags: ["Anima", "喜多川海梦", "花田", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [hiten]
 images:

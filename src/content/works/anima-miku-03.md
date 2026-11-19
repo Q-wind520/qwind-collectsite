@@ -4,7 +4,7 @@ slug: anima-miku-03
 tags: ["Anima", "初音未来", "图书馆", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [mika-pikazo]
 images:

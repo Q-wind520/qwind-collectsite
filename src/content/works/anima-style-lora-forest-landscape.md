@@ -4,7 +4,7 @@ slug: anima-style-lora-forest-landscape
 tags: ["Anima", "画风实验", "森林", "风景", "LoRA"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 images:
   - ../../assets/works/anima-style-lora-forest-landscape/01.webp

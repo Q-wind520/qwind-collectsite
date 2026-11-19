@@ -4,7 +4,7 @@ slug: anima-miku-05
 tags: ["Anima", "初音未来", "雨街", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [anmi]
 images:

@@ -4,7 +4,7 @@ slug: anima-furina-08
 tags: ["Anima", "芙宁娜", "雪庭", "画风", "人像"]
 createdAt: 2026-11-17
 kind: painting
-tier: refined
+tier: sketch
 experiment: [prompt, lora]
 artists: [rella]
 images:

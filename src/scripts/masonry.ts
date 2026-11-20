@@ -1,4 +1,3 @@
-const GAP = 12;
 const MOBILE_QUERY = '(max-width: 900px)';
 
 const grids = [...document.querySelectorAll<HTMLElement>('[data-masonry]')];
@@ -18,9 +17,10 @@ if (grids.length > 0) {
     const width = grid.clientWidth;
     if (width <= 0) return;
 
+    const gap = Number.parseFloat(getComputedStyle(grid).getPropertyValue('--grid-gap')) || 12;
     grid.classList.add('masonry-ready');
     const columns = columnsFor(grid);
-    const columnWidth = Math.max(0, (width - GAP * (columns - 1)) / columns);
+    const columnWidth = Math.max(0, (width - gap * (columns - 1)) / columns);
     const heights = new Array<number>(columns).fill(0);
 
     for (const card of cards) {
@@ -30,9 +30,9 @@ if (grids.length > 0) {
       for (let index = 1; index < columns; index += 1) {
         if (heights[index] < heights[target]) target = index;
       }
-      card.style.left = `${target * (columnWidth + GAP)}px`;
+      card.style.left = `${target * (columnWidth + gap)}px`;
       card.style.top = `${heights[target]}px`;
-      heights[target] += height + GAP;
+      heights[target] += height + gap;
     }
 
     for (const child of grid.children) {
@@ -42,7 +42,7 @@ if (grids.length > 0) {
       child.style.width = '';
     }
 
-    grid.style.height = `${Math.max(0, Math.max(...heights) - GAP)}px`;
+    grid.style.height = `${Math.max(0, Math.max(...heights) - gap)}px`;
   };
 
   const schedule = (grid: HTMLElement) => {

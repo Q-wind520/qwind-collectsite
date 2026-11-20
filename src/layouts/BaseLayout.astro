@@ -44,10 +44,19 @@ const ogImage = new URL(assetUrl(image), Astro.site!).href;
     <script is:inline>
       (() => {
         const key = 'qwind-theme';
-        const saved = localStorage.getItem(key);
-        const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        const saved = localStorage.getItem(key) || 'system';
+        const dark = saved === 'dark' || (saved === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        document.documentElement.dataset.nsfw = localStorage.getItem('qwind-nsfw') === 'on' ? 'on' : 'off';
+        const nsfw = localStorage.getItem('qwind-nsfw');
+        document.documentElement.dataset.nsfw = nsfw === 'on' ? 'on' : 'off';
+        const petals = localStorage.getItem('qwind-petals');
+        document.documentElement.dataset.petals = petals === 'off' ? 'off' : 'on';
+        const motion = localStorage.getItem('qwind-motion');
+        document.documentElement.dataset.motion = motion || (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'full');
+        document.documentElement.dataset.font = localStorage.getItem('qwind-font') || 'normal';
+        const density = localStorage.getItem('qwind-density');
+        document.documentElement.dataset.density = density === 'compact' ? 'compact' : 'comfortable';
+        document.documentElement.dataset.toc = localStorage.getItem('qwind-toc') === 'open' ? 'open' : 'closed';
       })();
     </script>
   </head>

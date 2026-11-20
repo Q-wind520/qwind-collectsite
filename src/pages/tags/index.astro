@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import { isNsfw, tagToSlug } from '../../lib/content';
+import { withBase } from '../../lib/url';
+
+const [works, links, notes, files] = await Promise.all([
+  getCollection('works'), getCollection('links'), getCollection('notes'), getCollection('files'),
+]);
+const entries = [...works, ...links, ...notes, ...files]
+  .filter((entry) => !entry.data.draft && !isNsfw('rating' in entry.data ? entry.data.rating : undefined));
+
+const counts = new Map<string, number>();
+for (const entry of entries) {
+  const entryTags = new Set(entry.data.tags);
+  const related = 'relatedTags' in entry.data && Array.isArray(entry.data.relatedTags) ? entry.data.relatedTags : [];
+  for (const tag of related) entryTags.add(tag);
+  for (const tag of entryTags) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-CN'));
+---
+<BaseLayout title="标签" description="温水の收藏站的全部标签。">
+  <div class="container page">
+    <PageHead kicker="TAGS" title="标签" icon="tags" />
+    <div class="glass tag-cloud">
+      {tags.map(([tag, count]) => (
+        <a href={withBase(`/tags/${tagToSlug(tag)}`)}>
+          <span>#{tag}</span>
+          <small>{count}</small>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; }
+  .tag-cloud a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 100%;
+    padding: 6px 11px;
+    border: 1px solid var(--control-border);
+    border-radius: var(--radius-control-sm);
+    background: var(--control-bg);
+    color: var(--color-text);
+    font-size: 11px;
+    text-decoration: none;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+  }
+  .tag-cloud a:hover {
+    border-color: var(--control-border-hover);
+    background: var(--control-bg-hover);
+    color: var(--color-link);
+  }
+  .tag-cloud span { overflow-wrap: anywhere; }
+  .tag-cloud small { font-size: 10px; color: var(--color-muted); }
+</style>

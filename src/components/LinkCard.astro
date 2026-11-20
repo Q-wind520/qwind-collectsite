@@ -27,7 +27,7 @@ const initial = domain.slice(0, 1).toUpperCase();
 </a>
 
 <style>
-  .link-card { display: flex; gap: 12px; padding: 13px 15px; text-decoration: none; }
+  .link-card { display: flex; gap: 12px; padding: var(--card-pad); text-decoration: none; }
   .link-card:hover { border-color: color-mix(in srgb, var(--color-accent) 40%, var(--glass-border)); }
   .link-card:hover :global(.ext) { color: var(--color-accent); opacity: 1; }
   .favicon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent); font-size: 13px; font-weight: 700; overflow: hidden; }

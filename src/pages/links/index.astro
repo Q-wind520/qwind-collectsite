@@ -37,6 +37,6 @@ const tagOptions = [
 <style>
   .link-tools { position: relative; z-index: 20; display: flex; gap: 8px; padding: 10px 12px; margin-bottom: 12px; flex-wrap: wrap; }
   .link-tools :global(.select-trigger) { min-width: 156px; }
-  .link-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .link-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--list-gap); }
   @media (max-width: 760px) { .link-list { grid-template-columns: 1fr; } }
 </style>

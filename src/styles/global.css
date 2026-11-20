@@ -133,9 +133,6 @@ select:focus-visible {
 .theme-moon { display: none; }
 :root[data-theme="dark"] .theme-sun { display: none; }
 :root[data-theme="dark"] .theme-moon { display: inline-block; }
-.nsfw-eye-on { display: none; }
-.nsfw-toggle[aria-pressed="true"] .nsfw-eye-on { display: inline-block; }
-.nsfw-toggle[aria-pressed="true"] .nsfw-eye-off { display: none; }
 .menu-icon-close { display: none; }
 .menu-toggle[aria-expanded="true"] .menu-icon-open { display: none; }
 .menu-toggle[aria-expanded="true"] .menu-icon-close { display: inline-block; }
@@ -227,7 +224,7 @@ select:focus-visible {
 .page-head p { margin: 6px 0 0; color: rgba(255, 255, 255, 0.82); }
 .kicker { margin: 0 0 8px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; }
 
-[data-masonry] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: start; }
+[data-masonry] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--grid-gap); align-items: start; }
 [data-masonry].masonry-ready { display: block; position: relative; }
 [data-masonry].masonry-ready > * { position: absolute; }
 @media (max-width: 900px) {
@@ -249,10 +246,15 @@ select:focus-visible {
   .container { padding-inline: 14px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .petal { display: none; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+html[data-petals="off"] .petals { display: none; }
+
+html[data-motion="reduced"] { scroll-behavior: auto; }
+html[data-motion="reduced"] .petal { display: none; }
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
 }
 
 a, button, input, select { outline-offset: 3px; }
@@ -275,7 +277,6 @@ html[data-nsfw="on"] [data-nsfw-notice] { display: none !important; }
   }
   /* Keep true circles circular. */
   .avatar,
-  .brand img,
   .note-card-top .dot,
   .petal,
   .work-modal-close {

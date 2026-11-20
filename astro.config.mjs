@@ -23,7 +23,7 @@ export default defineConfig({
           'file-image', 'file-question-mark', 'file-text', 'file-video-camera', 'folder-open',
           'funnel', 'github', 'globe', 'image', 'image-off', 'images', 'info', 'list-filter',
           'megaphone', 'menu', 'moon', 'notebook-pen', 'palette', 'pen-line', 'play',
-          'rotate-ccw', 'rss', 'search', 'search-x', 'sliders-horizontal', 'sparkles',
+          'rotate-ccw', 'rss', 'search', 'search-x', 'settings-2', 'sliders-horizontal', 'sparkles',
           'star', 'sun', 'tags', 'triangle-exclamation-point', 'user-round', 'wand-sparkles', 'x',
         ],
       },

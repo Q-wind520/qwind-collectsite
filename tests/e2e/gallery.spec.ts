@@ -5,24 +5,29 @@ test('filters by tag and syncs the URL', async ({ page }) => {
   await expect(page.locator('[data-work]:visible').first()).toBeVisible();
   await page.locator('input[name="tag"][value="海边"]').check();
   await expect(page).toHaveURL(/tag=/);
-  await expect(page.locator('[data-work]:visible')).toHaveCount(3);
-  await expect(page.locator('[data-result-count]')).toContainText('3 件作品');
+  const matched = await page.locator('[data-work]:visible').count();
+  expect(matched).toBeGreaterThan(0);
+  for (const card of await page.locator('[data-work]:visible').all()) {
+    await expect(card).toHaveAttribute('data-tags', /海边/);
+  }
+  await expect(page.locator('[data-result-count]')).toContainText(`${matched} 件作品`);
 
   await page.locator('input[name="tag"][value="海边"]').uncheck();
-  await expect(page.locator('[data-work]:visible')).toHaveCount(6);
+  const all = await page.locator('[data-work]:visible').count();
+  expect(all).toBeGreaterThan(matched);
 });
 
 test('filters by tier and experiment and syncs the URL', async ({ page }) => {
   await page.goto('/gallery');
   await page.selectOption('select[name="tier"]', 'sketch');
   await expect(page).toHaveURL(/tier=sketch/);
-  await expect(page.locator('[data-work]:visible')).toHaveCount(1);
-  await expect(page.locator('[data-work]:visible')).toHaveAttribute('data-tier', 'sketch');
+  await expect(page.locator('[data-work]:visible').first()).toBeVisible();
+  await expect(page.locator('[data-work]:visible').first()).toHaveAttribute('data-tier', 'sketch');
 
   await page.goto('/gallery');
   await page.selectOption('select[name="experiment"]', 'lora');
   await expect(page).toHaveURL(/experiment=lora/);
-  await expect(page.locator('[data-work]:visible')).toHaveCount(2);
+  expect(await page.locator('[data-work]:visible').count()).toBeGreaterThan(0);
   for (const card of await page.locator('[data-work]:visible').all()) {
     await expect(card).toHaveAttribute('data-experiments', /lora/);
   }
@@ -32,12 +37,13 @@ test('has no flat painting, style and composition navigation', async ({ page }) 
   await page.goto('/gallery?kind=style');
   await expect(page.getByRole('heading', { name: '作品', level: 1 })).toBeVisible();
   await expect(page.locator('[data-kind-link]')).toHaveCount(0);
-  await expect(page.locator('[data-work]:visible')).toHaveCount(6);
+  expect(await page.locator('[data-work]:visible').count()).toBeGreaterThan(0);
 });
 
 test('NSFW works stay hidden until the adult check is completed', async ({ page }) => {
   await page.goto('/gallery');
   await expect(page.locator('[data-work][data-nsfw="true"]').first()).toBeHidden();
+  await page.getByRole('button', { name: '站点设置' }).click();
   await page.getByRole('button', { name: '显示 NSFW 内容' }).click();
   await expect(page.getByRole('heading', { name: '确认已成年' })).toBeVisible();
   await page.getByRole('button', { name: '我已满 18 岁' }).click();

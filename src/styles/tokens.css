@@ -44,6 +44,10 @@
   --control-fg-hover: var(--color-text);
   --control-ring: color-mix(in srgb, var(--color-accent) 26%, transparent);
 
+  --list-gap: clamp(10px, 1.4vw, 16px);
+  --card-pad: clamp(18px, 2.2vw, 24px) clamp(18px, 2.4vw, 26px);
+  --grid-gap: 12px;
+
   color-scheme: light;
 }
 
@@ -81,4 +85,10 @@
   --control-ring: color-mix(in srgb, var(--color-accent) 30%, transparent);
 
   color-scheme: dark;
+}
+
+html[data-density="compact"] {
+  --list-gap: 8px;
+  --card-pad: 13px 16px;
+  --grid-gap: 8px;
 }

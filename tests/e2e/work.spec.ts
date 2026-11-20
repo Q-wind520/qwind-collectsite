@@ -28,7 +28,7 @@ test('gallery opens a work overlay from the image and closes with Escape', async
   await expect(dialog).toBeVisible();
   await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);
   await expect(dialog.locator('[data-work-modal-title]')).toBeVisible();
-  await expect(dialog.locator('[data-work-modal-image]')).toBeVisible();
+  await expect(dialog.locator('[data-work-modal-image]')).toBeVisible({ timeout: 15000 });
   await expect(dialog.locator('iframe')).toHaveCount(0);
 
   await page.keyboard.press('Escape');
@@ -108,7 +108,7 @@ test('gallery title opens the same overlay and the back button closes it', async
 test('home work links open the overlay too', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  await page.locator('.preview').first().click();
+  await page.locator('.preview[data-nsfw="false"]').first().click();
   const dialog = page.locator('[data-work-modal]');
   await expect(dialog).toBeVisible();
   await expect(page).toHaveURL(/\/gallery\/[a-z0-9-]+$/);

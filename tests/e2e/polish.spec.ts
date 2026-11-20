@@ -81,6 +81,7 @@ test('modal dialogs open centered in the viewport', async ({ page }) => {
   expect(Math.abs(search!.y + search!.height / 2 - 400)).toBeLessThan(2);
   await page.keyboard.press('Escape');
 
+  await page.getByRole('button', { name: '站点设置' }).click();
   await page.getByRole('button', { name: '显示 NSFW 内容' }).click();
   const nsfw = await page.locator('[data-nsfw-dialog]').boundingBox();
   expect(nsfw).not.toBeNull();

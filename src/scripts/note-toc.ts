@@ -9,11 +9,11 @@ if (tocRoot && prose) {
 
   const syncOpen = () => {
     if (!details) return;
-    if (wide.matches) details.open = true;
-    else if (details.open) details.open = false;
+    details.open = wide.matches || document.documentElement.dataset.toc === 'open';
   };
-  if (!wide.matches) details?.removeAttribute('open');
+  syncOpen();
   wide.addEventListener('change', syncOpen);
+  document.addEventListener('settingschange', syncOpen);
 
   const targets = links
     .map((link) => {

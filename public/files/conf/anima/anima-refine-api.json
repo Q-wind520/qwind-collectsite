@@ -37,14 +37,24 @@
   }
  },
  "4": {
-  "class_type": "LoraLoaderModelOnly",
+  "class_type": "Lora Loader Stack (rgthree)",
   "inputs": {
    "model": [
     "3",
     0
    ],
-   "lora_name": "anima-turbo-lora-v0.2.safetensors",
-   "strength_model": 1.0
+   "clip": [
+    "5",
+    0
+   ],
+   "lora_01": "anima-turbo-lora-v0.2.safetensors",
+   "strength_01": 1.0,
+   "lora_02": "None",
+   "strength_02": 1.0,
+   "lora_03": "None",
+   "strength_03": 1.0,
+   "lora_04": "None",
+   "strength_04": 1.0
   }
  },
  "5": {
@@ -66,8 +76,8 @@
   "inputs": {
    "text": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), vocaloid, @askzy, aqua hair, twin tails, aqua eyes, headphones, hand on hair, perfect hand, five slender fingers, natural fingers, holding hair strand, sunlit flower meadow, distant mountains, soft morning light",
    "clip": [
-    "5",
-    0
+    "4",
+    1
    ]
   }
  },
@@ -76,8 +86,8 @@
   "inputs": {
    "text": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota, bad hands, extra fingers, fused fingers, missing fingers, deformed hand, mutated hand",
    "clip": [
-    "5",
-    0
+    "4",
+    1
    ]
   }
  },

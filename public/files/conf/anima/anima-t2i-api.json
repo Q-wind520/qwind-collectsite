@@ -7,14 +7,24 @@
   }
  },
  "2": {
-  "class_type": "LoraLoaderModelOnly",
+  "class_type": "Lora Loader Stack (rgthree)",
   "inputs": {
    "model": [
     "1",
     0
    ],
-   "lora_name": "anima-turbo-lora-v0.2.safetensors",
-   "strength_model": 1.0
+   "clip": [
+    "3",
+    0
+   ],
+   "lora_01": "anima-turbo-lora-v0.2.safetensors",
+   "strength_01": 1.0,
+   "lora_02": "None",
+   "strength_02": 1.0,
+   "lora_03": "None",
+   "strength_03": 1.0,
+   "lora_04": "None",
+   "strength_04": 1.0
   }
  },
  "3": {
@@ -36,8 +46,8 @@
   "inputs": {
    "text": "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, 1girl, solo, hatsune miku \\(vocaloid\\), vocaloid, @askzy, aqua hair, twin tails, aqua eyes, sleeveless white shirt, black pleated skirt, black kneehighs, headphones, standing, hand on hair, gentle smile, cowboy shot, from side, sunlit flower meadow, distant mountains, gentle breeze, soft morning light, lens flare",
    "clip": [
-    "3",
-    0
+    "2",
+    1
    ]
   }
  },
@@ -46,8 +56,8 @@
   "inputs": {
    "text": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration, watermark, signature, text, logo, nsfw, nude, naked, explicit, nipples, areola, panties, see-through, revealing clothes, child, loli, shota",
    "clip": [
-    "3",
-    0
+    "2",
+    1
    ]
   }
  },

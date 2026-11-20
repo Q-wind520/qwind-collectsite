@@ -2,7 +2,7 @@
  "id": "anima-refine-fixed",
  "revision": 0,
  "last_node_id": 20,
- "last_link_id": 22,
+ "last_link_id": 23,
  "nodes": [
   {
    "id": 1,
@@ -216,60 +216,71 @@
   },
   {
    "id": 4,
-   "type": "LoraLoaderModelOnly",
+   "type": "Lora Loader Stack (rgthree)",
    "pos": [
     80,
     760
    ],
    "size": [
     340,
-    130
+    230
    ],
-   "flags": {},
+   "flags": {
+    "collapsed": false
+   },
    "order": 0,
    "mode": 0,
    "inputs": [
     {
+     "dir": 3,
      "localized_name": "model",
      "name": "model",
+     "shape": 7,
      "type": "MODEL",
      "link": 5
     },
     {
-     "localized_name": "lora_name",
-     "name": "lora_name",
-     "type": "COMBO",
-     "widget": {
-      "name": "lora_name"
-     },
-     "link": null
-    },
-    {
-     "localized_name": "strength_model",
-     "name": "strength_model",
-     "type": "FLOAT",
-     "widget": {
-      "name": "strength_model"
-     },
-     "link": null
+     "dir": 3,
+     "localized_name": "clip",
+     "name": "clip",
+     "shape": 7,
+     "type": "CLIP",
+     "link": 23
     }
    ],
    "outputs": [
     {
-     "localized_name": "MODEL",
+     "dir": 4,
+     "localized_name": "模型",
      "name": "MODEL",
      "type": "MODEL",
      "links": [
       12
      ]
+    },
+    {
+     "dir": 4,
+     "localized_name": "CLIP",
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      10,
+      11
+     ]
     }
    ],
+   "title": "LoRA 叠加（Lora Loader Stack · 4 槽）",
    "properties": {
-    "Node name for S&R": "LoraLoaderModelOnly",
-    "cnr_id": "comfy-core"
+    "Node name for S&R": "Lora Loader Stack (rgthree)"
    },
    "widgets_values": [
     "anima-turbo-lora-v0.2.safetensors",
+    1.0,
+    "None",
+    1.0,
+    "None",
+    1.0,
+    "None",
     1.0
    ]
   },
@@ -1177,16 +1188,16 @@
   ],
   [
    10,
-   5,
-   0,
+   4,
+   1,
    7,
    0,
    "CLIP"
   ],
   [
    11,
-   5,
-   0,
+   4,
+   1,
    8,
    0,
    "CLIP"
@@ -1278,6 +1289,14 @@
    18,
    0,
    "IMAGE"
+  ],
+  [
+   23,
+   5,
+   0,
+   4,
+   1,
+   "CLIP"
   ]
  ],
  "groups": [

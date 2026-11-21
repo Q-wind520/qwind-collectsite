@@ -8,6 +8,8 @@ playwright-report/
 .superpowers/
 .DS_Store
 *.log
+__pycache__/
+*.pyc
 
 .openchamber/
 .wrangler/

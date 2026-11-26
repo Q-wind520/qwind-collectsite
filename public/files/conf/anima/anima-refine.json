@@ -274,7 +274,7 @@
     "Node name for S&R": "Lora Loader Stack (rgthree)"
    },
    "widgets_values": [
-    "anima-turbo-lora-v0.2.safetensors",
+    "None",
     1.0,
     "None",
     1.0,
@@ -798,8 +798,8 @@
    "widgets_values": [
     410021,
     "randomize",
-    8,
-    1.0,
+    20,
+    4.0,
     "euler_ancestral",
     "simple",
     1.0
@@ -1103,10 +1103,10 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 8 步 / CFG 1 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → Turbo LoRA → KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
+    "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：默认 `None`（精修不用草稿 LoRA）\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 20 步 / CFG 4 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → LoRA 栈（默认 None）→ KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
    ],
    "widgets_values_named": {
-    "text": "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 8 步 / CFG 1 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → Turbo LoRA → KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
+    "text": "# LLLite 局部重绘参数\n- 底模：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- 模型补丁：`anima-lllite-inpainting-v2.safetensors`\n- Turbo LoRA：默认 `None`（精修不用草稿 LoRA）\n- LLLite：strength 1.0，start 0，end 1，带 mask\n- 采样：`euler_ancestral` / `simple` / 20 步 / CFG 4 / denoise 1\n- 放大：RealESRGAN_x4plus_anime_6B → 0.5 → 2×\n\n## 顺序\n`UNet → LLLiteApply → LoRA 栈（默认 None）→ KSampler`；`VAEEncodeForInpaint` 用原图 + 遮罩编码 latent。\n\n## 参考\n- 官方 Anima-LLLite 模板：`image_anima_lllite_image_inpainting.json`\n- 社区 `anima_uni_workflow_fixed` 的「局部重绘」模式：LLLite + latent 1 + denoise 1\n- 本地测试：同 mask 下比 `SetLatentNoiseMask` 的手部结构更完整"
    },
    "title": "参数与来源",
    "color": "#432",

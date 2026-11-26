@@ -3,7 +3,7 @@
 
 ComfyUI: http://127.0.0.1:8188
 模板: public/files/conf/anima/anima-t2i-api.json
-  - 节点 2 = Lora Loader Stack（lora_01=turbo，lora_02=画风）
+  - 节点 2 = Lora Loader Stack（lora_01=None，lora_02=画风）
   - 节点 5/6 = 正/负提示词，8 = KSampler，10 = SaveImage
 用法: python3 scripts/generate-style-explore.py --list | --only SLUG | --all
 """
@@ -19,7 +19,7 @@ COMFY = "http://127.0.0.1:8188"
 TEMPLATE = ROOT / "public/files/conf/anima/anima-t2i-api.json"
 CLIENT_ID = "qwind-style-explore"
 OUT_DIR = Path("/home/qwind/ComfyUI-Installs/ComfyUI/ComfyUI/output/anima/style-explore")
-QUALITY = "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, "
+QUALITY = "safe, masterpiece, best quality, year 2025, newest, highres, detailed background, aesthetic, very aesthetic, "
 
 JOBS = [
     {"slug": "01-chibi-hill", "style": "Chibi 萌系", "lora": "anima-style-chibi.safetensors", "strength": 0.9, "seed": 100001,
@@ -57,16 +57,20 @@ def api(path, payload=None, timeout=120):
 def build_graph(job):
     g = json.loads(TEMPLATE.read_text(encoding="utf-8"))
     assert g["2"]["class_type"] == "Lora Loader Stack (rgthree)", g["2"]["class_type"]
-    g["2"]["inputs"]["lora_01"] = "anima-turbo-lora-v0.2.safetensors"
+    g["2"]["inputs"]["lora_01"] = "None"
     g["2"]["inputs"]["strength_01"] = 1.0
     g["2"]["inputs"]["lora_02"] = job["lora"]
     g["2"]["inputs"]["strength_02"] = job["strength"]
     g["5"]["inputs"]["text"] = QUALITY + job["prompt"]
     g["8"]["inputs"]["seed"] = job["seed"]
+    g["8"]["inputs"]["steps"] = 20
+    g["8"]["inputs"]["cfg"] = 4.0
+    g["8"]["inputs"]["sampler_name"] = "euler_ancestral"
+    g["8"]["inputs"]["scheduler"] = "simple"
     g["10"]["inputs"]["filename_prefix"] = f"anima/style-explore/{job['slug']}"
-    # 去掉 2× 放大分支，只出基础图，加快速度
-    for k in ("11", "12", "13", "14"):
-        g.pop(k, None)
+    # 保留 RealESRGAN 2× 放大分支；基础图和放大图都会保存
+    if "14" in g:
+        g["14"]["inputs"]["filename_prefix"] = f"anima/style-explore/{job['slug']}-upscaled"
     return g
 
 

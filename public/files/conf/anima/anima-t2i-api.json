@@ -17,7 +17,7 @@
     "3",
     0
    ],
-   "lora_01": "anima-turbo-lora-v0.2.safetensors",
+   "lora_01": "None",
    "strength_01": 1.0,
    "lora_02": "None",
    "strength_02": 1.0,
@@ -89,8 +89,8 @@
     0
    ],
    "seed": 410001,
-   "steps": 8,
-   "cfg": 1.0,
+   "steps": 20,
+   "cfg": 4.0,
    "sampler_name": "euler_ancestral",
    "scheduler": "simple",
    "denoise": 1.0

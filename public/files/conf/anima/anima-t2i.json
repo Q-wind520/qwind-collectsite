@@ -117,7 +117,7 @@
     "Node name for S&R": "Lora Loader Stack (rgthree)"
    },
    "widgets_values": [
-    "anima-turbo-lora-v0.2.safetensors",
+    "None",
     1.0,
     "None",
     1.0,
@@ -176,8 +176,7 @@
      "name": "CLIP",
      "type": "CLIP",
      "links": [
-      4,
-      5
+      17
      ]
     }
    ],
@@ -508,8 +507,8 @@
    "widgets_values": [
     410001,
     "randomize",
-    8,
-    1.0,
+    20,
+    4.0,
     "euler_ancestral",
     "simple",
     1.0
@@ -870,7 +869,7 @@
    "type": "MarkdownNote",
    "pos": [
     80,
-    1050
+    1400
    ],
    "size": [
     760,
@@ -883,10 +882,10 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "# 提示词结构（社区模板）\n[质量词] [主体描述] [外观细节] [服装] [姿势/表情] [场景] [光照] [构图] [风格] [额外 tags]\n\n## 本工作流默认\n- 质量词：`safe, masterpiece, best quality, year 2025, newest, highres, detailed background`\n- 画师：`@artist` 直接写在角色后面；画师 tag 就是 Anima 的画风来源\n- 角色：`character \\(series\\)`，系列名也一起写\n- 负向：固定包含 `artist name`，阻止画师签名混进画面\n\n## 提示\n- 换画师会明显换画风；固定 seed 后一次只改一个变量\n- 想更稳的构图，先固定 seed 再微调描述\n- 832×1216 是 2:3 竖图；换比例时同时改 EmptyLatentImage"
+    "# 提示词结构（社区模板）\n[质量词] [主体描述] [外观细节] [服装] [姿势/表情] [场景] [光照] [构图] [风格] [额外 tags]\n\n## 本工作流默认\n- 质量词：`safe, masterpiece, best quality, year 2025, newest, highres, detailed background`\n- 可选增强：后面加 `aesthetic, very aesthetic`（v2 系列用了）\n- 画师：`@artist` 直接写在角色后面；画师 tag 就是 Anima 的画风来源\n- 角色：`character \\(series\\)`，系列名也一起写\n- 负向：固定包含 `artist name`，阻止画师签名混进画面\n\n## 提示\n- 换画师会明显换画风；固定 seed 后一次只改一个变量\n- 想更稳的构图，先固定 seed 再微调描述\n- 832×1216 是 2:3 竖图；换比例时同时改 EmptyLatentImage"
    ],
    "widgets_values_named": {
-    "text": "# 提示词结构（社区模板）\n[质量词] [主体描述] [外观细节] [服装] [姿势/表情] [场景] [光照] [构图] [风格] [额外 tags]\n\n## 本工作流默认\n- 质量词：`safe, masterpiece, best quality, year 2025, newest, highres, detailed background`\n- 画师：`@artist` 直接写在角色后面；画师 tag 就是 Anima 的画风来源\n- 角色：`character \\(series\\)`，系列名也一起写\n- 负向：固定包含 `artist name`，阻止画师签名混进画面\n\n## 提示\n- 换画师会明显换画风；固定 seed 后一次只改一个变量\n- 想更稳的构图，先固定 seed 再微调描述\n- 832×1216 是 2:3 竖图；换比例时同时改 EmptyLatentImage"
+    "text": "# 提示词结构（社区模板）\n[质量词] [主体描述] [外观细节] [服装] [姿势/表情] [场景] [光照] [构图] [风格] [额外 tags]\n\n## 本工作流默认\n- 质量词：`safe, masterpiece, best quality, year 2025, newest, highres, detailed background`\n- 可选增强：后面加 `aesthetic, very aesthetic`（v2 系列用了）\n- 画师：`@artist` 直接写在角色后面；画师 tag 就是 Anima 的画风来源\n- 角色：`character \\(series\\)`，系列名也一起写\n- 负向：固定包含 `artist name`，阻止画师签名混进画面\n\n## 提示\n- 换画师会明显换画风；固定 seed 后一次只改一个变量\n- 想更稳的构图，先固定 seed 再微调描述\n- 832×1216 是 2:3 竖图；换比例时同时改 EmptyLatentImage"
    },
    "title": "提示词结构",
    "color": "#432",
@@ -897,7 +896,7 @@
    "type": "MarkdownNote",
    "pos": [
     880,
-    1050
+    1400
    ],
    "size": [
     820,
@@ -910,10 +909,10 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "# 模型与参数\n- UNet：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- CLIP：`qwen_3_06b_base.safetensors`（type: stable_diffusion）\n- VAE：`qwen_image_vae.safetensors`\n- 832×1216 / `euler_ancestral`（即 euler_a）/ `simple` / 8 步 / CFG 1\n- 放大：`RealESRGAN_x4plus_anime_6B` → `ImageScaleBy 0.5` → 2× 输出\n- WD14：默认静音；取消静音做安全检查（只出 tag，不改图）\n\n## 为什么是这套\n- 20 张同内容同种子的采样器对比：euler_a 最稳，er_sde 次之；dpmpp 波动最大，euler 偏平\n- 8 步 turbo 下 beta 调度器更平、对比更低；社区模板的 `er_sde + beta + 26/30 步` 是给非 turbo 模式的\n- 832×1216 在 1MP 左右，和官方 1024×1024 的显存/细节平衡接近，4GB 卡也能跑"
+    "# 两套预设\n| 预设 | LoRA 槽 1 | 步数 | CFG | 采样器 / 调度器 | 用途 |\n| --- | --- | --- | --- | --- | --- |\n| 精修（默认） | `None` | 20 | 4 | `euler_ancestral` / `simple` | 背景/发丝/裙褶细节；约 10 分钟 |\n| 草稿 | `anima-turbo-lora-v0.2` @ 1.0 | 8 | 1 | `euler_ancestral` / `simple` | 试构图；约 2 分钟 |\n\n换预设时 LoRA、步数、CFG 一起改。\n\n## 模型\n- UNet：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- CLIP：`qwen_3_06b_base.safetensors`（type: stable_diffusion）\n- VAE：`qwen_image_vae.safetensors`\n- 放大：`RealESRGAN_x4plus_anime_6B` → `ImageScaleBy 0.5` → 2× 输出\n\n## 放大（两套预设都走）\n- 832×1216 → 1664×2432\n- 放大链在 SaveImage 之前，草稿和精修共用\n\n## 为什么\n- 20 步无 turbo 的花田、发丝、布料细节明显多于 8 步 turbo；代价是脸部线条更柔\n- 20 步下 `beta` 调度器会把草地和背景压平；`simple` 保留的细节更多\n- euler_a 在 CFG 5 时背景也会变平；CFG 4 是细节和稳定性的平衡点\n- 8 步 turbo 只用来试构图，定稿再切 20 步\n\n## 失败尝试\nTeaCache（跳步）和 int8 + LoRA（原生报错、W8A8 更慢）都已移除；详细数据见笔记 `/notes/anima-speed-attempts/`。\n"
    ],
    "widgets_values_named": {
-    "text": "# 模型与参数\n- UNet：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- Turbo LoRA：`anima-turbo-lora-v0.2.safetensors` @ 1.0\n- CLIP：`qwen_3_06b_base.safetensors`（type: stable_diffusion）\n- VAE：`qwen_image_vae.safetensors`\n- 832×1216 / `euler_ancestral`（即 euler_a）/ `simple` / 8 步 / CFG 1\n- 放大：`RealESRGAN_x4plus_anime_6B` → `ImageScaleBy 0.5` → 2× 输出\n- WD14：默认静音；取消静音做安全检查（只出 tag，不改图）\n\n## 为什么是这套\n- 20 张同内容同种子的采样器对比：euler_a 最稳，er_sde 次之；dpmpp 波动最大，euler 偏平\n- 8 步 turbo 下 beta 调度器更平、对比更低；社区模板的 `er_sde + beta + 26/30 步` 是给非 turbo 模式的\n- 832×1216 在 1MP 左右，和官方 1024×1024 的显存/细节平衡接近，4GB 卡也能跑"
+    "text": "# 两套预设\n| 预设 | LoRA 槽 1 | 步数 | CFG | 采样器 / 调度器 | 用途 |\n| --- | --- | --- | --- | --- | --- |\n| 精修（默认） | `None` | 20 | 4 | `euler_ancestral` / `simple` | 背景/发丝/裙褶细节；约 10 分钟 |\n| 草稿 | `anima-turbo-lora-v0.2` @ 1.0 | 8 | 1 | `euler_ancestral` / `simple` | 试构图；约 2 分钟 |\n\n换预设时 LoRA、步数、CFG 一起改。\n\n## 模型\n- UNet：`anima-aesthetic-v1.1.safetensors`（fp8_e4m3fn）\n- CLIP：`qwen_3_06b_base.safetensors`（type: stable_diffusion）\n- VAE：`qwen_image_vae.safetensors`\n- 放大：`RealESRGAN_x4plus_anime_6B` → `ImageScaleBy 0.5` → 2× 输出\n\n## 放大（两套预设都走）\n- 832×1216 → 1664×2432\n- 放大链在 SaveImage 之前，草稿和精修共用\n\n## 为什么\n- 20 步无 turbo 的花田、发丝、布料细节明显多于 8 步 turbo；代价是脸部线条更柔\n- 20 步下 `beta` 调度器会把草地和背景压平；`simple` 保留的细节更多\n- euler_a 在 CFG 5 时背景也会变平；CFG 4 是细节和稳定性的平衡点\n- 8 步 turbo 只用来试构图，定稿再切 20 步\n\n## 失败尝试\nTeaCache（跳步）和 int8 + LoRA（原生报错、W8A8 更慢）都已移除；详细数据见笔记 `/notes/anima-speed-attempts/`。\n"
    },
    "title": "模型与参数",
    "color": "#432",
@@ -1115,7 +1114,7 @@
    "title": "06 · 说明",
    "bounding": [
     40,
-    980,
+    1340,
     1720,
     530
    ],

@@ -1,0 +1,86 @@
+---
+title: Anima 加速尝试记录：20 步、TeaCache 与 int8 LoRA
+slug: anima-speed-attempts
+summary: 20 步无 turbo 的细节收益、TeaCache 的跳步本质、原生 int8 与 W8A8 LoRA 的实测结果，以及最终保留的 fp8 工作流。
+tags: [Anima, 工作流, 加速, TeaCache, int8]
+createdAt: 2026-11-25
+toc: true
+---
+
+这轮尝试的目标是「20 步的细节 + 带 LoRA 的加速」。结论先说：**在这台 GTX 1650 4GB 上，带 LoRA 时没有真正的 int8 加速；最终回到 fp8 20 步精修 + 8 步 turbo 草稿，所有流程都保留 2× 放大。**
+
+## 最终方案
+
+| 预设 | LoRA | 步数 | CFG | 采样器 | 用途 |
+| --- | --- | --- | --- | --- | --- |
+| 精修（默认） | 无 turbo | 20 | 4 | `euler_ancestral` / `simple` | 背景、发丝、裙褶细节；约 10 分钟 |
+| 草稿 | turbo @ 1.0 | 8 | 1 | `euler_ancestral` / `simple` | 试构图；约 2 分钟 |
+
+T2I 精修/草稿和 LLLite 局部重绘都在出图后跑 `RealESRGAN_x4plus_anime_6B → ImageScaleBy 0.5`，得到 2× 放大图（832×1216 → 1664×2432）。局部重绘也切到 20 步无 turbo、CFG 4；8 步 turbo 只用于草稿。
+
+## 20 步 vs 8 步
+
+同提示词、同 seed、832×1216：
+
+- 8 步 turbo：约 2 分钟，线条硬、脸部清晰，但草地和背景基本是平的。
+- 20 步无 turbo：约 9~10 分钟，花田、发丝、裙褶和光照层次明显更多；脸部线条更柔。
+- 20 步下 `beta` 调度器会把草地压成色块；`simple` 保留细节更多。
+- euler_a 在 CFG 5 时背景也会变平；CFG 4 是平衡点。
+
+<img src="../../experiments/anima-20step-int8.jpg" alt="8 步 turbo、20 步 fp8、20 步 int8 对比" loading="lazy" />
+
+上图第三张是原生 int8 无 LoRA 的结果；它的细节不差，但这条路径不能直接加 LoRA。
+
+## TeaCache：只是跳步
+
+TeaCache 缓存 transformer block 的输出，当相邻 step 的 timestep 差异很小时直接复用，跳过这部分计算。自适应模式在早期多算、后期多跳。
+
+实测（20 步 / CFG 4 / watercolor LoRA 0.9 / 同 seed）：
+
+| 方案 | 时间 | 体感 |
+| --- | --- | --- |
+| 无 TeaCache | 616s | 细节基准 |
+| TeaCache v1 / 0.3 | 550s（1.12×） | 几乎无变化 |
+| TeaCache v1 / 0.35 | 395s（1.56×） | 画面接近，草地略软 |
+| TeaCache v1 / 0.4 | 350s（1.76×） | 更快，草地更软 |
+| TeaCache v2 / 0.15 | 650s | 基本没加速 |
+
+<img src="../../experiments/anima-teacache.jpg" alt="TeaCache 0.35 与 0.4 对比" loading="lazy" />
+
+它的本质是**少算一些冗余 step**，不是真正的 2× 加速；所以最终没有放进默认工作流，只作为失败尝试记录。
+
+## int8 + LoRA：翻译器存在，但在这张卡上更慢
+
+### 原生 int8
+
+`anima-aesthetic-v1.1-int8convrot.safetensors` + ComfyUI 原生 `UNETLoader`：
+
+- 无 LoRA：20 步 280s，约 2×，可用。
+- 加任何 LoRA：报 `INT8 GEMM not supported on this GPU for these dimensions`。
+
+原因不是「显卡不能 int8」，而是原生 int8 只支持固定的量化权重，没有 LoRA-aware 的路径。LoRA 给 254 个 int8 linear 全部打 patch（508 个 patch key）；per-layer fallback 等于全部回退，int8 就没了。
+
+### INT8-Fast W8A8
+
+`ComfyUI-INT8-Fast` 的 W8A8 + `lora_mode=Stochastic` 是真正尝试把 LoRA 融进 int8 的翻译器。把 Triton 降到 3.2.0 后它能跑通，画质正常，但速度：
+
+| 方案 | fp8 | INT8-Fast W8A8 |
+| --- | --- | --- |
+| 8 步 turbo + LoRA | 120s | 180–185s |
+| 20 步 + watercolor LoRA | 616s | 920s |
+
+W8A8 翻译器在 SM75/GTX 1650 上比 fp8 更慢；独立环境、Triton 3.2 都救不了内核效率。已回滚 Triton 3.7.1 并移除 INT8-Fast，int8 模型也从磁盘删除。
+
+## 结论
+
+- 带 LoRA 的可用加速：fp8 20 步 616s；TeaCache 0.35 可到 395s，但只是跳步。
+- int8 的 2× 只存在于无 LoRA；LoRA 翻译器能跑但更慢。
+- 最终不采用 int8、不采用 TeaCache；保留 fp8 20 步精修 + 8 步 turbo 草稿，所有流程加 2× 放大。
+- 这张 4GB Turing 卡的 int8/LoRA 内核效率就是上限；换 30 系以上才有意义，暂不为此升级。
+
+## 工作流
+
+- `public/files/conf/anima/anima-t2i.json`：精修/草稿两套参数 + 2× 放大
+- `anima-t2i-api.json`：API 版
+- `anima-refine.json` / `anima-refine-api.json`：LLLite 局部重绘 + 2× 放大
+- 详细说明：`/files/conf/anima/README.md`

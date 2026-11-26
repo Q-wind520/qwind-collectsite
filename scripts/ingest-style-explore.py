@@ -60,7 +60,7 @@ def main():
         asset.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["node", "scripts/optimize-image.mjs", str(src), str(asset)],
                        cwd=ROOT, check=True)
-        model = f"Anima Aesthetic v1.1 + Turbo LoRA + {e['style']} LoRA"
+        model = f"Anima Aesthetic v1.1 + {e['style']} LoRA"
         lines = [
             "---",
             f"title: {q(e['title'])}",

@@ -3,7 +3,7 @@
 
 判定标准（每个工作流）：
   - 存在 1 个 `Lora Loader Stack (rgthree)` 节点
-  - lora_01 预置 turbo
+  - lora_01 为精修默认 `None` 或草稿 `turbo`（双预设均可）
   - 该节点 MODEL 输出接入 KSampler.model，CLIP 输出接入所有 CLIPTextEncode.clip
 
 运行：python3 scripts/check-anima-lora-stack.py
@@ -24,6 +24,12 @@ API_FILES = [
 ]
 NODE_TYPE = "Lora Loader Stack (rgthree)"
 failures = []
+
+
+def is_default_lora(value) -> bool:
+    """精修默认 None，草稿预置 turbo，两者都是合法预设。"""
+    s = str(value)
+    return s == "None" or "turbo" in s
 
 
 def check_ui(path, label):
@@ -52,8 +58,8 @@ def check_ui(path, label):
     wv = st.get("widgets_values") or []
     if len(wv) < 8:
         failures.append(f"{label}: widgets_values 不足 8 项（{len(wv)}）")
-    elif "turbo" not in str(wv[0]):
-        failures.append(f"{label}: lora_01 未预置 turbo（当前 {wv[0]!r}）")
+    elif not is_default_lora(wv[0]):
+        failures.append(f"{label}: lora_01 既非 None 也非 turbo（当前 {wv[0]!r}）")
 
     for s in [n for n in nodes if n.get("type") == "KSampler"]:
         src, _ = in_src(s, "model")
@@ -73,8 +79,8 @@ def check_api(path, label):
         return
     nid = ids[0]
     inp = d[nid].get("inputs", {})
-    if "turbo" not in str(inp.get("lora_01", "")):
-        failures.append(f"{label}: lora_01 未预置 turbo（当前 {inp.get('lora_01')!r}）")
+    if not is_default_lora(inp.get("lora_01", "")):
+        failures.append(f"{label}: lora_01 既非 None 也非 turbo（当前 {inp.get('lora_01')!r}）")
 
     for v in d.values():
         if v.get("class_type") == "KSampler":
@@ -97,4 +103,4 @@ if failures:
     for f in failures:
         print("  -", f)
     sys.exit(1)
-print("PASS — t2i / refine 均使用 Lora Loader Stack（标准控件·4 槽）并正确接入 model/clip")
+print("PASS — t2i / refine 均使用 Lora Loader Stack（标准控件·4 槽），lora_01 为 None/turbo，接线正确")

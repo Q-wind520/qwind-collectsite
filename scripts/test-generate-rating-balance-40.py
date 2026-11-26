@@ -47,7 +47,14 @@ def test_no_minors_and_adult():
 
 
 def test_template_wiring():
+    # 参数随模板走（现为 20 步精修 / CFG 4）；脚本只覆盖 seed/提示词/文件名，不硬编码步数。
+    import json as _json
+    from pathlib import Path as _P
+    tmpl = _json.loads((_P(__file__).parent.parent / "public/files/conf/anima/anima-t2i-api.json").read_text(encoding="utf-8"))
     for j in m.JOBS:
         g = m.build_prompt(j)
         assert g["7"]["inputs"] == {"width": 832, "height": 1216, "batch_size": 1}
-        assert g["8"]["inputs"]["steps"] == 8 and g["8"]["inputs"]["sampler_name"] == "euler_ancestral"
+        assert g["8"]["inputs"]["steps"] == tmpl["8"]["inputs"]["steps"]
+        assert g["8"]["inputs"]["cfg"] == tmpl["8"]["inputs"]["cfg"]
+        assert g["8"]["inputs"]["sampler_name"] == "euler_ancestral"
+        assert g["2"]["inputs"]["lora_01"] == tmpl["2"]["inputs"]["lora_01"]

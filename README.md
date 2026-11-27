@@ -84,6 +84,15 @@ pnpm deploy:cf
 
 推送到 `main` 后，GitHub Actions 自动构建并发布到 GitHub Pages。构建时使用 `BASE_PATH=/qwind-collectsite`、`SITE_URL=https://q-wind520.github.io`。
 
+## 支持 / 云要饭
+
+如果本站的内容对你有用，欢迎随手投喂一杯咖啡；不订阅、不捆绑，完全随缘。
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4a67?style=for-the-badge&logo=github)](https://github.com/sponsors/Q-wind520)
+[![爱发电](https://img.shields.io/badge/%E7%88%B1%E5%8F%91%E7%94%B5-%E6%8A%95%E5%96%82%E4%B8%80%E6%AC%A1-f0808c?style=for-the-badge)](https://afdian.com/a/qwind520)
+
+爱发电付费按「1 个月」计费，选 1 个月即一次性投喂，平台没有自动续费；GitHub Sponsors 适合海外朋友，个人赞助 GitHub 不抽成。
+
 ## 许可
 
 - 代码使用 MIT，见 `LICENSE`。

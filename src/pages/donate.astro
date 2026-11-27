@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../config/site';
+---
+<BaseLayout title="支持本站" description="云要饭：通过 GitHub Sponsors 或爱发电随手投喂温水。">
+  <div class="container page">
+    <PageHead kicker="SUPPORT" title="支持本站" description="云要饭 · 随手投喂，随缘更新" icon="heart" />
+    <div class="support-wrap">
+      <p class="lead">如果这些作品、笔记或小工具帮你省过一点时间，欢迎随手投喂一杯咖啡。<b>不订阅、不捆绑，选一次就好，完全随缘。</b></p>
+      <div class="support-grid">
+        {site.support.map((item) => (
+          <a class="support-card glass" href={item.href} target="_blank" rel="noopener noreferrer">
+            <span class="support-icon"><Icon name={item.icon} size={22} strokeWidth={1.6} /></span>
+            <span class="support-label">{item.label}</span>
+            <span class="support-hint">{item.hint}</span>
+            <span class="support-cta">去投喂 <Icon name="arrow-up-right" size={13} /></span>
+          </a>
+        ))}
+      </div>
+      <p class="note">投喂主要用于本站域名、图床与存储开销，每一笔我都会记下来。爱发电按「1 个月」计费，选 <b>1 个月</b>就是一次性投喂；平台没有任何自动续费，付完即止。GitHub Sponsors 适合海外朋友，个人赞助 GitHub 不抽成。无论多少，感谢你看到这里。</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .support-wrap { max-width: 760px; margin: 0 auto; }
+  .lead { margin: 0 0 18px; font-size: 13px; line-height: 1.9; color: var(--color-muted); }
+  .lead b { color: var(--color-text); font-weight: 600; }
+  .support-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .support-card {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    padding: clamp(20px, 2.6vw, 28px); text-decoration: none; color: inherit;
+    border: 1px solid var(--glass-border); transition: transform 0.16s ease, border-color 0.16s ease;
+  }
+  .support-card:hover { transform: translateY(-3px); border-color: var(--color-accent); }
+  .support-icon {
+    display: grid; place-items: center; width: 44px; height: 44px;
+    border-radius: 14px; background: var(--color-accent-soft); color: var(--color-link);
+  }
+  .support-label { font-size: 17px; font-weight: 650; color: var(--color-text); }
+  .support-hint { font-size: 11px; line-height: 1.6; color: var(--color-muted); }
+  .support-cta {
+    display: inline-flex; align-items: center; gap: 4px; margin-top: 4px;
+    font-size: 12px; font-weight: 600; color: var(--color-link);
+  }
+  .note {
+    margin: 20px 0 0; padding: 14px 16px; border-radius: 14px;
+    background: var(--color-accent-soft); font-size: 11px; line-height: 1.85; color: var(--color-muted);
+  }
+  .note b { color: var(--color-link); }
+  @media (max-width: 620px) {
+    .support-grid { grid-template-columns: 1fr; }
+  }
+</style>

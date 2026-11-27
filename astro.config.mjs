@@ -19,9 +19,9 @@ export default defineConfig({
         lucide: [
           'arrow-left', 'arrow-left-right', 'arrow-right', 'arrow-up-right', 'audio-lines',
           'bookmark', 'calendar-days', 'check', 'chevron-down', 'clock', 'clock-fading',
-          'copy', 'eraser', 'external-link', 'eye', 'eye-off', 'file', 'file-archive', 'file-audio',
+          'coffee', 'copy', 'eraser', 'external-link', 'eye', 'eye-off', 'file', 'file-archive', 'file-audio',
           'file-image', 'file-question-mark', 'file-text', 'file-video-camera', 'folder-open',
-          'funnel', 'github', 'globe', 'image', 'image-off', 'images', 'info', 'list-filter',
+          'funnel', 'github', 'globe', 'heart', 'image', 'image-off', 'images', 'info', 'list-filter',
           'megaphone', 'menu', 'moon', 'notebook-pen', 'palette', 'pen-line', 'play',
           'rotate-ccw', 'rss', 'search', 'search-x', 'settings-2', 'sliders-horizontal', 'sparkles',
           'star', 'sun', 'tags', 'triangle-exclamation-point', 'user-round', 'wand-sparkles', 'x',

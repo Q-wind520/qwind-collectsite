@@ -9,6 +9,7 @@ const year = new Date().getFullYear();
     <span>© {year} {site.name} · 除特别声明外，内容按 <a class="license-link" href={site.license.href} target="_blank" rel="noopener noreferrer">{site.license.name}</a> 共享</span>
     <span class="footer-links">
       <a href={withBase('/about')}><Icon name="info" size={11} />关于</a>
+      <a href={withBase('/donate')}><Icon name="heart" size={11} />支持</a>
       <a href={withBase('/rss.xml')}><Icon name="rss" size={11} />RSS</a>
       <a href="https://github.com/Q-wind520" target="_blank" rel="noopener noreferrer"><Icon name="github" size={11} />GitHub</a>
     </span>

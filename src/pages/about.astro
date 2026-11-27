@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import { site } from '../config/site';
+import { withBase } from '../lib/url';
 ---
 <BaseLayout title="关于" description="关于温水の收藏站。">
   <div class="container page">
@@ -12,6 +13,7 @@ import { site } from '../config/site';
         <p>作品图片、第三方词条等如另有版权声明，以该声明为准；参考站的内容与配图未在本站复用。</p>
         <p>NSFW 内容默认隐藏，导航栏开关与三次成年确认只保存在当前浏览器，不是访问控制；请勿在本站存放真正私密的信息。</p>
         <p><a href="https://blog.qwind.top/" target="_blank" rel="noopener noreferrer">博客</a> · <a href="https://github.com/Q-wind520" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+        <p>如果本站对你有用，欢迎 <a href={withBase('/donate')}>投喂一杯 coffee ☕</a>，随缘即可。</p>
       </article>
     </div>
   </div>

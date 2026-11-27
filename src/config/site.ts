@@ -11,6 +11,20 @@ export const site = {
     { label: '博客', href: 'https://blog.qwind.top/', icon: 'pen-line' },
     { label: 'RSS', href: '/rss.xml', icon: 'rss' },
   ],
+  support: [
+    {
+      label: 'GitHub Sponsors',
+      href: 'https://github.com/sponsors/Q-wind520',
+      icon: 'heart',
+      hint: '海外朋友可用 · 个人赞助 GitHub 不抽成',
+    },
+    {
+      label: '爱发电',
+      href: 'https://afdian.com/a/qwind520',
+      icon: 'coffee',
+      hint: '微信 / 支付宝 · 选 1 个月即一次性投喂',
+    },
+  ],
   license: {
     name: 'CC BY-NC 4.0',
     href: 'https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans',

@@ -13,15 +13,15 @@ export const site = {
   ],
   support: [
     {
-      label: 'GitHub Sponsors',
-      href: 'https://github.com/sponsors/Q-wind520',
-      icon: 'heart',
-      hint: '海外朋友可用 · 个人赞助 GitHub 不抽成',
+      label: 'Ko-fi',
+      href: 'https://ko-fi.com/qwind520',
+      icon: 'coffee',
+      hint: '海外朋友可用 · 一次性打赏平台 0 抽成',
     },
     {
       label: '爱发电',
       href: 'https://afdian.com/a/qwind520',
-      icon: 'coffee',
+      icon: 'heart',
       hint: '微信 / 支付宝 · 选 1 个月即一次性投喂',
     },
   ],
